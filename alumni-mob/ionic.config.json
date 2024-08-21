@@ -1,0 +1,7 @@
+{
+  "name": "alumni-mob",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

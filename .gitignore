@@ -1,0 +1,10 @@
+
+# Exclude environments globally
+env
+.env
+dist
+docker/datas
+!docker/datas/.gitkeep
+
+# Exclude globally node_modules
+node_modules

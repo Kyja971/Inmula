@@ -1,0 +1,35 @@
+.publication-area {
+    display: flex;
+    flex-direction: column;
+    width: 500px; /* Ajuster la largeur selon vos besoins */
+    margin: 20px auto; /* Centrer la zone de publication */
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .media-area {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .media-area img,
+  .media-area video {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Style pour la zone de contenu */
+  .area-content {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Style pour la zone de date */
+  .area-date {
+    text-align: right;
+    font-style: italic;
+    color: #888;
+  }

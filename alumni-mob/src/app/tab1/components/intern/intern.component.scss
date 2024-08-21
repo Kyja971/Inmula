@@ -1,0 +1,61 @@
+.intern-card {
+    margin: 10px auto;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    ion-row {
+      padding: 16px;
+    }
+  }
+  
+  .intern-card ion-col:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    ion-icon {
+      font-size: 2em;
+      color: #3880ff; 
+    }
+  }
+  
+  .intern-card ion-col:nth-child(2) {
+    h2 {
+      margin: 0 0 5px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  
+    h3 {
+      margin: 0 0 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  
+    h4 {
+      margin: 0;
+      font-size: 10px;
+      color: #757575;
+    }
+  
+    ion-icon {
+      margin-left: 10px;
+      font-size: 1.5em; 
+      color: #ccc; 
+    }
+  }
+  
+  .intern-card ion-col:nth-child(2):hover ion-icon {
+    color: #3880ff; 
+  }
+  
+  .intern-card ion-col:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    ion-icon {
+      color: orange; 
+    }
+  }

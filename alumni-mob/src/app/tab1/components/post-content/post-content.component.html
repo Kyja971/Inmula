@@ -1,0 +1,18 @@
+<div class="publication-area"> 
+<div div class ='media-area'>
+  <img [src]="post.media" alt="zone média">
+</div>
+<div class="area-content">
+  <p>
+    Mon paragraphe qui décrit ma zone du dessous
+    résumé du contenu : {{post.content}}
+  </p>
+</div>
+  <div class="area-date">
+    <p>
+      Publié le {{post.postedAt | date : 'EEEE,MMMM'}} à {{post.postedAt | date : 'h:mm'}}
+    </p>
+  </div>
+</div>
+
+

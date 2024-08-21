@@ -1,0 +1,7 @@
+<ion-grid >
+<ng-container *ngFor="let post of posts">
+  <app-intern [intern]="post.autor"></app-intern>
+  <app-post-content [post]="post"></app-post-content>
+
+</ng-container>
+</ion-grid>

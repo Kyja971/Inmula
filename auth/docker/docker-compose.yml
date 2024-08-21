@@ -1,0 +1,10 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: auth_ms
+    ports:
+      - 3500:3306
+    volumes:
+      - ./datas:/var/lib/mysql
+    env_file:
+      - .env
