@@ -1,22 +1,109 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Res,
+} from '@nestjs/common';
 import { InternService } from './intern.service';
 import { InternType } from './models/intern.type';
 import { Observable, take } from 'rxjs';
+import { Response } from 'express';
 
-@Controller('intern')
+@Controller('/intern')
 export class InternController {
-  constructor(private _service: InternService) {}
+  constructor(private _service: InternService) {} // C'est ici que sont injecté toutes les dépendances dont on a besoin
 
-  @Get() //GET htpp://localhost:3000/intern
+  @Get() //GET http://localhost:3000/intern
   findAll(): Observable<Array<InternType>> {
     return this._service.findAll().pipe(
-      take(1), // autre facon d'arrêter d'observer
+      take(1), // Autre façon d'arrêter d'observer. Lorsque le souscripteur a son résultat, il arrete d'observer
     );
   }
-  @Get(':id') //http://127.0.0.1:3000/intern/1
-  findOne(@Param('id') id: number) {
-    return this._service.findOne(id).pipe(
-      take(1), // autre facon d'arrêter d'observer
-    );
+
+  @Get(':id')
+  findOne(@Param('id') id: string, @Res() res: Response): void {
+    this._service
+      .findOne(id)
+      .pipe(take(1))
+      .subscribe({
+        next: (response: any) => {
+          if (response) {
+            res.status(200).send(response);
+          } else {
+            res.status(404).send();
+          }
+        },
+        error: (error: any) => {
+          res.status(500).send(error);
+        },
+      });
+  }
+
+  @Post()
+  create(@Body() body: InternType, @Res() res: Response): void {
+    this._service
+      .add(body)
+      .pipe(take(1))
+      .subscribe({
+        next: (response: any) => {
+          if (response) {
+            res.status(201).send(response);
+          } else {
+            res.status(400).send();
+          }
+        },
+        error: (error: any) => {
+          res.status(500).send(error);
+        },
+      });
+  }
+
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() body: InternType,
+    @Res() res: Response,
+  ): void {
+    this._service
+      .update(id, body)
+      .pipe(take(1))
+      .subscribe({
+        next: (response: any) => {
+          if (response) {
+            res.status(200).send(response);
+          } else {
+            res.status(400).send();
+          }
+        },
+        error: (error: any) => {
+          res.status(500).send(error);
+        },
+      });
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string, @Res() res: Response): void {
+    this._service
+      .delete(id)
+      .pipe(take(1))
+      .subscribe({
+        next: (response: any) => {
+          if (response) {
+            res.status(204).send(response);
+          } else {
+            res
+              .status(400)
+              .json({ message: 'No such intern to delete' })
+              .send();
+          }
+        },
+        error: (error: any) => {
+          res.status(500).send(error);
+        },
+      });
   }
 }

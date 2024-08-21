@@ -10,19 +10,19 @@ export class AppService implements Crud {
     @InjectModel('Intern') private internModel: Model<InternInterface>,
   ) {}
 
-  async findAll(): Promise<InternInterface[]> {
-    const allInterns = await this.internModel.find();
+  findAll(): Promise<InternInterface[]> {
+    const allInterns = this.internModel.find();
     if (!allInterns) {
       throw new NotFoundException(`Interns data not found`);
     }
     return allInterns;
   }
 
-  async findOne(id: string): Promise<InternInterface> {
-    console.log(id);
-    console.log(typeof id);
-    const intern = await this.internModel.findById(id);
+  async findOne(id: string): Promise<InternInterface | null> {
+    const intern = await this.internModel.findOne({ _id: id });
+
     if (!intern) {
+      return null;
       throw new NotFoundException(`Intern with id: ${id} not found`);
     }
     return intern;
@@ -33,10 +33,13 @@ export class AppService implements Crud {
     return await newIntern.save();
   }
 
-  async update(id: string, intern: InternInterface): Promise<InternInterface> {
+  async update(
+    id: string,
+    intern: InternInterface,
+  ): Promise<InternInterface | null> {
     const internToUpdate = await this.internModel.findByIdAndUpdate(id, intern);
     if (!internToUpdate) {
-      throw new NotFoundException(`Intern #${id} not found`);
+      return null;
     } else {
       return this.internModel.findById(id);
     }

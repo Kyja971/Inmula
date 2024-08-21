@@ -1,24 +1,38 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InternRepository } from './intern-repository';
 import { InternType } from './models/intern.type';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class InternService {
-  private _repository: InternRepository;
-
-  constructor(@Inject('INTERN') private _client: ClientProxy) {
-    this._repository = new InternRepository();
-  }
+  constructor(@Inject('INTERN') private _client: ClientProxy) {}
 
   findAll(): Observable<Array<InternType>> {
-    const pattern: any = { cmd: 'hello' };
-    return this._client.send<InternType[]>(pattern, {});
+    const pattern: any = { cmd: 'findAll' };
+    return this._client.send<InternType[], any>(pattern, {});
   }
 
-  findOne(id: number) {
-    const pattern: any = { cmd: 'findone' };
-    return this._client.send<InternType>(pattern, id);
+  findOne(id: string): Observable<InternType> {
+    const pattern: any = { cmd: 'findOne' };
+    const payload: any = { id: id };
+    return this._client.send<InternType, any>(pattern, payload);
+  }
+
+  add(intern: InternType): Observable<InternType> {
+    const pattern: any = { cmd: 'create' };
+    const payload: any = { intern: intern };
+    return this._client.send<InternType, any>(pattern, payload);
+  }
+
+  update(id: string, intern: InternType): Observable<InternType> {
+    const pattern: any = { cmd: 'update' };
+    const payload: any = { id: id, intern: intern };
+    return this._client.send<InternType, any>(pattern, payload);
+  }
+
+  delete(id: string): Observable<InternType | null> {
+    const pattern: any = { cmd: 'delete' };
+    const payload: any = { id: id };
+    return this._client.send<null, any>(pattern, payload);
   }
 }

@@ -25,15 +25,20 @@ export class AppController implements Crud {
 
   @MessagePattern({ cmd: 'update' })
   update(payload: any): Promise<InternInterface | null> {
-    return this.appService.update(payload?.id, payload?.intern);
+    return this.appService.update(payload?.id, payload?.intern)
+      ? this.appService.update(payload?.id, payload?.intern)
+      : null;
   }
 
   @MessagePattern({ cmd: 'delete' })
   delete(payload: any): Promise<InternInterface | null> {
-    const serviceResponse = this.appService.delete(payload?.id);
-    if (!serviceResponse) {
-      return null;
-    }
-    return serviceResponse;
+    return this.appService.delete(payload?.id)
+      ? this.appService.delete(payload?.id)
+      : null;
+    // const serviceResponse = this.appService.delete(payload?.id);
+    // if (!serviceResponse) {
+    //   return null;
+    // }
+    // return serviceResponse;
   }
 }
