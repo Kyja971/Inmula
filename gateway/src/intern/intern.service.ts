@@ -21,7 +21,7 @@ export class InternService {
   add(intern: InternType): Observable<InternType> {
     const pattern: any = { cmd: 'create' };
     const payload: any = { intern: intern };
-    return this._client.send<InternType, any>(pattern, payload);
+    return this._client.send<InternType | null>(pattern, payload);
   }
 
   update(id: string, intern: InternType): Observable<InternType> {

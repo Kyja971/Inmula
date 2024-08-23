@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { InternService } from './intern.service';
 import { InternType } from './models/intern.type';
-import { Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 import { Response } from 'express';
 
 @Controller('/intern')
@@ -18,10 +18,23 @@ export class InternController {
   constructor(private _service: InternService) {} // C'est ici que sont injecté toutes les dépendances dont on a besoin
 
   @Get() //GET http://localhost:3000/intern
-  findAll(): Observable<Array<InternType>> {
-    return this._service.findAll().pipe(
-      take(1), // Autre façon d'arrêter d'observer. Lorsque le souscripteur a son résultat, il arrete d'observer
-    );
+  findAll(@Res() res: Response): void {
+    this._service
+      .findAll()
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            res.status(200).send(response);
+          } else {
+            res.status(400).send("Il n'y a rien à afficher");
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          res.status(400).send(error);
+        },
+      });
   }
 
   @Get(':id')
