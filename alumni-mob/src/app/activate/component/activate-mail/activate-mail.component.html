@@ -1,0 +1,16 @@
+<ion-progress-bar value="0.33"></ion-progress-bar>
+<ion-grid>
+  <ion-row class="ion-justify-content-center content-form">  
+    <form [formGroup]="activateForm" (ngSubmit)="onSubmit()">
+      <ion-list>
+        <ion-item>
+          <ion-input
+            formControlName="email"
+            placeholder="Email"
+          ></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button type="submit" [disabled]="activateForm.invalid">Recevoir mon code</ion-button>
+    </form>
+  </ion-row>
+</ion-grid>

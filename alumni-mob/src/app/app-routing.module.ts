@@ -13,6 +13,14 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
     canActivate:[LoginGuard]
+  },
+  {
+    path: 'activate',
+    loadChildren: () => import('./activate/activate.module').then( m => m.ActivatePageModule),
+  },
+  {
+    path: 'insertcode',
+    loadChildren: () => import('./insertcode/insertcode.module').then( m => m.InsertcodePageModule),
   }
 ];
 @NgModule({

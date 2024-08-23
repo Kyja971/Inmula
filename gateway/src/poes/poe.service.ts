@@ -3,25 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { CreatePoeDto } from './dto/create-poe.dto';
 //import { UpdatePoeDto } from './dto/update-poe.dto';
 
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Poe } from './entities/poe.entity';
-
 @Injectable()
 export class PoeService {
-  constructor(@InjectRepository(Poe) private _repository: Repository<Poe>) {}
+  constructor() {}
 
   create(createPoeDto: CreatePoeDto) {
     return 'This action adds a new poe';
   }
 
-  findAll(): Promise<Array<Poe>> {
-    return this._repository.find({
-      order: {
-        beginAt: 'DESC',
-      },
-    });
-  }
+  findAll() {}
 
   findOne(id: number) {
     return `This action returns a #${id} poe`;

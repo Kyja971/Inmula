@@ -1,0 +1,22 @@
+<ion-progress-bar value="0.66"></ion-progress-bar>
+
+<ion-item>
+  <ion-label > Code activation : {{code}} </ion-label>
+</ion-item>
+
+<ion-grid>
+  <ion-row class="ion-justify-content-center content-form">
+    <form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+      <ion-list>
+        <ion-item>
+          <ion-input onPaste="return false"
+          type="number"
+            formControlName="code"
+            placeholder="Entrer code d'activation"
+          ></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button type="submit" [disabled]="validateForm.invalid">Envoyer</ion-button>
+    </form>
+  </ion-row>
+</ion-grid>

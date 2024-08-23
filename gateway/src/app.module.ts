@@ -3,14 +3,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InternModule } from './intern/intern.module';
-import { ConfigModule } from '@nestjs/config';
 
 
-const envfile = 'env/' + process.env.NEST_ENV;
+import { AuthModule } from './auth/auth.module';
+
+//const envfile = 'env/' + process.env.NEST_ENV;
 @Module({
-  imports: [InternModule, ConfigModule.forRoot({
-    isGlobal: true, envFilePath: envfile,
-  }),
+  imports: [InternModule,
+  AuthModule,
 ],
   controllers: [AppController],
   providers: [AppService],
