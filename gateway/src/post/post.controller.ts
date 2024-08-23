@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   Post,
   Put,
@@ -11,7 +10,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { PostType } from './models/post.type';
-import { Observable, take as rxjsTake } from 'rxjs';
+import { take as rxjsTake } from 'rxjs';
 import { PostService } from './post.service';
 import { Response } from 'express';
 
@@ -75,22 +74,6 @@ export class PostController {
           res.status(500).send(error);
         },
       });
-    //Logger.log(response, 'response de Post post.controller');
-    //Logger.log(res, 'res untouched add.post.service');
-    //.subscribe({
-    //  next: (response: any) => {
-    //    console.log(response, "ceci est la réponse")
-    //    if (response) {
-    //      console.log(response)
-    //      res.status(201).send(response);
-    //    } else {
-    //      res.status(400).send();
-    //    }
-    //  },
-    //  error: (error: any) => {
-    //    res.status(500).send(error);
-    //  },
-    //});
   }
 
   @Put(':id')

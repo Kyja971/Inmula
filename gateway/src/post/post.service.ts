@@ -1,6 +1,6 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Observable, take as rxjsTake } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PostType } from './models/post.type';
 
 @Injectable()
