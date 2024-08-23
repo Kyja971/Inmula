@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
-import { LoginGuard } from './core/guards/login.guard';
+import { NoAuthGuard } from './core/guards/no-auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
-    canActivate:[LoginGuard]
+    canActivate: [NoAuthGuard]
   },
   {
     path: 'activate',
@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'insertcode',
     loadChildren: () => import('./insertcode/insertcode.module').then( m => m.InsertcodePageModule),
+  },
+  {
+    path: 'create-password',
+    loadChildren: () => import('./create-password/create-password.module').then( m => m.CreatePasswordPageModule)
   }
 ];
 @NgModule({

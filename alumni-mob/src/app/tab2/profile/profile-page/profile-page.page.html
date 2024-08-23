@@ -1,0 +1,36 @@
+<ion-card>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec0e45fd8568a" />
+    </ion-avatar>
+    <ion-label>
+      <h2>{{ intern?.firstName }} {{ intern?.lastName }}</h2>
+      <p>{{ intern?.occupation }} chez {{ intern?.company?.name }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Emails</ion-label>
+    <ion-list>
+      <ion-item *ngFor="let email of intern?.emails">
+        <ion-icon name="mail" slot="start"></ion-icon>
+        {{ email }}
+      </ion-item>
+    </ion-list>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="call" slot="start"></ion-icon>
+    <ion-label>{{ intern?.phone }}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="person" slot="start"></ion-icon>
+    <ion-label>Genre : {{ intern?.gender }}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="briefcase" slot="start"></ion-icon>
+    <ion-label>POE : {{ intern?.poe?.name }}</ion-label>
+  </ion-item>
+</ion-card>

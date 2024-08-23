@@ -1,0 +1,29 @@
+<ion-card-header>
+  <ion-card-title>
+    <ion-item>
+
+      <ion-avatar slot="start">
+        <img alt="Profile Picture" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+
+      <ion-label>
+        <p class="internName"> {{ intern.firstName }} {{ intern.lastName }} </p>
+        <p class="internCompany"> {{ intern.occupation }} chez {{ intern.company.name }} </p> 
+        <p class="internPoe"> {{ intern.poe.name }} {{ intern.poe.beginAt | date: 'dd/MM/yyyy' }} - {{ intern.poe.endAt | date: 'dd/MM/yyyy'}} </p>
+      </ion-label>
+
+      <ion-icon id="popover-button-{{num}}" name="ellipsis-vertical" size="large"></ion-icon>
+      <ion-popover trigger="popover-button-{{num}}" [dismissOnSelect]="true">
+        <ng-template>
+          <ion-content>
+            <ion-list>
+              <ion-item [button]="true" [detail]="false" (click)="goProfile(intern.id)"> Détail </ion-item>
+              <ion-item [button]="true" [detail]="false"> Chat </ion-item>
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+
+    </ion-item>
+  </ion-card-title>
+</ion-card-header>  

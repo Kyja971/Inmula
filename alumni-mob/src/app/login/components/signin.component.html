@@ -21,6 +21,6 @@
       <ion-button type="submit" [disabled]="form.invalid">Se connecter</ion-button>
     </form>
     
-    <a href="/activate">Activer mon compte</a>
+    <a [routerLink]="['/activate']">Activer mon compte</a>
   </ion-row>
 </ion-grid>

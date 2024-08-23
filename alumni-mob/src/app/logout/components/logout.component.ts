@@ -1,0 +1,49 @@
+/* eslint-disable @angular-eslint/no-empty-lifecycle-method */
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { StorageService } from 'src/app/core/services/storage.service';
+
+@Component({
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.scss'],
+})
+export class LogoutComponent  implements OnInit {
+
+  constructor(
+    private _storage: StorageService,
+    private _router: Router,
+    private alertController: AlertController
+  ) { }
+
+  alertButtons = [{
+    text: "Oui",
+    role: "confirm",
+    handler: () => {
+      this.logOut()
+    }
+  }
+    ,{
+      text: "Non",
+      role: "cancel"
+    }]
+
+  ngOnInit() {}
+
+  logOut(){
+    this._storage.remove('auth')
+    this._router.navigate(['/', 'login'])
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Déconnexion',
+      message: "Êtes vous sur de vouloir vous déconnecter ?",
+      buttons: this.alertButtons,
+    });
+
+    await alert.present();
+  }
+
+}

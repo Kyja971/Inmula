@@ -12,7 +12,7 @@ import { InsertCodeService } from '../../services/insert-code.service';
   templateUrl: './validate-code.component.html',
   styleUrls: ['./validate-code.component.scss'],
 })
-export class ValidateCodeComponent  implements OnInit {
+export class ValidateCodeComponent implements OnInit {
 
   code = this._service.getCode()
 
@@ -40,20 +40,8 @@ export class ValidateCodeComponent  implements OnInit {
       .subscribe({
         next: async (response: HttpResponse<any>) => {
           if (response.status === 200) {
-            console.log(`ok, code ok`);
             //this._storage.store('auth',response.body.token)
-            const toast = await this._toastController.create({
-              message: "Code ok, mail validé, redirection vers la création du mot de passe",
-              duration: 5000,
-              position: 'middle',
-              buttons: [
-                {
-                  text: 'Valider',
-                },
-              ],
-            });
-            await toast.present();
-            toast.onWillDismiss().then(() => this._router.navigate(['login']));
+            this._router.navigate(['create-password']);
           } else {
             const toast = await this._toastController.create({
               message: response.body.message,

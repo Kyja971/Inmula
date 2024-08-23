@@ -19,6 +19,6 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ],
-  declarations: [InsertcodePage,ValidateCodeComponent]
+  declarations: [InsertcodePage, ValidateCodeComponent]
 })
 export class InsertcodePageModule {}

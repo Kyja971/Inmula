@@ -6,6 +6,10 @@ import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
+import { MainModule } from '../main/main.module';
+import { InternsComponent } from './interns/interns.component';
+import { ProfilePagePage } from './profile/profile-page/profile-page.page';
+import { ProfilePagePageModule } from './profile/profile-page/profile-page.module';
 
 @NgModule({
   imports: [
@@ -13,8 +17,10 @@ import { Tab2PageRoutingModule } from './tab2-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab2PageRoutingModule
+    Tab2PageRoutingModule,
+    MainModule,
+    ProfilePagePageModule
   ],
-  declarations: [Tab2Page]
+  declarations: [Tab2Page, InternsComponent]
 })
 export class Tab2PageModule {}

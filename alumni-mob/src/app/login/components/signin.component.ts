@@ -13,37 +13,38 @@ import { StorageService } from 'src/app/core/services/storage.service';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
 })
-export class SigninComponent implements OnInit {
-  public form: FormGroup = new FormGroup({});
+export class SigninComponent  implements OnInit {
+
+  form: FormGroup = new FormGroup({})
 
   constructor(
     private _formBuilder: FormBuilder,
     private _service: LoginService,
     private _toastController: ToastController,
     private _router: Router,
-    private _storage : StorageService
-  ) {}
+    private _storage: StorageService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.form = this._formBuilder.group({
       login: [
         '', // Default value for the control
-        [Validators.required],
+        [Validators.required]
       ],
-      password: ['', [Validators.required]],
-    });
+      password: [
+        '',
+        [Validators.required]
+      ]
+    })
   }
 
-  onSubmit(): void {
-    this._service
-      .doLogin(this.form.value)
-      .pipe(take(1))
-      .subscribe({
+  onSubmit(){
+    this._service.doLogin(this.form.value).pipe(
+      take(1)).subscribe({
         next: async (response: HttpResponse<any>) => {
           if (response.status === 200) {
-            console.log(`ok, afficher les posts`);
-            this._storage.store('auth',response.body.token)
-            this._router.navigate(['tabs', 'tab1'])
+            this._storage.store('auth', response.body.token)
+            this._router.navigate(['tabs', 'tab1']).then(() => this.form.reset())
           } else {
             const toast = await this._toastController.create({
               message: response.body.message,
@@ -51,17 +52,17 @@ export class SigninComponent implements OnInit {
               position: 'middle',
               buttons: [
                 {
-                  text: 'Try again',
-                },
-              ],
-            });
-            await toast.present();
-            toast.onWillDismiss().then(() => this.form.reset());
+                  text: 'Réessayer',
+                }
+              ]
+            })
+            toast.present()
+            toast.onWillDismiss().then(() => this.form.reset())
           }
         },
         error: (error: any) => {
-          console.log(`ko, je dois afficher un toast ${JSON.stringify(error)}`);
-        },
-      });
+          console.log(`Non je peux pas afficher les posts ${JSON.stringify(error)}`)
+        }
+      })
   }
 }

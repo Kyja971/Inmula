@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { LoginPageRoutingModule } from './login-routing.module';
-
 import { LoginPage } from './login.page';
 import { SigninComponent } from './components/signin.component';
 import { RouterModule } from '@angular/router';
@@ -17,8 +14,8 @@ import { RouterModule } from '@angular/router';
     IonicModule,
     LoginPageRoutingModule,
     ReactiveFormsModule,
-    RouterModule,
+    RouterModule
   ],
-  declarations: [LoginPage, SigninComponent]
+  declarations: [LoginPage, SigninComponent],
 })
 export class LoginPageModule {}

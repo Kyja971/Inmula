@@ -1,32 +1,42 @@
-
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { InternType } from 'src/app/core/types/intern/intern-type';
+import { InternType } from '../types/intern/intern-type';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { Intern } from '../types/intern/intern-class';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InternService {
 
-  private _interns : Array<InternType> = []
-  private readonly URI: string = 'http://localhost:3000/intern'
+  private _interns: Array<Intern> = []
+  private readonly URI: string = `http://localhost:3000/intern`
 
-  constructor(
-    private _httpClient: HttpClient
-  ) {}
+  constructor(private _httpClient: HttpClient) { }
 
-/**
- * 
- * @returns Observable <InternType[]>
- */
-  public findAll() : Observable<Array<InternType>> {
-   return this._httpClient.get<Array<InternType>>(
-    this.URI
-   )
+  /**
+   * @returns Observable<InternType[]>
+   */
+  findAll(): Observable<Array<Intern>> {
+
+    return this._httpClient.get<Array<Intern>>(this.URI).pipe(
+      map((interns: Array<any>) => {
+        return interns.map((intern: any) => {
+          return plainToInstance(Intern, intern)
+        })
+      })
+    )
   }
 
-public filterCompany(company : string) :Array<InternType> {
-  throw new Error(`Not implemented yet`)
-}
+  findOne(internId?: string): Observable<Intern> {
+
+
+    return this._httpClient.get<Intern>(this.URI + '/' + internId).pipe(
+      map((intern: any) => {
+        return plainToInstance(Intern, intern)
+      })
+    )
+  }
+
 }

@@ -1,6 +1,6 @@
 export type PoeType = {
-    id?: number;
-    beginAt: Date;
-    endAt: Date;
-    name: string;
-  };
+    id?: number
+    name: string
+    beginAt: Date
+    endAt: Date
+}

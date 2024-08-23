@@ -1,13 +1,14 @@
 import { CompanyType } from "../company/company-type"
 import { PoeType } from "../poe/poe-type"
 
-
 export type InternType = {
-    id?: number
-    lastname : string
-    firstname : string
-    occupation? : string
-    promo? : string
-    company : CompanyType
-    poe : PoeType
+    id?: string
+    lastName: string
+    firstName: string
+    occupation?: string
+    gender?:string
+    emails? : Array<string>
+    phone?:string
+    company: CompanyType
+    poe: PoeType
 }

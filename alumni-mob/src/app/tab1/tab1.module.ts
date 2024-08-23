@@ -7,8 +7,11 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { PostComponent } from './components/post/post.component';
-import { InternComponent } from './components/intern/intern.component';
 import { PostContentComponent } from './components/post-content/post-content.component';
+import { headerInternComponent } from '../tab2/headerIntern/headerIntern.component';
+import { MainModule } from '../main/main.module';
+import { RouterModule } from '@angular/router';
+import { InternsComponent } from '../tab2/interns/interns.component';
 
 @NgModule({
   imports: [
@@ -17,8 +20,9 @@ import { PostContentComponent } from './components/post-content/post-content.com
     FormsModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule,
-    DatePipe
+    MainModule,
+    RouterModule
   ],
-  declarations: [Tab1Page, PostComponent, InternComponent, PostContentComponent]
+  declarations: [Tab1Page, PostComponent, PostContentComponent],
 })
 export class Tab1PageModule {}
