@@ -23,5 +23,7 @@ export class PostEntity {
   type: string;
 
   @Column()
-  author: string;
+  authorId: string;
+
+  author?: object;
 }

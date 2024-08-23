@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostEntity } from './entities/post-entity';
 import config from './config/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { FormatPagingService } from './services/format-paging.service';
 
 @Module({
   imports: [
@@ -27,8 +29,18 @@ import config from './config/config';
       isGlobal: true,
       load: [config],
     }),
+    ClientsModule.register([
+      {
+        name: 'INTERN',
+        transport: Transport.TCP,
+        options: {
+          host: '127.0.0.1',
+          port: 3100,
+        },
+      },
+    ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FormatPagingService],
 })
 export class AppModule {}
