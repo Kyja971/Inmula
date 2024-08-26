@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class WsChatService {
 
+
   private _sid: string = '';
   public get sid(): string {
     return this._sid;
@@ -32,5 +33,9 @@ export class WsChatService {
 
   receiveIdentity(): Observable<any> {
     return this._socket.fromEvent('identity')
+  }
+
+  sendIdentity(message: any): Observable<any> {
+    return this._socket.emit('userId:Identity', message)
   }
 }

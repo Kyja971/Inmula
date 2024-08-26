@@ -16,11 +16,22 @@ export class LoginService {
         status: 200,
         body: {token: 'a.b.c'}
       }))
+    } else {
+      if (credentials.login === 'Gabriel' && credentials.password === 'password') {
+        return of(new HttpResponse<any>({
+          status: 200,
+          body: { token: `66cc87e25314afeebb7b383a.b.c`}
+        }))
+      }
+      return of(new HttpResponse<any>({
+        status: 403,
+        body: { message: "Echec de l'authentification" }
+      }))
     }
-    // Return 403 Forbiden status
-    return of(new HttpResponse<any>({
-      status: 403,
-      body: {message: 'Echec de l\'authentification'}
-    }))
+    // // Return 403 Forbiden status
+    // return of(new HttpResponse<any>({
+    //   status: 403,
+    //   body: {message: 'Echec de l\'authentification'}
+    // }))
   }
 }

@@ -58,7 +58,12 @@ export class SigninComponent  implements OnInit {
                     console.log(`Received my identity: ${identity.socketId} from Socket Server`)
                     //Send the Id of Intern (from splitting the token for example)
                     //Better return the full Id of the intern than split the jwt inside front-end application
-                    //const userId: string = ((response.body.token) as string).s
+                    const userId: string = ((response.body.token) as string).split('.')[0]
+                    const message: any = {
+                      socketId: identity.socketId,
+                      id: userId
+                    }
+                    this._wsService.sendIdentity(message)
                   })
               })
           } else {
