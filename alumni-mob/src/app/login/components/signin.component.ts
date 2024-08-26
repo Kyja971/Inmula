@@ -7,6 +7,8 @@ import { HttpResponse } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { WsChatService } from 'src/app/core/services/ws-chat.service';
+import { SocketConnectionType } from 'src/app/core/types/socket-connection/socket-connection.type';
 
 @Component({
   selector: 'app-signin',
@@ -22,7 +24,8 @@ export class SigninComponent  implements OnInit {
     private _service: LoginService,
     private _toastController: ToastController,
     private _router: Router,
-    private _storage: StorageService
+    private _storage: StorageService,
+    private _wsService: WsChatService
   ) { }
 
   ngOnInit() {
@@ -40,11 +43,24 @@ export class SigninComponent  implements OnInit {
 
   onSubmit(){
     this._service.doLogin(this.form.value).pipe(
-      take(1)).subscribe({
+        take(1)
+      )
+      .subscribe({
         next: async (response: HttpResponse<any>) => {
           if (response.status === 200) {
             this._storage.store('auth', response.body.token)
-            this._router.navigate(['tabs', 'tab1']).then(() => this.form.reset())
+            this._router.navigate(['tabs', 'tab1'])
+              .then(() => {
+                this.form.reset()
+                this._wsService.connect()
+                this._wsService.receiveIdentity()
+                  .subscribe((identity: SocketConnectionType) => {
+                    console.log(`Received my identity: ${identity.socketId} from Socket Server`)
+                    //Send the Id of Intern (from splitting the token for example)
+                    //Better return the full Id of the intern than split the jwt inside front-end application
+                    //const userId: string = ((response.body.token) as string).s
+                  })
+              })
           } else {
             const toast = await this._toastController.create({
               message: response.body.message,
