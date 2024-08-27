@@ -12,6 +12,7 @@ import { InternService } from './intern.service';
 import { InternType } from './models/intern.type';
 import { take } from 'rxjs';
 import { Response } from 'express';
+import { CreateInternDto } from './dto/create-intern.dto';
 
 @Controller('/intern')
 export class InternController {
@@ -57,7 +58,7 @@ export class InternController {
   }
 
   @Post()
-  create(@Body() body: InternType, @Res() res: Response): void {
+  create(@Body() body: CreateInternDto, @Res() res: Response): void {
     this._service
       .add(body)
       .pipe(take(1))

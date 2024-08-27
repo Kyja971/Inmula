@@ -49,23 +49,22 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
     return of(null);
   }
 
-  @MessagePattern({ cmd: `create` })
-  async add(payload: any): Promise<Observable<InternInterface | null>> {
-    const intern = plainToInstance(CreateInternDto, payload.intern);
-    if (intern instanceof CreateInternDto) {
-      return this.appService
-        .add(intern)
-        .then((savedIntern) => {
-          if (!savedIntern) {
-            return of(null);
-          }
-          return of(savedIntern);
-        })
-        .catch((error) => {
-          return of(error);
-        });
-    }
-    return of(null);
+  @MessagePattern({ cmd: 'create' })
+  async add(
+    intern: CreateInternDto,
+  ): Promise<Observable<InternInterface | null>> {
+    intern = plainToInstance(CreateInternDto, intern);
+    return this.appService
+      .add(intern)
+      .then((savedIntern) => {
+        if (!savedIntern) {
+          return of(null);
+        }
+        return of(savedIntern);
+      })
+      .catch((error) => {
+        return of(error);
+      });
   }
 
   @MessagePattern({ cmd: 'update' })

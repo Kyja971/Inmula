@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InternType } from './models/intern.type';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { CreateInternDto } from './dto/create-intern.dto';
 
 @Injectable()
 export class InternService {
@@ -18,10 +19,9 @@ export class InternService {
     return this._client.send<InternType, any>(pattern, payload);
   }
 
-  add(intern: InternType): Observable<InternType> {
+  add(intern: CreateInternDto): Observable<InternType> {
     const pattern: any = { cmd: 'create' };
-    const payload: any = { intern: intern };
-    return this._client.send<InternType | null>(pattern, payload);
+    return this._client.send<InternType | null>(pattern, intern);
   }
 
   update(id: string, intern: InternType): Observable<InternType> {
