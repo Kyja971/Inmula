@@ -64,8 +64,25 @@ export class AppService {
       });
   }
 
-  async findOne(id: number): Promise<PostEntity> {
-    return await this._repository.findOneBy({ id: id });
+  findOne(id: number): Promise<PostEntity | null> {
+    return this._repository
+      .findOne({ where: { id } })
+      .then(async (onePost) => {
+        if (!onePost) {
+          return null;
+        }
+        //récupération du user dans mongodb
+        const pattern = { cmd: 'findOne' };
+        const author = await lastValueFrom(
+          this._client.send<InternType>(pattern, { id: onePost.authorId }),
+        );
+        onePost.author = author;
+        return onePost;
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération du post:', error);
+        return null;
+      });
   }
 
   async add(post: PostType): Promise<PostEntity> {
