@@ -1,3 +1,5 @@
+import { IsEnum } from 'class-validator';
+import { PostTypeEnum } from 'src/types/post-type-enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
@@ -20,7 +22,8 @@ export class PostEntity {
   media: string;
 
   @Column()
-  type: string;
+  @IsEnum(PostTypeEnum)
+  type: PostTypeEnum;
 
   @Column()
   authorId: string;

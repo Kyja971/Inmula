@@ -1,3 +1,4 @@
+import { Intern } from "../intern/intern-class"
 import { InternType } from "../intern/intern-type"
 
 export type PostType = {
@@ -6,5 +7,5 @@ export type PostType = {
     content: string
     media?: string
     postedAt: Date
-    author: InternType
+    author: Intern
 }

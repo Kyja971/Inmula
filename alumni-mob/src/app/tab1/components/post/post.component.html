@@ -1,9 +1,9 @@
-<!-- Test
-<ng-container *ngFor="let post of posts">
+
+<ng-container *ngFor="let post of posts, let i = index">
   <ion-card>
 
-    <app-intern [intern]="post.author"> </app-intern>
+    <app-header-intern [intern]="post.author" [num]="i" [type]="type"> </app-header-intern>
     <app-post-content [post]="post"> </app-post-content>
   
   </ion-card>
-</ng-container> -->
+</ng-container>

@@ -13,6 +13,7 @@ import { PostType } from './models/post.type';
 import { take as rxjsTake } from 'rxjs';
 import { PostService } from './post.service';
 import { Response } from 'express';
+import { CreatePostDto } from './dto/create-post-dto';
 
 @Controller('post')
 export class PostController {
@@ -58,7 +59,7 @@ export class PostController {
   }
 
   @Post()
-  add(@Body() body: PostType, @Res() res: Response): void {
+  add(@Body() body: CreatePostDto, @Res() res: Response): void {
     this._service
       .add(body)
       .pipe(rxjsTake(1))

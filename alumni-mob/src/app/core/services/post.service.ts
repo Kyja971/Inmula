@@ -12,7 +12,7 @@ export class PostService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  findAll(): Observable<Array<PostType>> {
+  findAll(take :number,page:number): Observable<Array<PostType>> {
   /**
     Equivalent à ça a quelques chose pret
     return { ... post, postedAt: new Date(post.postedAt), 
@@ -21,7 +21,7 @@ export class PostService {
 
     package class_transformer
   */
-    return this._httpClient.get<Array<PostType>>(this.URI)
+    return this._httpClient.get<Array<PostType>>(this.URI + "?take=" + take + "&page=" + page)
       .pipe(  //permet d'enchainer les opérations sur les observable, ici pour transformer le post.date en Date
         map((posts: Array<any>) => { // Transform an observable to another observable
           return posts.map((post: any) => { // Transform an array to another array
@@ -33,11 +33,14 @@ export class PostService {
               media: post.media,
               author: {
                 id: post.author.id,
-                lastName: post.author.lastName,
-                firstName: post.author.firstName,
-                occupation: post.author.occupation,
+                lastName: post.author.lastname,
+                firstName: post.author.firstname,
+                occupation: post.author.function,
+                gender: post.author.gender,
+                emails : post.author.emails,
+                phone : post.author.phone,
                 company: {
-                  id: post.author.company.id,
+                  //id: post.author.company,
                   name: post.author.company.name
                 },
                 poe: {

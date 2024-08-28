@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { PostType } from './models/post.type';
+import { CreatePostDto } from './dto/create-post-dto';
 
 @Injectable()
 export class PostService {
@@ -18,9 +19,9 @@ export class PostService {
     return this._client.send<PostType | null, any>(pattern, id);
   }
 
-  add(post: PostType): Observable<PostType> {
+  add(post: CreatePostDto): Observable<CreatePostDto> {
     const pattern: any = { cmd: 'add' };
-    return this._client.send<PostType | null, any>(pattern, post);
+    return this._client.send<CreatePostDto | null, any>(pattern, post);
   }
 
   update(id: number, post: PostType): Observable<PostType | null> {

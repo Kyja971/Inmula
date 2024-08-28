@@ -20,12 +20,15 @@ export class PostComponent implements OnInit, OnDestroy {
 
   private _subscription!: Subscription
 
+  public type = "post"
+
   constructor(
     private _postService: PostService  // Dependency Injection
   ) { }
 
   ngOnInit(): void {
-    this._subscription = this._postService.findAll().subscribe({
+    this._subscription = this._postService.findAll(50,1)
+    .subscribe({
       next: (posts: Array<PostType>) => { 
         this.posts = posts 
         this.posts.sort((a, b) => (a.postedAt > b.postedAt ? -1 : 1))

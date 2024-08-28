@@ -1,8 +1,8 @@
 <ion-item>
   <ion-label>
-    
-    <div *ngIf="post.media">
-      <img src= "{{ post.media }}"/>
+    <p class="title"> {{ post.title }} </p> 
+    <div *ngIf="post.media && post.media.length > 0">
+      <img [src]= post.media />
     </div>
     
     <div>

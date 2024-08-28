@@ -1,10 +1,10 @@
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { PostType } from './types/post.type';
 import { PostEntity } from './entities/post-entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { Observable, of } from 'rxjs';
+import { CreatePostDto } from './dto/create-post-dto';
 
 @Controller()
 export class AppController {
@@ -28,7 +28,7 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'add' })
-  async add(post: PostType): Promise<Observable<PostEntity>> {
+  async add(post: CreatePostDto): Promise<Observable<PostEntity>> {
     return this.appService
       .add(post)
       .then((savedPost) => {

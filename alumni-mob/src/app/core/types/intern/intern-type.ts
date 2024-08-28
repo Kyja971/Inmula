@@ -9,6 +9,6 @@ export type InternType = {
     gender?:string
     emails? : Array<string>
     phone?:string
-    company: CompanyType
+    company?: CompanyType
     poe: PoeType
 }

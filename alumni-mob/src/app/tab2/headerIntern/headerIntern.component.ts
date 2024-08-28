@@ -19,6 +19,9 @@ export class headerInternComponent implements OnInit {
   @Input()
   num!: number
 
+  @Input()
+  type!: string
+
   constructor( private _router:Router,
               private _id : DataserviceService
   ) { }
