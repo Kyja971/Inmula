@@ -9,5 +9,6 @@ export type PostType = {
     media?: string
     type : PostTypeEnum
     postedAt: Date
+    authorId: string
     author: Intern
 }

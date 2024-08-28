@@ -20,7 +20,7 @@ export class headerInternComponent implements OnInit {
   num!: number
 
   @Input()
-  type!: string
+  id: string | undefined
 
   constructor( private _router:Router,
               private _id : DataserviceService

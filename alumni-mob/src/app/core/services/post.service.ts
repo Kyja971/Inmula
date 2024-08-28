@@ -32,6 +32,7 @@ export class PostService {
               type : post.type,
               postedAt: new Date(post.postedAt),
               media: post.media,
+              authorId: post.authorId,
               author: {
                 id: post.author.id,
                 lastName: post.author.lastname,
