@@ -29,6 +29,7 @@ export class PostService {
               id: post.id,
               title: post.title,
               content: post.content,
+              type : post.type,
               postedAt: new Date(post.postedAt),
               media: post.media,
               author: {

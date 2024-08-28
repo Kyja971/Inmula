@@ -1,6 +1,17 @@
 <ion-item>
   <ion-label>
     <p class="title"> {{ post.title }} </p> 
+    
+    <div *ngIf="post.type === 'Information'">
+      <p>Information</p>
+    </div>
+    <div *ngIf="post.type === 'Astuce'">
+      <p>Astuce</p>
+    </div>
+    <div *ngIf="post.type === 'Offre emploi'">
+      <p>Offre emploi</p>
+    </div>
+
     <div *ngIf="post.media && post.media.length > 0">
       <img [src]= post.media />
     </div>

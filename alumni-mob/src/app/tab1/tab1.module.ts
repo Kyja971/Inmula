@@ -12,6 +12,7 @@ import { headerInternComponent } from '../tab2/headerIntern/headerIntern.compone
 import { MainModule } from '../main/main.module';
 import { RouterModule } from '@angular/router';
 import { InternsComponent } from '../tab2/interns/interns.component';
+import { PostFooterComponent } from './components/post-footer/post-footer.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { InternsComponent } from '../tab2/interns/interns.component';
     MainModule,
     RouterModule
   ],
-  declarations: [Tab1Page, PostComponent, PostContentComponent],
+  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent],
 })
 export class Tab1PageModule {}
