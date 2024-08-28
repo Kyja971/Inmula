@@ -1,0 +1,16 @@
+ion-header{
+    box-shadow: none;
+    ion-row{
+        background-color: #032834;
+        color: white;
+
+        ion-icon{
+            font-size: 2rem;
+        }
+
+        ion-img{
+            max-width: 140px;
+            margin: 0 auto;
+        }
+    }
+}

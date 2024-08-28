@@ -4,4 +4,20 @@ ion-content{
 
 .content-form{
     margin-top: 3rem;
+    ion-button {
+        --background: #C0E863;
+        //--border-radius: 0;
+        --color: #000;
+        --box-shadow: none;
+        --padding-top: 1rem;
+        --padding-bottom: 1rem;
+        margin-top: 1.5rem;
+        text-transform: none;
+        letter-spacing: normal;
+    }
+
+    a{
+        color: #737678;
+        margin-top: 1rem;
+    }
 }

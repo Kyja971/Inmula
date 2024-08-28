@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePagePageRoutingModule } from './profile-page-routing.module';
 
 import { ProfilePagePage } from './profile-page.page';
+import { MainModule } from "../../../main/main.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePagePageRoutingModule
-  ],
+    ProfilePagePageRoutingModule,
+    MainModule
+],
   declarations: [ProfilePagePage]
 })
 export class ProfilePagePageModule {}
