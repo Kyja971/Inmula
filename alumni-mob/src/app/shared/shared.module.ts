@@ -7,11 +7,11 @@ import { IonicModule } from '@ionic/angular';
 
 
 @NgModule({
-  declarations: [LogoutComponent, headerInternComponent],
+  declarations: [/*LogoutComponent, /*headerInternComponent*/],
   imports: [
     CommonModule,
     IonicModule
   ],
-  exports: [LogoutComponent, headerInternComponent]
+  exports: [/*LogoutComponent, /*headerInternComponent*/]
 })
 export class SharedModule { }
