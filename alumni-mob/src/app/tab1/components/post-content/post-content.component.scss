@@ -1,3 +1,17 @@
+ion-item{
+    h2{ font-weight: bold; font-size: 1.5rem;}
+    h3{ 
+        font-size: .6rem;
+        text-align: center;
+        background-color: #eee;
+        padding: 2px 0;
+        border-radius: 10px;
+    }
+    .post-thumbnail{
+        border-radius: 8px;
+    }
+}
+
 .postContent {
     color: dark;
 }
