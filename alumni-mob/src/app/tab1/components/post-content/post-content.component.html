@@ -1,23 +1,19 @@
 <ion-item>
   <ion-label>
-    <p class="title"> {{ post.title }} </p> 
-    
-    <div *ngIf="post.type === 'Information'">
-      <p>Information</p>
-    </div>
-    <div *ngIf="post.type === 'Astuce'">
-      <p>Astuce</p>
-    </div>
-    <div *ngIf="post.type === 'Offre emploi'">
-      <p>Offre emploi</p>
-    </div>
-
     <ion-row class="ion-align-items-center">
       <ion-col size="9">
         <h2 class="title"> {{ post.title }} </h2>
       </ion-col>
       <ion-col size="3">
-        <h3>Offre d'emploi</h3>
+        <div *ngIf="post.type === 'Information'">
+          <h3 class="information">Information</h3>
+        </div>
+        <div *ngIf="post.type === 'Astuce'">
+          <h3 class="astuce">Astuce</h3>
+        </div>
+        <div *ngIf="post.type === 'Offre emploi'">
+          <h3 class="emploi">Offre emploi</h3>
+        </div>
       </ion-col>
     </ion-row>
     
