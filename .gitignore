@@ -2,6 +2,7 @@
 # Exclude environments globally
 env
 .env
+.env*
 dist
 docker/datas
 !docker/datas/.gitkeep
