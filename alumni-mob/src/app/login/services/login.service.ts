@@ -25,22 +25,22 @@ export class LoginService {
     } else if (credentials.login === 'lila' && credentials.password === 'oukaci') {
       return of(new HttpResponse<any>({
         status: 200,
-        body: { token: '66cf126a5d032c486f453329.b.c'}
+        body: { token: `${environment.lilaId}.b.c`}
       }))
     } else if(credentials.login === 'rachid' && credentials.password === 'remil') {
       return of(new HttpResponse<any>({
         status: 200,
-        body: { token: '66cf12db5d032c486f45332d.b.c'}
+        body: { token: `${environment.rachidId}.b.c`}
       }))
     } else if (credentials.login === 'jacky' && credentials.password === 'hoton') {
       return of(new HttpResponse<any>({
         status: 200,
-        body: { token: '66cf12825d032c486f45332b.b.c'}
+        body: { token: `${environment.jackyId}.b.c`}
       }))
     } else if (credentials.login === 'julien' && credentials.password === 'alonzo') {
       return of(new HttpResponse<any>({
         status: 200,
-        body: { token: '66cf12fd5d032c486f453330.b.c'}
+        body: { token: `${environment.julienId}.b.c`}
       }))
     } else {
       if (credentials.login === 'Gabriel' && credentials.password === 'password') {
