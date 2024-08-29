@@ -28,6 +28,7 @@
     "@capacitor/status-bar": "6.0.0",
     "@ionic/angular": "^8.0.0",
     "class-transformer": "^0.5.1",
+    "ionic-logging-service": "^18.0.0",
     "ionicons": "^7.0.0",
     "ngx-socket-io": "^4.7.0",
     "reflect-metadata": "^0.2.2",
