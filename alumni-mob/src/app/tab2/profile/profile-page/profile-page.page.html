@@ -18,12 +18,12 @@
       <ion-list inset="true">
         <ion-item *ngFor="let email of intern?.emails">
           <ion-icon name="mail-outline" slot="start"></ion-icon>
-          {{ email }}
+          <a href="mailto:{{ email }}">{{ email }}</a>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="phone">
           <ion-icon name="call-outline" slot="start"></ion-icon>
-          <ion-label>{{ intern?.phone }}</ion-label>
+          <a href="tel:{{ intern?.phone }}">{{ intern?.phone }}</a>
         </ion-item>
 
         <ion-item>
