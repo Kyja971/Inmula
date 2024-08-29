@@ -14,13 +14,13 @@ export class LoginService {
       //Return 200 ok status
       return of(new HttpResponse<any>({
         status: 200,
-        body: {token: 'a.b.c'}
+        body: {token: '66cda3bee245fecb50452d76.b.c'}
       }))
     } else {
       if (credentials.login === 'Gabriel' && credentials.password === 'password') {
         return of(new HttpResponse<any>({
           status: 200,
-          body: { token: `66cc87e25314afeebb7b383a.b.c`}
+          body: { token: `66cda547ff1d387848b0351a.b.c`}
         }))
       }
       return of(new HttpResponse<any>({

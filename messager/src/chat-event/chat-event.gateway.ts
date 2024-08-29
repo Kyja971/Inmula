@@ -4,6 +4,7 @@ import { SocketUserType } from './types/socket-user.type';
 import { SocketAddress } from 'net';
 import { Logger } from '@nestjs/common';
 import { ResponseConnectionType } from './dto/response-connection.type';
+import { RequestMessageType } from './dto/request-message.type';
 
 @WebSocketGateway(
   {
@@ -20,6 +21,22 @@ export class ChatEventGateway implements OnGatewayConnection, OnGatewayDisconnec
 
   private _clients: Map<string, SocketUserType> = new Map<string, SocketUserType>();
   
+  @SubscribeMessage('message')
+  async chat(@MessageBody() data: RequestMessageType): Promise<any> {
+      Logger.log(`Received ${JSON.stringify(data)}`)
+      // Find the recipient
+      const recipientSocket: SocketUserType = this._userToSocket(data.recipient)
+
+      const payload: any = {
+          emitter: data.recipient,
+          recipient: data.emitter,
+          datetime: new Date(),
+          content: data.content
+      }
+      Logger.log(`Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`)
+
+      recipientSocket.socket.emit('message', payload)
+  }
 
   //Activée à la 1ere connexion d'un client, elle contient un socketId que l'on doit stocker
   //
@@ -56,4 +73,15 @@ export class ChatEventGateway implements OnGatewayConnection, OnGatewayDisconnec
   async setUserID(@MessageBody() user: any): Promise<any> {
     this._clients.get(user.socketId).userId = user.id
   }
+
+  private _userToSocket(user: string): SocketUserType {
+    let recipient: SocketUserType
+    this._clients.forEach((value: SocketUserType, sid: string) => {
+        if (value.userId === user) {
+            recipient = value
+            return
+        }
+    })
+    return recipient
+}
 }

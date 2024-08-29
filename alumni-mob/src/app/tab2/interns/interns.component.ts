@@ -16,9 +16,6 @@ export class InternsComponent  implements OnInit, OnDestroy {
 
   private _subscription!: Subscription
 
-  public type = "profile"
-
-
   constructor(
     private _internService: InternService
   ) { }

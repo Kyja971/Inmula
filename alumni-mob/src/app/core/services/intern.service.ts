@@ -12,8 +12,7 @@ export class InternService {
 
   private _interns: Array<Intern> = []
   private readonly URI: string = `http://localhost:3000/intern`
-  private _intern: InternType | null = null;
-
+  private _intern: Intern | null = null
 
   constructor(private _httpClient: HttpClient) { }
 
@@ -33,7 +32,6 @@ export class InternService {
 
   findOne(internId?: string): Observable<Intern> {
 
-
     return this._httpClient.get<Intern>(this.URI + '/' + internId).pipe(
       map((intern: any) => {
         return plainToInstance(Intern, intern)
@@ -41,10 +39,12 @@ export class InternService {
     )
   }
 
-  public get intern(): InternType | null {
-    return this._intern;
+  set intern(intern: Intern) {
+    this._intern = intern
   }
-  public set intern(intern: InternType | null) {
-    this._intern = intern;
+
+  get intern(): Intern | null {
+    return this._intern
   }
+
 }

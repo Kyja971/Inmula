@@ -2,7 +2,6 @@
   <ion-thumbnail slot="start">
     <!-- <img alt="Profile Picture" src="https://ionicframework.com/docs/img/demos/avatar.svg" /> -->
     <img alt="Profile Picture" class="avatar" src="https://avatar.iran.liara.run/public?{{num}}" (click)="goProfile(id)"/>
-    
   </ion-thumbnail>
 
   <ion-label>
@@ -10,5 +9,5 @@
     <h3 class="internCompany"> {{ intern.occupation }} chez {{ intern.company.name }} </h3> 
     <p class="internPoe"> {{ intern.poe.name }} {{ intern.poe.beginAt | date: 'dd/MM/yyyy' }} - {{ intern.poe.endAt | date: 'dd/MM/yyyy'}} </p>
   </ion-label>
-  <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
+  <ion-icon name="chatbubbles-outline" size="large" (click)="onChatClick(intern)"></ion-icon>
 </ion-item>

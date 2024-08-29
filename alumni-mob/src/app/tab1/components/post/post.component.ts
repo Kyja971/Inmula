@@ -21,8 +21,6 @@ export class PostComponent implements OnInit, OnDestroy {
 
   private _subscription!: Subscription
 
-  public type = "post"
-
   constructor(
     private _postService: PostService  // Dependency Injection
   ) { }

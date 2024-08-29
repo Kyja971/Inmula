@@ -3,10 +3,9 @@ import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { take } from 'rxjs';
 
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
-import { SocketConnectionType } from '../../dto/socket-connection.type';
-import { SocketMessageType } from '../../dto/socket-message.type';
 import { InternService } from 'src/app/core/services/intern.service';
-import { InternType } from 'src/app/core/types/intern/intern-type';
+import { SocketMessageType } from '../../dto/socket-message.type';
+import { Intern } from 'src/app/core/types/intern/intern-class';
 
 @Component({
   selector: 'app-chat',
@@ -20,7 +19,7 @@ export class ChatComponent  implements OnInit {
   public sendedMessages: Array<SocketMessageType> = []
 
   private _sid: string = ''
-  public intern!: InternType
+  public intern!: Intern
   public messages: Array<any> = []
 
   constructor(
