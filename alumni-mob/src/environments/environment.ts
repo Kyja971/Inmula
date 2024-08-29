@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  socketServerUrl: '127.0.0.1:4000'
+  socketServerUrl: '127.0.0.1:4000',
+  gabrielId: '66cc90ac5314afeebb7b3840',
 };
 
 /*

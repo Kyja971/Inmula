@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class LoginService {
     } else if (credentials.login === 'gabriel' && credentials.password === 'delaigue') {
       return of(new HttpResponse<any>({
         status: 200,
-        body: { token: '66cc90ac5314afeebb7b3840.b.c' }
+        body: { token: `${environment.gabrielId}.b.c` }
       }))
     } else if (credentials.login === 'lila' && credentials.password === 'oukaci') {
       return of(new HttpResponse<any>({

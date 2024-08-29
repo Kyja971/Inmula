@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
 import { SocketConnectionType } from 'src/app/core/types/socket-connection/socket-connection.type';
+import { SelfInformationService } from 'src/app/core/services/self-information.service';
 
 @Component({
   selector: 'app-signin',
@@ -25,7 +26,8 @@ export class SigninComponent  implements OnInit {
     private _toastController: ToastController,
     private _router: Router,
     private _storage: StorageService,
-    private _wsService: WsChatService
+    private _wsService: WsChatService,
+    private _selfInformation: SelfInformationService
   ) { }
 
   ngOnInit() {
@@ -49,11 +51,13 @@ export class SigninComponent  implements OnInit {
         next: async (response: HttpResponse<any>) => {
           if (response.status === 200) {
             this._storage.store('auth', response.body.token)
+            console.log(response.body.token)
+            this._selfInformation.setPersonnal(response.body.token.split('.')[0])
             this._router.navigate(['tabs', 'tab1'])
               .then(() => {
                 this.form.reset()
                 /**
-                 * Si l'on a configuré le service afin dep ouvoir permettre l'envoi d'un payload
+                 * Si l'on a configuré le service afin de pouvoir permettre l'envoi d'un payload
                  * à l'intérieur du message de connection au Socket,
                  * alors connect() prend un argument, le userId,
                  * et le code ressemblera alors à ceci:

@@ -9,3 +9,4 @@ docker/datas
 
 # Exclude globally node_modules
 node_modules
+alumni-mob/src/environments/environment.ts

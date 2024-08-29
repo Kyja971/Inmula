@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class LogoutComponent  implements OnInit {
   constructor(
     private _storage: StorageService,
     private _router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private _selfInformation: SelfInformationService
   ) { }
 
   alertButtons = [{
@@ -33,6 +35,7 @@ export class LogoutComponent  implements OnInit {
 
   logOut(){
     this._storage.remove('auth')
+    this._selfInformation.removePersonnal()
     this._router.navigate(['/', 'login'])
   }
 
