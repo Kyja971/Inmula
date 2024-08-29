@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab3PageRoutingModule } from './tab3-routing.module';
 import { MainModule } from '../main/main.module';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { MainModule } from '../main/main.module';
     Tab3PageRoutingModule,
     MainModule
   ],
-  declarations: [Tab3Page]
+  declarations: [Tab3Page, ChatComponent]
 })
 export class Tab3PageModule {}

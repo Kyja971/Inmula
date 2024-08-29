@@ -43,13 +43,13 @@ export class PostService {
                 phone : post.author.phone,
                 company: {
                   //id: post.author.company,
-                  name: post.author.company.name
+                  name: post.author.company?.name
                 },
                 poe: {
-                  id: post.author.poe.id,
-                  name: post.author.poe.name,
-                  beginAt: new Date(post.author.poe.beginAt),
-                  endAt: new Date(post.author.poe.endAt)
+                  id: post.author.poe?.id,
+                  name: post.author.poe?.name,
+                  beginAt: new Date(post.author.poe?.beginAt),
+                  endAt: new Date(post.author.poe?.endAt)
                 }
               }
             }

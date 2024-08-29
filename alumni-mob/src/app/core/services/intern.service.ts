@@ -12,6 +12,8 @@ export class InternService {
 
   private _interns: Array<Intern> = []
   private readonly URI: string = `http://localhost:3000/intern`
+  private _intern: InternType | null = null;
+
 
   constructor(private _httpClient: HttpClient) { }
 
@@ -39,4 +41,10 @@ export class InternService {
     )
   }
 
+  public get intern(): InternType | null {
+    return this._intern;
+  }
+  public set intern(intern: InternType | null) {
+    this._intern = intern;
+  }
 }

@@ -52,6 +52,14 @@ export class SigninComponent  implements OnInit {
             this._router.navigate(['tabs', 'tab1'])
               .then(() => {
                 this.form.reset()
+                /**
+                 * Si l'on a configuré le service afin dep ouvoir permettre l'envoi d'un payload
+                 * à l'intérieur du message de connection au Socket,
+                 * alors connect() prend un argument, le userId,
+                 * et le code ressemblera alors à ceci:
+                 * this._wsService.connect(userId)
+                 * Il faudrait alors supprimer le second aller vers le socket pour simplifier
+                 */
                 this._wsService.connect()
                 this._wsService.receiveIdentity()
                   .subscribe((identity: SocketConnectionType) => {

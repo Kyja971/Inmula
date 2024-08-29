@@ -37,7 +37,8 @@ export class ProfilePagePage implements OnInit {
             },
             error: (error: any) => {},
             complete: () => {}
-          })        } catch (error) {
+          })
+        } catch (error) {
           console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
           // Gérer l'erreur de manière appropriée, par exemple afficher un message d'erreur à l'utilisateur
         }

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()">Retour</ion-button>
+    </ion-buttons>
+    <ion-title>Echanges avec {{ intern.firstName }} {{ intern.lastName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="chat-container">
+      <div 
+        [ngClass]="{'chat-message': true, 'received': message.direction === 'in', 'sent': message.direction === 'out'}"
+        *ngFor="let message of messages"
+      >
+        <p>{{ message.content }}</p>
+        <p class="datetime">{{ message.datetime | date: 'dd-MM hh:mm'}}</p>
+  </div>
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        position="top"
+      ></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
+  <div class="chat-message">
+    <ion-row>
+      <ion-col>
+        <ion-input [(ngModel)]="message"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-icon name="send-outline" (click)="onSend()"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

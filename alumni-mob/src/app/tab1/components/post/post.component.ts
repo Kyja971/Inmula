@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Logger } from 'ionic-logging-service';
 import { Subscription } from 'rxjs';
 import { PostService } from 'src/app/core/services/post.service';
 import { PostType } from 'src/app/core/types/post/post-type';
@@ -29,12 +30,15 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._subscription = this._postService.findAll(50,1)
     .subscribe({
-      next: (posts: Array<PostType>) => { 
+      next: (posts: Array<PostType>) => {
+        console.log(posts)
         this.posts = posts 
         this.posts.sort((a, b) => (a.postedAt > b.postedAt ? -1 : 1))
       }, //Si code 200 ou 300 ce code sera effectué
-      error: (error: any) => { }, //Si code 400 ce code sera effectué
-      complete: () => { }
+      error: (error: any) => {
+       }, //Si code 400 ce code sera effectué
+      complete: () => { 
+      }
     })
   }
 
