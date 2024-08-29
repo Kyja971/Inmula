@@ -16,6 +16,31 @@ export class LoginService {
         status: 200,
         body: {token: '66cda3bee245fecb50452d76.b.c'}
       }))
+    } else if (credentials.login === 'gabriel' && credentials.password === 'delaigue') {
+      return of(new HttpResponse<any>({
+        status: 200,
+        body: { token: '66cc90ac5314afeebb7b3840.b.c' }
+      }))
+    } else if (credentials.login === 'lila' && credentials.password === 'oukaci') {
+      return of(new HttpResponse<any>({
+        status: 200,
+        body: { token: '66cf126a5d032c486f453329.b.c'}
+      }))
+    } else if(credentials.login === 'rachid' && credentials.password === 'remil') {
+      return of(new HttpResponse<any>({
+        status: 200,
+        body: { token: '66cf12db5d032c486f45332d.b.c'}
+      }))
+    } else if (credentials.login === 'jacky' && credentials.password === 'hoton') {
+      return of(new HttpResponse<any>({
+        status: 200,
+        body: { token: '66cf12825d032c486f45332b.b.c'}
+      }))
+    } else if (credentials.login === 'julien' && credentials.password === 'alonzo') {
+      return of(new HttpResponse<any>({
+        status: 200,
+        body: { token: '66cf12fd5d032c486f453330.b.c'}
+      }))
     } else {
       if (credentials.login === 'Gabriel' && credentials.password === 'password') {
         return of(new HttpResponse<any>({
