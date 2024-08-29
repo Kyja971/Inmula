@@ -21,7 +21,7 @@ export class PostService {
 
   add(post: CreatePostDto): Observable<CreatePostDto> {
     const pattern: any = { cmd: 'add' };
-    return this._client.send<CreatePostDto | null, any>(pattern, post);
+    return this._client.send<CreatePostDto>(pattern, post);
   }
 
   update(id: number, post: PostType): Observable<PostType | null> {

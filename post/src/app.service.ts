@@ -7,6 +7,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { InternType } from './types/intern.type';
 import { Subscription, lastValueFrom } from 'rxjs';
 import { FormatPagingService } from './services/format-paging.service';
+import { CreatePostDto } from './dto/create-post-dto';
 
 @Injectable()
 export class AppService {
@@ -85,7 +86,7 @@ export class AppService {
       });
   }
 
-  async add(post: PostType): Promise<PostEntity> {
+  async add(post: CreatePostDto): Promise<CreatePostDto> {
     return this._repository.save(post);
   }
 

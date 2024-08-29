@@ -28,7 +28,7 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'add' })
-  async add(post: CreatePostDto): Promise<Observable<PostEntity>> {
+  async add(post: CreatePostDto): Promise<Observable<CreatePostDto>> {
     return this.appService
       .add(post)
       .then((savedPost) => {
