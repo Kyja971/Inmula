@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { ProfilPageRoutingModule } from './profil-routing.module';
-
 import { ProfilPage } from './profil.page';
-import { MainModule } from "../main/main.module";
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,7 +12,7 @@ import { MainModule } from "../main/main.module";
     FormsModule,
     IonicModule,
     ProfilPageRoutingModule,
-    MainModule
+    SharedModule
 ],
   declarations: [ProfilPage]
 })

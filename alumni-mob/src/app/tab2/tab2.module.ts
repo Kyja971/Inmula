@@ -4,12 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-
 import { Tab2PageRoutingModule } from './tab2-routing.module';
-import { MainModule } from '../main/main.module';
 import { InternsComponent } from './interns/interns.component';
 import { ProfilePagePage } from './profile/profile-page/profile-page.page';
 import { ProfilePagePageModule } from './profile/profile-page/profile-page.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -18,7 +17,7 @@ import { ProfilePagePageModule } from './profile/profile-page/profile-page.modul
     FormsModule,
     ExploreContainerComponentModule,
     Tab2PageRoutingModule,
-    MainModule,
+    SharedModule,
     ProfilePagePageModule
   ],
   declarations: [Tab2Page, InternsComponent]
