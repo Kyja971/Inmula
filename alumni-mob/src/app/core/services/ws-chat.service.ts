@@ -92,4 +92,12 @@ export class WsChatService {
   receiveIdentity(): Observable<any> {
     return this._socket.fromEvent('identity')
   }
+
+  emitConnectedUsers() {
+    this._socket.emit('userConnected')
+  }
+
+  receiveConnectedUsers(): Observable<any[]>{
+    return this._socket.fromEvent("ReturnList")
+  }
 }

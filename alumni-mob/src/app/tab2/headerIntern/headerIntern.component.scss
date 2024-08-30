@@ -15,3 +15,20 @@ ion-label{
 .internPoe {
     font-size: x-small;
 }
+
+// _variables.scss
+$color-grey: #ccc;
+$color-green: #4CAF50;
+
+// _status-indicator.scss
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: $color-grey;
+  transition: background-color 0.3s ease-in-out; // Ajoute une transition pour un effet plus doux
+
+  &.connected {
+    background-color: $color-green;
+  }
+}

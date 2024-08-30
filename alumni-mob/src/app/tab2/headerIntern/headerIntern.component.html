@@ -9,5 +9,9 @@
     <h3 class="internCompany"> {{ intern.occupation }} chez {{ intern.company.name }} </h3> 
     <p class="internPoe"> {{ intern.poe.name }} {{ intern.poe.beginAt | date: 'dd/MM/yyyy' }} - {{ intern.poe.endAt | date: 'dd/MM/yyyy'}} </p>
   </ion-label>
+  <div *ngIf="currentPage === '/tabs/tab3'">
+    <div class="status-indicator" [ngClass]="{'connected': isInternConnected}"></div>
+  </div>
+  
   <ion-icon name="chatbubbles-outline" size="large" (click)="onChatClick(intern)"></ion-icon>
 </ion-item>

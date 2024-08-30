@@ -14,40 +14,43 @@ import { ChatComponent } from 'src/app/tab3/components/chat/chat.component';
   styleUrls: ['./headerIntern.component.scss'],
 })
 export class headerInternComponent implements OnInit {
-
-
-  @Input()
-  intern!: Intern
+  currentPage = '';
 
   @Input()
-  num!: number
+  intern!: Intern;
 
   @Input()
-  id: string | undefined
+  num!: number;
 
-  constructor( private _router:Router,
-              private _id : DataserviceService,
-              private _modalController: ModalController,
-              private _internService: InternService
-  ) { }
+  @Input()
+  id: string | undefined;
 
-  ngOnInit(): void { }
+  @Input()
+  isInternConnected: boolean = false;
 
-  goProfile(id?:string ){
-    if(id){
-      this._router.navigate(['', 'tabs', 'tab2', 'profile-page' , id])
+  constructor(
+    private _router: Router,
+    private _id: DataserviceService,
+    private _modalController: ModalController,
+    private _internService: InternService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentPage = this._router.url;
+  }
+
+  goProfile(id?: string) {
+    if (id) {
+      this._router.navigate(['', 'tabs', 'tab2', 'profile-page', id]);
     }
-
   }
 
   async onChatClick(intern: Intern) {
     // Let's start with modalController
-    this._internService.intern = intern
+    this._internService.intern = intern;
     const chatModal = await this._modalController.create({
-      component: ChatComponent
-    })
-    chatModal.present()
-
+      component: ChatComponent,
+    });
+    chatModal.present();
   }
-
 }

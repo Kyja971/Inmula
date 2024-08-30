@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,12 +45,6 @@ export class LoginService {
         body: { token: `${environment.julienId}.b.c`}
       }))
     } else {
-      if (credentials.login === 'Gabriel' && credentials.password === 'password') {
-        return of(new HttpResponse<any>({
-          status: 200,
-          body: { token: `66cda547ff1d387848b0351a.b.c`}
-        }))
-      }
       return of(new HttpResponse<any>({
         status: 403,
         body: { message: "Echec de l'authentification" }

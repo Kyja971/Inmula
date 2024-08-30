@@ -12,43 +12,43 @@ import { Intern } from 'src/app/core/types/intern/intern-class';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent  implements OnInit {
+export class ChatComponent implements OnInit {
+  public message: string = '';
+  public recievedMessages: Array<SocketMessageType> = [];
+  public sendedMessages: Array<SocketMessageType> = [];
 
-  public message: string = ''
-  public recievedMessages: Array<SocketMessageType> = []
-  public sendedMessages: Array<SocketMessageType> = []
-
-  private _sid: string = ''
-  public intern!: Intern
-  public messages: Array<any> = []
+  private _sid: string = '';
+  public intern!: Intern;
+  public messages: Array<any> = [];
 
   constructor(
     private _modalController: ModalController,
     private _wsService: WsChatService,
     private _internService: InternService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.intern = this._internService.intern!
+    this.intern = this._internService.intern!;
 
-    this._wsService.receiveMessage()
+    this._wsService
+      .receiveMessage()
       .subscribe((filteredMessages: Array<any>) => {
-        this.messages = filteredMessages
-      })
+        this.messages = filteredMessages;
+      });
   }
 
   onSend(): void {
-    this._wsService.sendMessage(this.message)
+    this._wsService
+      .sendMessage(this.message)
       .subscribe((filteredMessages: Array<any>) => {
-        this.message = ''
-        this.messages = filteredMessages
-      })
-    
+        this.message = '';
+        this.messages = filteredMessages;
+      });
   }
 
   onCancel(): void {
-    this._modalController.dismiss()
-    this._wsService.disconnect()
+    this._modalController.dismiss();
+    this._wsService.disconnect();
   }
 
   onIonInfinite(ev: any) {
