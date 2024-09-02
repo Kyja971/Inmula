@@ -8,8 +8,6 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { SocketUserType } from './types/socket-user.type';
-import { SocketAddress } from 'net';
-import { Socket } from 'ngx-socket-io';
 import { Logger } from '@nestjs/common';
 import { ResponseConnectionType } from './dto/response-connection.type';
 import { RequestMessageType } from './dto/request-message.type';
@@ -59,7 +57,7 @@ export class ChatEventGateway
     Logger.log(
       `Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`,
     );
-
+    
     recipientSocket.socket.emit('message', payload);
   }
 
@@ -111,4 +109,21 @@ export class ChatEventGateway
     });
     return recipient;
   }
+
+  @SubscribeMessage('startMessage')
+  async startMessage(client: any, data: string): Promise<any> {
+    Logger.log(`Received  service start ${JSON.stringify(data)}`);
+
+    //Récupére le socket associé à l'id du destinataire
+    const recipientSocket: SocketUserType = this._userToSocket(data);
+
+    console.log("Voici l'id du destinataire : " + recipientSocket.userId);
+    console.log("Voici le socket du destinataire : " + recipientSocket.socket.id);
+
+    //emet sur le socket du destinataire
+    this.wsServer
+      .to(recipientSocket.socket.id)
+      .emit('userTyping', recipientSocket.userId);
+  }
+
 }

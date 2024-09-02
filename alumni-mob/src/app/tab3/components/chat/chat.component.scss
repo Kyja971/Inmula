@@ -1,66 +1,66 @@
 :host {
-    --sent-color: #007bff;
-    --received-color: #28a745;
+  --sent-color: #007bff;
+  --received-color: #28a745;
 }
 .chat-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-    font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  font-size: 1em;
 
-    .chat-message {
-        max-width: 70%;
-        padding: 10px 15px;
-        border-radius: 20px;
-        position: relative;
-        font-size: 14px;
-        line-height: 1.4;
-        color: #fff;
-      
-        p {
-          margin: 0;
-          &.datetime {
-            text-align: right;
-            font-size: .5em;
-            color: #efefef;
-          }
-        }
-      
-        &.received {
-          align-self: flex-start;
-          background-color: var(--sent-color);
-          border-top-left-radius: 0;
-      
-          &:after {
-            content: "";
-            position: absolute;
-            top: -9px;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid var(--sent-color);
-          }
-        }
-      
-        &.sent {
-          align-self: flex-end;
-          background-color: var(--received-color);
-          border-top-right-radius: 0;
-      
-          &:after {
-            content: "";
-            position: absolute;
-            top: -9px;
-            right: -0px;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-bottom: 10px solid var(--received-color);
-          }
-        }
+  .chat-message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #fff;
+
+    p {
+      margin: 0;
+      &.datetime {
+        text-align: right;
+        font-size: 0.5em;
+        color: #efefef;
       }
+    }
+
+    &.received {
+      align-self: flex-start;
+      background-color: var(--sent-color);
+      border-top-left-radius: 0;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: -9px;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid var(--sent-color);
+      }
+    }
+
+    &.sent {
+      align-self: flex-end;
+      background-color: var(--received-color);
+      border-top-right-radius: 0;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: -9px;
+        right: -0px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-bottom: 10px solid var(--received-color);
+      }
+    }
   }
+}

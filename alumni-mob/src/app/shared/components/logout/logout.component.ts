@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { StorageService } from 'src/app/core/services/storage.service';
-
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',

@@ -21,16 +21,17 @@
         position="top"
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+   
   </div>
-
+  <div *ngIf="isTyping"> {{intern.firstName}} est en train d'écrire ...</div>
   <div class="chat-message">
     <ion-row>
       <ion-col>
-        <ion-input [(ngModel)]="message"></ion-input>
+        <ion-input type="text" [(ngModel)]="message.content" (ionInput)="onInputChange($event)"></ion-input>
       </ion-col>
       <ion-col>
         <ion-icon name="send-outline" (click)="onSend()"></ion-icon>
-      </ion-col>
+      </ion-col>     
     </ion-row>
   </div>
 </ion-content>
