@@ -43,15 +43,17 @@ export class ChatEventGateway
       // Find the recipient
       const recipientSocket: SocketUserType = this._userToSocket(data.recipient)
 
-      const payload: any = {
-          emitter: data.recipient,
-          recipient: data.emitter,
-          datetime: new Date(),
-          content: data.content
-      }
-      Logger.log(`Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`)
-
-      recipientSocket.socket.emit('message', payload)
+    const payload: any = {
+      emitter: data.recipient,
+      recipient: data.emitter,
+      datetime: new Date(),
+      content: data.content,
+    };
+    Logger.log(
+      `Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`,
+    );
+    
+    recipientSocket.socket.emit('message', payload);
   }
   private _clients: Map<string, SocketUserType> = new Map<
     string,

@@ -47,9 +47,13 @@ export class WsChatService {
   }
 
   disconnect(): void {
+<<<<<<< HEAD
     this._socket.removeAllListeners()
     this._socket.disconnect()
 
+=======
+    this._socket.disconnect();
+>>>>>>> 310dd3b (add feature/typing)
   }
 
   sendMessage(message: string): Observable<Array<any>> {
@@ -115,6 +119,7 @@ export class WsChatService {
     return this._socket.fromEvent('userConnected')
   }
 
+<<<<<<< HEAD
 
 
   // checkUnread(personnalId: string): Observable<Array<MessageType>> {
@@ -137,5 +142,24 @@ export class WsChatService {
       recipientId: recipient
     }
     return this._socket.emit('emitterId:deleteRead')
+=======
+  emitConnectedUsers() {
+    this._socket.emit('userConnected');
   }
+
+  receiveConnectedUsers(): Observable<any[]> {
+    return this._socket.fromEvent('ReturnList');
+>>>>>>> 310dd3b (add feature/typing)
+  }
+
+  startMessage() {
+    //récupère et envoi l'id du destinataire
+    const recipient = this._internService.intern?.id;
+    this._socket.emit('startMessage', recipient);
+  }
+
+  startTypingReturn(): Observable<any> {
+    return this._socket.fromEvent('userTyping');
+  }
+
 }
