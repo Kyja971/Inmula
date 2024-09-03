@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
+
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',
@@ -16,6 +17,8 @@ export class LogoutComponent  implements OnInit {
     private _storage: StorageService,
     private _router: Router,
     private alertController: AlertController,
+    private _selfInformation: SelfInformationService,
+    private _wsService: WsChatService
     private _selfInformation: SelfInformationService,
     private _wsService: WsChatService
   ) { }
@@ -37,6 +40,7 @@ export class LogoutComponent  implements OnInit {
   logOut(){
     this._storage.remove('auth')
     this._selfInformation.removePersonnal()
+    this._wsService.disconnect()
     this._router.navigate(['/', 'login'])
     this._wsService.disconnect()
   }

@@ -4,6 +4,7 @@ import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { InternService } from './intern.service';
 import { StorageService } from './storage.service';
 import { ChatMessageType } from '../types/chat/chat-message.type';
+import { MessageType } from '../types/message-type/message-type';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,9 @@ export class WsChatService {
   }
 
   disconnect(): void {
-    this._socket.disconnect();
+    this._socket.removeAllListeners()
+    this._socket.disconnect()
+
   }
 
   sendMessage(message: string): Observable<Array<any>> {
@@ -112,4 +115,27 @@ export class WsChatService {
     return this._socket.fromEvent('userConnected')
   }
 
+
+
+  // checkUnread(personnalId: string): Observable<Array<MessageType>> {
+  //   console.log('coucou de checkUnread')
+  //   console.log(this._socket.emit('monitorUnread', personnalId))
+  //   return of(this._socket.emit('monitorUnread', personnalId))
+  // }
+
+  getUsers(): Observable<Array<string>> {
+    return this._socket.fromEvent('usersConnected')
+  }
+
+  getUnread(): Observable<Array<MessageType>> {
+    return this._socket.fromEvent('newUnread')
+  }
+
+  deleteReadMessage(emitter: string, recipient: string) {
+    const body = {
+      emitterId: emitter,
+      recipientId: recipient
+    }
+    return this._socket.emit('emitterId:deleteRead')
+  }
 }
