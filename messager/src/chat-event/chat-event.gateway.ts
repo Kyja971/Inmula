@@ -10,6 +10,8 @@ import { Server } from 'socket.io';
 import { SocketUserType } from './types/socket-user.type';
 import { Logger } from '@nestjs/common';
 import { RequestMessageType } from './dto/request-message.type';
+import { Observable, of, Subscription } from 'rxjs';
+import { NotificationService } from 'src/services/notification.service';
 
 @WebSocketGateway({
   cors: {
@@ -25,6 +27,32 @@ export class ChatEventGateway
   @WebSocketServer()
   wsServer: Server;
 
+  private _clients: Map<string, SocketUserType> = new Map<string, SocketUserType>();
+  private _messageStock: Array<RequestMessageType> = []
+  private _unreadMessage: Observable<Array<RequestMessageType>>
+  private _subscription: Subscription
+
+  constructor(
+    //private _notification: NotificationService
+  ) { }
+
+  @SubscribeMessage('message')
+  async chat(@MessageBody() data: RequestMessageType): Promise<any> {
+      Logger.log(`Received ${JSON.stringify(data)}`)
+      this._registerIncomingMessage(data)
+      // Find the recipient
+      const recipientSocket: SocketUserType = this._userToSocket(data.recipient)
+
+      const payload: any = {
+          emitter: data.recipient,
+          recipient: data.emitter,
+          datetime: new Date(),
+          content: data.content
+      }
+      Logger.log(`Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`)
+
+      recipientSocket.socket.emit('message', payload)
+  }
   private _clients: Map<string, SocketUserType> = new Map<
     string,
     SocketUserType
@@ -32,6 +60,12 @@ export class ChatEventGateway
 
   //Activée à la 1ere connexion d'un client, elle contient un socketId que l'on doit stocker
   handleConnection(client: any, ...args: any[]): void {
+    const { sockets } = this.wsServer.sockets
+
+    Logger.log(`Connection was established for ${client.id}`)
+
+
+
     const { sockets } = this.wsServer.sockets;
     const users = {};
     Logger.log(`Connection was established for ${client.id}`);
@@ -41,8 +75,34 @@ export class ChatEventGateway
         let userId = client.handshake.query.userId
         this._clients.set(client.id, { userId, socket });
       }
+    })
+
+    //this._notification.startConnected(this._clients)
+    //this._subscription = this._notification.checkConnected().subscribe({
+    //  next: (usersMap) => {
+    //    let usersConnected = []
+    //    usersMap.forEach((value, key) => {
+    //      usersConnected.push(value.userId)
+    //    })
+    //    this.wsServer.emit('usersConnected', usersConnected)
+    //  }
+    //})
     });
 
+    const identity: ResponseConnectionType = {
+      datetime: new Date(),
+      socketId: client.id
+    }
+
+    // let usersConnected = []
+    // this._clients.forEach((value, key) => {
+    //   usersConnected.push(value.userId)
+    // })
+
+    this._clients.get(client.id).socket.emit('identity', identity);
+    // this._clients.forEach((value, key) => {
+    //   value.socket.emit('usersConnected', usersConnected)
+    // })
     this._clients.forEach((c) => {
       if(c.socket.id !== client.id){
         c.socket.emit('userConnected', {
@@ -53,6 +113,16 @@ export class ChatEventGateway
   }
 
   handleDisconnect(client: any) {
+    Logger.log(`Client ${client.id} was disconnected`)
+    this._clients.delete(client.id)
+    let usersConnected = []
+    this._clients.forEach((value, key) => {
+      usersConnected.push(value.userId)
+    })
+    Logger.log(usersConnected, 'disconnect')
+    this._clients.forEach((value, key) => {
+      value.socket.emit('usersConnected', usersConnected)
+    })
     Logger.log(`Client ${client.id} was disconnected`);
     this._clients.forEach((c) => {
       if(c.socket.id !== client.id){
@@ -64,6 +134,17 @@ export class ChatEventGateway
     this._clients.delete(client.id);
   }
 
+  @SubscribeMessage('identity')
+  async identity(@MessageBody() identity: ResponseConnectionType): Promise<ResponseConnectionType> {
+    let usersConnected = []
+    this._clients.forEach((value, key) => {
+      usersConnected.push(value.userId)
+    })
+    Logger.log(usersConnected, 'tableau des usersConnected après userId:Identity')
+    this._clients.forEach((value, key) => {
+      value.socket.emit('usersConnected', usersConnected)
+    })
+    return identity
   @SubscribeMessage('getUsers')
   async checkConnected(): Promise<Array<any>> {
     let userConnected: string[] = [];
@@ -98,6 +179,38 @@ export class ChatEventGateway
   private _userToSocket(userId: string): SocketUserType {
     let recipient: SocketUserType;
     this._clients.forEach((value: SocketUserType, sid: string) => {
+        if (value.userId === user) {
+            recipient = value
+            return
+        }
+    })
+    return recipient
+  }
+
+  private _registerIncomingMessage(message: RequestMessageType) {
+    this._messageStock.push(message)
+  }
+
+  @SubscribeMessage('monitorUnread')
+  checkForUnread(@MessageBody() personnalId: string) {
+    console.log("j'ai bien été excité")
+    const personnalUnread = this._messageStock.filter((message) => message.recipient === personnalId)
+    return of(personnalUnread).subscribe({
+      next: (unreadMessages) => {
+        const recipientSocket: SocketUserType = this._userToSocket(personnalId)
+        recipientSocket.socket.emit('unreadChat', unreadMessages)
+      }
+    })
+  }
+
+  @SubscribeMessage('emitterId:deleteRead')
+  async _deleteReadMessage(@MessageBody() body: any) {
+    this._messageStock.forEach((message) => {
+      if (message.recipient === body.recipientId && message.emitter === body.emitterId) {
+        this._messageStock.splice(this._messageStock.indexOf(message), 1)
+      }
+    })
+  }
       if (value.userId === userId) {
         recipient = value;
         return;

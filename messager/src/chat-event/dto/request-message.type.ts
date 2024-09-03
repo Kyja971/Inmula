@@ -1,5 +1,5 @@
 export type RequestMessageType = {
-  dateTIme: Date,
+  dateTime: Date,
   emitter: string,
   content: string,
   recipient?: string
