@@ -40,14 +40,19 @@ export class Tab3Page implements OnInit, OnDestroy {
         error: (error: any) => {},
       });
 
-      console.log("coucou")
-      this._wsService.emitGetUsers()
-      this._getUsersSubscription = this._wsService.getUsers().subscribe((data:any) => {
-        console.log(data)
-        this.usersConnected = data
-      })
-      console.log(this.usersConnected)
-      this._getUsersSubscription.unsubscribe()
+      this._wsService.emitGetUsers();
+      this._getUsersSubscription = this._wsService
+      .getUsers()
+      .subscribe((userConnected: any[]) => {
+        this.usersConnected = userConnected;
+      });
+      // this._wsService.emitGetUsers()
+      // this._getUsersSubscription = this._wsService.getUsers().subscribe((data:any) => {
+      //   console.log(data)
+      //   this.usersConnected = data
+      // })
+      // console.log(this.usersConnected)
+      // this._getUsersSubscription.unsubscribe()
 
       this._refreshSubscription = this._wsService.refreshUsers().subscribe((data:any) => {
         if(data.newUser) {
@@ -56,10 +61,6 @@ export class Tab3Page implements OnInit, OnDestroy {
           this.usersConnected = this.usersConnected.filter(user => user !== data.userDisconnected)
         }
       })
-  }
-
-  ngOnDestroy() {
-    this._refreshSubscription.unsubscribe()
   }
 
   // getUsers() {
@@ -87,4 +88,9 @@ export class Tab3Page implements OnInit, OnDestroy {
   // ionViewWillEnter() {
 
   // }
+
+  ngOnDestroy() {
+    this._refreshSubscription.unsubscribe()
+    this._getUsersSubscription.unsubscribe()
+  }
 }

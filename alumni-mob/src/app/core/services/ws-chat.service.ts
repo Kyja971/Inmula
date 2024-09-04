@@ -118,7 +118,7 @@ export class WsChatService {
     this._socket.emit('getUsers')
   }
 
-  getUsers() {
+  getUsers(): Observable<any> {
     return this._socket.fromEvent('getUsers')
   }
 
