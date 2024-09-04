@@ -31,14 +31,17 @@ export class ChatEventGateway
     SocketUserType
   >();
 
-  @SubscribeMessage('userConnected')
+  @SubscribeMessage('getUsers')
   async checkConnected(): Promise<Array<any>> {
+    console.log("coucou")
     let userConnected: string[] = [];
     this._clients.forEach((value, key) => {
+      console.log("Je suis un client", value.userId)
       userConnected.push(value.userId);
     });
     //return the response to the frontEnd
-    this.wsServer.emit('ReturnList', userConnected);
+
+    this.wsServer.emit('getUsers', userConnected);
     return userConnected;
   }
 
@@ -65,25 +68,34 @@ export class ChatEventGateway
   //
   handleConnection(client: any, ...args: any[]): void {
     const { sockets } = this.wsServer.sockets;
-
+    const users = {};
     Logger.log(`Connection was established for ${client.id}`);
 
     sockets.forEach((socket: any) => {
       if (socket.id === client.id) {
-        this._clients.set(client.id, { socket });
+        let userId = client.handshake.query.userId
+        this._clients.set(client.id, { userId, socket });
       }
     });
 
-    const identity: ResponseConnectionType = {
-      datetime: new Date(),
-      socketId: client.id,
-    };
-
-    this._clients.get(client.id).socket.emit('identity', identity);
+    this._clients.forEach((c) => {
+      if(c.socket.id !== client.id){
+        c.socket.emit('userConnected', {
+          newUser: this._socketToUser(client.id)
+        })
+      }
+    })
   }
 
   handleDisconnect(client: any) {
     Logger.log(`Client ${client.id} was disconnected`);
+    this._clients.forEach((c) => {
+      if(c.socket.id !== client.id){
+        c.socket.emit('userConnected', {
+          userDisconnected: this._socketToUser(client.id)
+        })
+      }
+    })
     this._clients.delete(client.id);
   }
 
@@ -99,15 +111,27 @@ export class ChatEventGateway
     this._clients.get(user.socketId).userId = user.id;
   }
 
-  private _userToSocket(user: string): SocketUserType {
+  //Takes an userId and return the socket corresponding to the userId
+  private _userToSocket(userId: string): SocketUserType {
     let recipient: SocketUserType;
     this._clients.forEach((value: SocketUserType, sid: string) => {
-      if (value.userId === user) {
+      if (value.userId === userId) {
         recipient = value;
         return;
       }
     });
     return recipient;
+  }
+
+  //Takes a sid (socket id) and return the userId corresponding to the sid
+  private _socketToUser(sid: string): string {
+    let user = ""
+    this._clients.forEach((value: SocketUserType) => {
+      if (sid === value.socket.id){
+        user = value.userId
+      }
+    })
+    return user
   }
 
   @SubscribeMessage('startMessage')
