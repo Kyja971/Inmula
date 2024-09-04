@@ -39,10 +39,8 @@ export class ChatEventGateway
 =======
   @SubscribeMessage('getUsers')
   async checkConnected(): Promise<Array<any>> {
-    console.log("coucou")
     let userConnected: string[] = [];
     this._clients.forEach((value, key) => {
-      console.log("Je suis un client", value.userId)
       userConnected.push(value.userId);
     });
     //return the response to the frontEnd
