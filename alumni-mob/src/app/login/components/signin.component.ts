@@ -67,29 +67,43 @@ export class SigninComponent implements OnInit {
               this._router.navigate([returnUrl]).then(() => {
                 this._storage.remove("returnUrl")
                 this.form.reset()
-              });
-            //if no url has been found in the local storage we can redirect him to the main page
-            } else {
-              this._router.navigate(['tabs', 'tab1']).then(() => {
-                this.form.reset();
-              });
-            }
+                /**
+                 * Si l'on a configuré le service afin de pouvoir permettre l'envoi d'un payload
+                 * à l'intérieur du message de connection au Socket,
+                 * alors connect() prend un argument, le userId,
+                 * et le code ressemblera alors à ceci:
+                 * this._wsService.connect(userId)
+                 * Il faudrait alors supprimer le second aller vers le socket pour simplifier
+                 */
+                this._wsService.connect(this._selfInformation.retrievePersonnal())
+                this._wsService.receiveIdentity()
+                  .subscribe((identity: SocketConnectionType) => {
+                    console.log(`Received my identity: ${identity.socketId} from Socket Server`)
+                    //Send the Id of Intern (from splitting the token for example)
+                    //Better return the full Id of the intern than split the jwt inside front-end application
+                    const userId: string = ((response.body.token) as string).split('.')[0]
+                    const message: any = {
+                      socketId: identity.socketId,
+                      id: userId
+                    }
+                    this._wsService.sendIdentity(message)
+                    //this._wsService.checkUnread(userId)
+                  })
+              })
+          } else {
+            const toast = await this._toastController.create({
+              message: response.body.message,
+              duration: 2000,
+              position: 'middle',
+              buttons: [
+                {
+                  text: 'Réessayer',
+                }
+              ]
+            })
+            toast.present()
+            toast.onWillDismiss().then(() => this.form.reset())
           }
-        },
-        error: async (error: any) => {
-          console.error(error)
-          const toast = await this._toastController.create({
-            message: 'Echec de connexion' + JSON.stringify(error),
-            duration: 10000,
-            position: 'middle',
-            buttons: [
-              {
-                text: 'Réessayer',
-              },
-            ],
-          });
-          toast.present();
-          toast.onWillDismiss().then(() => this.form.reset());
         },
       });
   }

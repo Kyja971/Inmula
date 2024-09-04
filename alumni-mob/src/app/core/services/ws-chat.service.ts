@@ -162,4 +162,16 @@ export class WsChatService {
     return this._socket.fromEvent('userTyping');
   }
 
+  emitGetUsers() {
+    this._socket.emit('getUsers')
+  }
+
+  getUsers() {
+    return this._socket.fromEvent('getUsers')
+  }
+
+  refreshUsers(): Observable<any> {
+    return this._socket.fromEvent('userConnected')
+  }
+
 }

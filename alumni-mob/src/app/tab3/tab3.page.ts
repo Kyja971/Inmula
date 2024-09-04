@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InternService } from '../core/services/intern.service';
+import { Subscription, take } from 'rxjs';
 import { Subscription, take } from 'rxjs';
 import { Intern } from '../core/types/intern/intern-class';
 import { SelfInformationService } from '../core/services/self-information.service';
+import { Logger } from 'ionic-logging-service';
 import { WsChatService } from '../core/services/ws-chat.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-tab3',
@@ -16,9 +20,17 @@ export class Tab3Page implements OnInit, OnDestroy {
   public usersConnected: Array<string> = [];
   private _refreshSubscription!: Subscription;
   private _getUsersSubscription!: Subscription;
+export class Tab3Page implements OnInit, OnDestroy {
+  
+  public interns: Array<Intern> = [];
+  public usersConnected: Array<string> = [];
+  private _refreshSubscription!: Subscription;
+  private _getUsersSubscription!: Subscription;
 
   constructor(
     private _service: InternService,
+    private _selfInformation: SelfInformationService,
+    private _wsService: WsChatService,
     private _selfInformation: SelfInformationService,
     private _wsService: WsChatService,
   ) {}
@@ -38,10 +50,14 @@ export class Tab3Page implements OnInit, OnDestroy {
         error: (error: any) => {},
       });
 
-      this._wsService.emitGetUsers();
-      this._getUsersSubscription = this._wsService.getUsers().subscribe((userConnected: any[]) => {
-        this.usersConnected = userConnected;
-      });
+      console.log("coucou")
+      this._wsService.emitGetUsers()
+      this._getUsersSubscription = this._wsService.getUsers().subscribe((data:any) => {
+        console.log(data)
+        this.usersConnected = data
+      })
+      console.log(this.usersConnected)
+      this._getUsersSubscription.unsubscribe()
 
       this._refreshSubscription = this._wsService.refreshUsers().subscribe((data:any) => {
         if(data.newUser) {
@@ -52,11 +68,25 @@ export class Tab3Page implements OnInit, OnDestroy {
       })
   }
 
+  ngOnDestroy() {
+    this._refreshSubscription.unsubscribe()
+  }
+
+  // getUsers() {
+  //   this._wsService.emitConnectedUsers();
+  //   this._wsService
+  //     .receiveConnectedUsers()
+  //     .subscribe((userConnected: any[]) => {
+  //       this.usersConnected = userConnected;
+  //     });
+  // }
 
   isConnected(internId?: string | undefined) {
     if (internId === undefined) {
       return false;
     }
+    // console.log(this.usersConnected)
+    // console.log("-----------------")
     return this.usersConnected.includes(internId)
   }
 
@@ -64,8 +94,7 @@ export class Tab3Page implements OnInit, OnDestroy {
     return;
   }
 
-  ngOnDestroy() {
-    this._refreshSubscription.unsubscribe()
-    this._getUsersSubscription.unsubscribe()
-  }
+  // ionViewWillEnter() {
+
+  // }
 }
