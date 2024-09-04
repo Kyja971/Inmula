@@ -64,7 +64,7 @@ export class SigninComponent  implements OnInit {
                  * this._wsService.connect(userId)
                  * Il faudrait alors supprimer le second aller vers le socket pour simplifier
                  */
-                this._wsService.connect()
+                this._wsService.connect(this._selfInformation.retrievePersonnal())
                 this._wsService.receiveIdentity()
                   .subscribe((identity: SocketConnectionType) => {
                     console.log(`Received my identity: ${identity.socketId} from Socket Server`)

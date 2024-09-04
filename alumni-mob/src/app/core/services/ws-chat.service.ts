@@ -49,9 +49,10 @@ export class WsChatService {
     return messages;
   }
 
-  connect(): void {
+  connect(userId: string): void {
     const auth: string | null = this._storageService.retrieve('auth');
     if (auth) this._emitterId = auth.split('.')[0];
+    this._socket.ioSocket.io.opts.query = { userId };
     this._socket.connect((error: any) => {
       console.error(
         `Something went wrong while connecting to socket : ${error}`
@@ -95,13 +96,13 @@ export class WsChatService {
     return this._socket.fromEvent('identity');
   }
 
-  emitConnectedUsers() {
-    this._socket.emit('userConnected');
-  }
+  // emitConnectedUsers() {
+  //   this._socket.emit('userConnected');
+  // }
 
-  receiveConnectedUsers(): Observable<any[]> {
-    return this._socket.fromEvent('ReturnList');
-  }
+  // receiveConnectedUsers(): Observable<any[]> {
+  //   return this._socket.fromEvent('ReturnList');
+  // }
 
   startMessage() {
     //récupère et envoi l'id du destinataire
@@ -111,6 +112,18 @@ export class WsChatService {
 
   startTypingReturn(): Observable<any> {
     return this._socket.fromEvent('userTyping');
+  }
+
+  emitGetUsers() {
+    this._socket.emit('getUsers')
+  }
+
+  getUsers() {
+    return this._socket.fromEvent('getUsers')
+  }
+
+  refreshUsers(): Observable<any> {
+    return this._socket.fromEvent('userConnected')
   }
 
 }

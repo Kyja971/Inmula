@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { WsChatService } from 'src/app/core/services/ws-chat.service';
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',
@@ -15,7 +16,8 @@ export class LogoutComponent  implements OnInit {
     private _storage: StorageService,
     private _router: Router,
     private alertController: AlertController,
-    private _selfInformation: SelfInformationService
+    private _selfInformation: SelfInformationService,
+    private _wsService: WsChatService
   ) { }
 
   alertButtons = [{
@@ -36,6 +38,7 @@ export class LogoutComponent  implements OnInit {
     this._storage.remove('auth')
     this._selfInformation.removePersonnal()
     this._router.navigate(['/', 'login'])
+    this._wsService.disconnect()
   }
 
   async presentAlert() {
