@@ -38,7 +38,6 @@ export class ActivateMailComponent  implements OnInit {
       .subscribe({
         next: async (response: HttpResponse<any>) => {
           if (response.status === 200) {
-            console.log(`ok, balance le code`);
             //this._storage.store('auth',response.body.token)
             this._router.navigate(['insertcode'])
           } else {
@@ -57,7 +56,6 @@ export class ActivateMailComponent  implements OnInit {
           }
         },
         error: (error: any) => {
-          console.log(`ko, je dois afficher un toast ${JSON.stringify(error)}`);
         },
       });
   }

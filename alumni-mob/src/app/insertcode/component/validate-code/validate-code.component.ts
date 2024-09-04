@@ -58,7 +58,6 @@ export class ValidateCodeComponent implements OnInit {
           }
         },
         error: (error: any) => {
-          console.log(`ko, je dois afficher un toast ${JSON.stringify(error)}`);
         },
       });
   }

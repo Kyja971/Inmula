@@ -41,18 +41,9 @@ export class Tab3Page implements OnInit, OnDestroy {
       });
 
       this._wsService.emitGetUsers();
-      this._getUsersSubscription = this._wsService
-      .getUsers()
-      .subscribe((userConnected: any[]) => {
+      this._getUsersSubscription = this._wsService.getUsers().subscribe((userConnected: any[]) => {
         this.usersConnected = userConnected;
       });
-      // this._wsService.emitGetUsers()
-      // this._getUsersSubscription = this._wsService.getUsers().subscribe((data:any) => {
-      //   console.log(data)
-      //   this.usersConnected = data
-      // })
-      // console.log(this.usersConnected)
-      // this._getUsersSubscription.unsubscribe()
 
       this._refreshSubscription = this._wsService.refreshUsers().subscribe((data:any) => {
         if(data.newUser) {
@@ -63,31 +54,17 @@ export class Tab3Page implements OnInit, OnDestroy {
       })
   }
 
-  // getUsers() {
-  //   this._wsService.emitConnectedUsers();
-  //   this._wsService
-  //     .receiveConnectedUsers()
-  //     .subscribe((userConnected: any[]) => {
-  //       this.usersConnected = userConnected;
-  //     });
-  // }
 
   isConnected(internId?: string | undefined) {
     if (internId === undefined) {
       return false;
     }
-    // console.log(this.usersConnected)
-    // console.log("-----------------")
     return this.usersConnected.includes(internId)
   }
 
   onCancel(): void {
     return;
   }
-
-  // ionViewWillEnter() {
-
-  // }
 
   ngOnDestroy() {
     this._refreshSubscription.unsubscribe()

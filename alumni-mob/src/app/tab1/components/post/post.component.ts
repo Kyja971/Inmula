@@ -29,7 +29,6 @@ export class PostComponent implements OnInit, OnDestroy {
     this._subscription = this._postService.findAll(50,1)
     .subscribe({
       next: (posts: Array<PostType>) => {
-        console.log(posts)
         this.posts = posts 
         this.posts.sort((a, b) => (a.postedAt > b.postedAt ? -1 : 1))
       }, //Si code 200 ou 300 ce code sera effectué

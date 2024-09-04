@@ -73,7 +73,6 @@ export class WsChatService {
     };
 
     this._socket.emit('message', payload);
-
     this._messages.push({ ...payload, direction: 'out' });
     return of(this._updateMessages());
   }
@@ -87,22 +86,6 @@ export class WsChatService {
       })
     );
   }
-
-  sendIdentity(message: any): Observable<any> {
-    return this._socket.emit('userId:Identity', message);
-  }
-
-  receiveIdentity(): Observable<any> {
-    return this._socket.fromEvent('identity');
-  }
-
-  // emitConnectedUsers() {
-  //   this._socket.emit('userConnected');
-  // }
-
-  // receiveConnectedUsers(): Observable<any[]> {
-  //   return this._socket.fromEvent('ReturnList');
-  // }
 
   startMessage() {
     //récupère et envoi l'id du destinataire
