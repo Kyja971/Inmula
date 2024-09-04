@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -6,12 +7,20 @@ import { NavController } from '@ionic/angular';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
-  constructor(private navCtrl: NavController) {}
+  currentPage = '';
+
+  constructor(
+    private navCtrl: NavController, 
+    private route: Router) {}
 
   goBack() {
     this.navCtrl.back();
+  }
+
+  ngOnInit() {
+    this.currentPage = this.route.url
   }
 
 

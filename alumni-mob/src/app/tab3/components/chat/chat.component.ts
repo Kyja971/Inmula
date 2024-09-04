@@ -30,8 +30,14 @@ export class ChatComponent implements OnInit {
     private _modalController: ModalController,
     private _wsService: WsChatService,
     private _internService: InternService,
-    private _selfInformation: SelfInformationService
+    private _selfInformation: SelfInformationService,
+    private navCtrl: NavController
   ) {}
+
+  goBack() {
+    this.navCtrl.back();
+    this._modalController.dismiss()
+  }
 
   ngOnInit() {
     this.intern = this._internService.intern!;
