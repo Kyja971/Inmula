@@ -20,12 +20,13 @@
 
 <ion-content class="ion-padding">
   <div class="chat-container">
-      <div 
+    <div 
         [ngClass]="{'chat-message': true, 'received': message.direction === 'in', 'sent': message.direction === 'out'}"
         *ngFor="let message of messages">
         <p class="datetime">{{ message.datetime | date: 'dd-MM hh:mm'}}</p>
         <p class="message">{{ message.content }}</p>
-  </div>
+    </div>
+
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content
         loadingSpinner="bubbles"
@@ -33,33 +34,39 @@
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
    
+    <div *ngIf="isTyping"> {{intern.firstName}} est en train d'écrire ...</div>
+    <div class="chat-response">
+      <!-- <ion-row>
+        <ion-col>
+          <ion-input type="text" [(ngModel)]="message.content" (ionInput)="onInputChange($event)"></ion-input>
+        </ion-col>
+      </ion-row> -->
+  
+      <div class="chat-compose">
+        <ion-row class="ion-align-items-center ion-margin">
+          <ion-col size="2">
+            <ion-tab-button>
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </ion-tab-button>
+          </ion-col>
+  
+          <ion-col size="8">
+            <ion-input type="text" [(ngModel)]="message.content" (ionInput)="onInputChange($event)"></ion-input>
+            <!-- <ion-input [(ngModel)]="message" placeholder="Message"></ion-input> -->
+          </ion-col>
+          <!-- <ion-col>
+            <ion-icon name="send-outline" (click)="onSend()"></ion-icon>
+          </ion-col>      -->
+  
+          <ion-col size="2">
+            <ion-tab-button>
+              <ion-icon name="arrow-forward-circle" (click)="onSend()" class="btn-send"></ion-icon>
+            </ion-tab-button>
+          </ion-col>
+        </ion-row>
+      </div>
   </div>
-  <div *ngIf="isTyping"> {{intern.firstName}} est en train d'écrire ...</div>
-  <div class="chat-message">
-    <ion-row>
-      <ion-col>
-        <ion-input type="text" [(ngModel)]="message.content" (ionInput)="onInputChange($event)"></ion-input>
-
-  <div class="chat-compose" slot="fixed">
-    <ion-row class="ion-align-items-center ion-margin">
-      <ion-col size="2">
-        <ion-tab-button>
-          <ion-icon name="add-circle-outline"></ion-icon>
-        </ion-tab-button>
-      </ion-col>
-
-      <ion-col size="8">
-        <ion-input [(ngModel)]="message" placeholder="Message"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-icon name="send-outline" (click)="onSend()"></ion-icon>
-      </ion-col>     
-
-      <ion-col size="2">
-        <ion-tab-button>
-          <ion-icon name="arrow-forward-circle" (click)="onSend()" class="btn-send"></ion-icon>
-        </ion-tab-button>
-      </ion-col>
-    </ion-row>
   </div>
+
+
 </ion-content>

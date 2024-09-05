@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, ModalController, NavController } from '@ionic/angular';
 
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
 import { InternService } from 'src/app/core/services/intern.service';
