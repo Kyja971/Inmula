@@ -1,5 +1,5 @@
 services:
-  db:
+  db_auth:
     image: mariadb:latest
     container_name: auth_ms
     ports:

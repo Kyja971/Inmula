@@ -94,7 +94,7 @@ export class AppService {
     return this._repository.update({ id: id }, post);
   }
 
-  delete(id: number): Promise<DeleteResult> {
+  async delete(id: number): Promise<DeleteResult> {
     return this._repository.delete({ id: id });
   }
 }

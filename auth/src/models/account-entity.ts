@@ -1,8 +1,9 @@
-import { Contains, IsEmail } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Contains, IsEmail, IsEnum } from "class-validator";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { RoleTypeEnum } from "./role-type-enum";
 
 @Entity({
-  name: 'account',
+  name: "account",
 })
 export class AccountEntity {
   @PrimaryGeneratedColumn()
@@ -10,12 +11,14 @@ export class AccountEntity {
 
   @Column({ unique: true, length: 70 })
   @IsEmail()
-  @Contains('aelion.fr')
+  @Contains("aelion.fr")
   email: string;
 
   @Column({ length: 25 })
   password: string;
 
   @Column()
-  role: string;
+  @IsEnum(RoleTypeEnum)
+  role: RoleTypeEnum;
+ 
 }

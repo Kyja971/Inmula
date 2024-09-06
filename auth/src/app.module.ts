@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AccountEntity } from './models/account-entity';
+import { JwtModule } from '@nestjs/jwt';
 
 const envfile = 'env/' + process.env.NEST_ENV;
 @Module({
@@ -26,6 +27,13 @@ const envfile = 'env/' + process.env.NEST_ENV;
       }),
     }),
     TypeOrmModule.forFeature([AccountEntity]),
+    JwtModule.register({
+      global: true,
+      secret: process.env.SECRET,
+      signOptions : {
+        expiresIn: process.env.EXPIRES_IN,
+      }
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

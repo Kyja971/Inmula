@@ -49,6 +49,6 @@ export class AppController {
 
   @MessagePattern({ cmd: 'delete' })
   async delete(id: number): Promise<DeleteResult> {
-    return this.appService.delete(id);
+    return await this.appService.delete(id);
   }
 }
