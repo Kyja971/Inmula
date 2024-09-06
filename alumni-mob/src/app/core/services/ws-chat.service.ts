@@ -36,7 +36,7 @@ export class WsChatService {
   }
 
   connect(userId: string): void {
-    const auth: string | null = this._storageService.retrieve('self');
+    const auth: string | null = this._storageService.retrieve('auth');
     if (auth) this._emitterId = auth
     this._socket.ioSocket.io.opts.query = { userId };
     this._socket.connect((error: any) => {

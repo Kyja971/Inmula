@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthBodyType } from './models/auth-body.type';
-import { Observable, of, switchMap, take, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { TokenType } from './models/token.type';
 import { AuthDto } from './dto/create-auth.dto';
 import { Response } from 'express';
@@ -89,44 +89,12 @@ export class AuthController {
 
   //Create a token when logged, and insert it in a cookie
   @Post('login')
-  async login(@Body() body: AuthBodyType, @Res({ passthrough: true }) res: Response): Promise<any> {
-    try {
-      const token = await this._authService.login(body).pipe(
-        tap((token) => {
-          res.cookie('jwt', token.token, { httpOnly: true, domain: 'localhost', sameSite:'lax' });
-        }),
-      );
-
-      return token;
-    } catch (error) {
-      return { 
-        error: 'Login failed' 
-      };
-    }
+  async login(@Body() body: AuthBodyType) {
+    const login = await this._authService.login(body).pipe(
+      tap((x) => console.log(x)),
+      take(1),
+    );
+    console.log(login);
+    return login;
   }
-
-  //Check if the mail is valid when an user wants to activate an account
-  //A mail is valid if the mail is present in the database and if it has no password
-  @Post('checkEmail')
-  async checkEmail(@Body() payload: any): Promise<Observable<{isMailValid: boolean, id: number}>> {
-    return await this._authService.checkEmail(payload);
-  }
-
-  //Returns the id of the users from the token (by checking the email)
-  @Post('internId')
-  async getInternId(@Body() token: TokenType): Promise<Observable<string>> {
-    return await this._authService.getInternId(token);
-  }
-
-  //Decode the token and return the initial payload
-  @Post('decode')
-  async decodeToken(@Body() token: TokenType): Promise<Observable<any>> {
-    return await this._authService.decodeToken(token)
-  }
-
-  @Post('getRole')
-  async getRole(@Body() token: TokenType): Promise<Observable<string>> {
-    return await this._authService.getRole(token)
-  }
-
 }

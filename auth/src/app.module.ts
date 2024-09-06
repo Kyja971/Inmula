@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AccountEntity } from './models/account-entity';
 import { JwtModule } from '@nestjs/jwt';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 
 const envfile = 'env/' + process.env.NEST_ENV;
 @Module({
@@ -35,16 +34,6 @@ const envfile = 'env/' + process.env.NEST_ENV;
         expiresIn: process.env.EXPIRES_IN,
       }
     }),
-    ClientsModule.register([
-      {
-        name: 'INTERN',
-        transport: Transport.TCP,
-        options: {
-          host: '127.0.0.1',
-          port: 3100,
-        },
-      },
-    ])
   ],
   controllers: [AppController],
   providers: [AppService],
