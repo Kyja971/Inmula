@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
@@ -47,6 +48,21 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
         });
     }
     return of(null);
+  }
+
+  @MessagePattern({ cmd: `findOneByMail` })
+  async findOneByMail(payload: any): Promise<Observable<string | null>> {
+    return this.appService
+      .findOneByMail(payload.email)
+      .then((id) => {
+        if (!id) {
+          return of(null);
+        }
+        return of(id);
+      })
+      .catch((error) => {
+        return of(error);
+      });
   }
 
   @MessagePattern({ cmd: 'create' })

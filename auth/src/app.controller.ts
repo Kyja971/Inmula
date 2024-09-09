@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Body, Controller, Get, Res } from "@nestjs/common";
-import { AppService } from "./app.service";
-import { MessagePattern } from "@nestjs/microservices";
-import { AuthBodyType } from "./models/auth-body.type";
-import { TokenType } from "./models/token.type";
-import { AccountEntity } from "./models/account-entity";
 import { AuthDto } from "./utils/dto/auth-dto";
-import { UpdateAuthDto } from "./utils/dto/update-auth-dto";
 import { DeleteResult } from "typeorm";
+import { Controller } from '@nestjs/common';
+import { AppService } from './app.service';
+import { MessagePattern } from '@nestjs/microservices';
+import { AuthBodyType } from './models/auth-body.type';
+import { TokenType } from './models/token.type';
 
 @Controller()
 export class AppController {
@@ -41,5 +39,10 @@ export class AppController {
   @MessagePattern({ message: "delete" })
   delete(id: number): Promise<DeleteResult> {
     return this._appService.delete(id);
+  }
+
+  @MessagePattern({ message: 'getIdByEmail' })
+  async getInternId(token: TokenType): Promise<string | null> {
+    return await this._appService.getInternId(token);
   }
 }

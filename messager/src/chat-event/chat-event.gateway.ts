@@ -31,37 +31,6 @@ export class ChatEventGateway
     SocketUserType
   >();
 
-  @SubscribeMessage('getUsers')
-  async checkConnected(): Promise<Array<any>> {
-    let userConnected: string[] = [];
-    this._clients.forEach((value, key) => {
-      userConnected.push(value.userId);
-    });
-    //return the response to the frontEnd
-
-    this.wsServer.emit('getUsers', userConnected);
-    return userConnected;
-  }
-
-  @SubscribeMessage('message')
-  async chat(@MessageBody() data: RequestMessageType): Promise<any> {
-    Logger.log(`Received ${JSON.stringify(data)}`);
-    // Find the recipient
-    const recipientSocket: SocketUserType = this._userToSocket(data.recipient);
-
-    const payload: any = {
-      emitter: data.recipient,
-      recipient: data.emitter,
-      datetime: new Date(),
-      content: data.content,
-    };
-    Logger.log(
-      `Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`,
-    );
-    
-    recipientSocket.socket.emit('message', payload);
-  }
-
   //Activée à la 1ere connexion d'un client, elle contient un socketId que l'on doit stocker
   handleConnection(client: any, ...args: any[]): void {
     const { sockets } = this.wsServer.sockets;
@@ -94,6 +63,37 @@ export class ChatEventGateway
       }
     })
     this._clients.delete(client.id);
+  }
+
+  @SubscribeMessage('getUsers')
+  async checkConnected(): Promise<Array<any>> {
+    let userConnected: string[] = [];
+    this._clients.forEach((value, key) => {
+      userConnected.push(value.userId);
+    });
+    //return the response to the frontEnd
+
+    this.wsServer.emit('getUsers', userConnected);
+    return userConnected;
+  }
+
+  @SubscribeMessage('message')
+  async chat(@MessageBody() data: RequestMessageType): Promise<any> {
+    Logger.log(`Received ${JSON.stringify(data)}`);
+    // Find the recipient
+    const recipientSocket: SocketUserType = this._userToSocket(data.recipient);
+
+    const payload: any = {
+      emitter: data.recipient,
+      recipient: data.emitter,
+      datetime: new Date(),
+      content: data.content,
+    };
+    Logger.log(
+      `Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`,
+    );
+    
+    recipientSocket.socket.emit('message', payload);
   }
 
   //Takes an userId and return the socket corresponding to the userId

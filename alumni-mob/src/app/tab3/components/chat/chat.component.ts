@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController, NavController } from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
 import { InternService } from 'src/app/core/services/intern.service';
@@ -7,13 +7,15 @@ import { SocketMessageType } from '../../dto/socket-message.type';
 import { Intern } from 'src/app/core/types/intern/intern-class';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { ChatMessage } from 'src/app/core/interface/chat-message';
+import { Subscription } from 'rxjs';
+import { TabsPage } from 'src/app/tabs/tabs.page';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   //public message: string = '';
   public recievedMessages: Array<SocketMessageType> = [];
   public sendedMessages: Array<SocketMessageType> = [];
@@ -24,6 +26,7 @@ export class ChatComponent implements OnInit {
   public intern!: Intern;
   public messages: Array<any> = [];
   public isTyping = false;
+  private receiveSub !: Subscription
   //public inputValue: string = '';
 
   constructor(
@@ -31,23 +34,20 @@ export class ChatComponent implements OnInit {
     private _wsService: WsChatService,
     private _internService: InternService,
     private _selfInformation: SelfInformationService,
-    private navCtrl: NavController
   ) {}
 
-  goBack() {
-    this.navCtrl.back();
-    this._modalController.dismiss()
-  }
-
   ngOnInit() {
-    this.intern = this._internService.intern!;
-
-    this._wsService
+     this.intern = this._internService.intern!;
+    this.receiveSub = this._wsService
       .receiveMessage()
       .subscribe((filteredMessages: Array<any>) => {
         this.messages = filteredMessages;
         this.isTyping = false;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.receiveSub.unsubscribe()
   }
 
   onSend(): void {
@@ -60,11 +60,6 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  onCancel(): void {
-    this._modalController.dismiss();
-    this._wsService.disconnect();
-  }
-
   onIonInfinite(ev: any) {
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
@@ -72,7 +67,6 @@ export class ChatComponent implements OnInit {
   }
 
   onInputChange(event: any) {
-    console.log('Nouvelle valeur saisie :', event.target.value);
     // déclare les evenements à suivre du ngModel
     this.message.content = event.target.value;
     this.message.isTypingValue = true;
@@ -82,7 +76,6 @@ export class ChatComponent implements OnInit {
       this._wsService.startTypingReturn().subscribe((recipient: any) => {
         //stock l'id du destinataire dans recipient
         this.returnUserTyping = recipient;
-        console.log('Id destinataire retourné' + this.returnUserTyping);
         //compare l'id destinataire à l'id dans localStorage
         if (recipient == this._selfInformation.retrievePersonnal()) {
           this.isTyping = true;
@@ -91,5 +84,9 @@ export class ChatComponent implements OnInit {
     } else {
       this.isTyping = false;
     }
+  }
+
+  goBack() {
+    this._modalController.dismiss()
   }
 }

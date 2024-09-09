@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException, Res } from "@nestjs/common";
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
 import { AuthBodyType } from "./models/auth-body.type";
 import { TokenType } from "./models/token.type";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -8,15 +8,17 @@ import { DeleteResult, Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 import { UpdateAuthDto } from "./utils/dto/update-auth-dto";
 import { AuthDto } from "./utils/dto/auth-dto";
-import { Payload } from "@nestjs/microservices";
 import { comparePaswrd, encodePaswrd } from "./utils/bcrytpt";
+import { lastValueFrom } from "rxjs";
+import { ClientProxy } from "@nestjs/microservices";
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectRepository(AccountEntity)
     private _repository: Repository<AccountEntity>,
-    private jwt: JwtService
+    private jwt: JwtService,
+    @Inject('INTERN') private _client: ClientProxy
   ) {}
 
   async login(body: AuthBodyType): Promise<TokenType | null> {
@@ -96,5 +98,15 @@ export class AppService {
 
   async delete(id: number): Promise<DeleteResult> {
     return this._repository.delete({ id: id });
+  
+  }
+
+  async getInternId(token: TokenType): Promise<string> {
+    let email = this.jwt.decode(token.token).email
+    let pattern = { cmd : 'findOneByMail'}
+    const author = await lastValueFrom(
+      this._client.send<string>(pattern, { email: email }),
+    );
+    return JSON.stringify(author)
   }
 }

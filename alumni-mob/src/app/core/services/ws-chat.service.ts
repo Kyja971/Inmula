@@ -34,23 +34,8 @@ export class WsChatService {
     return this._messages$;
   }
 
-  private _updateMessages(): Array<any> {
-    const messages = this._messages
-      .filter((message: any) => {
-        console.log(`Analyzed message : ${JSON.stringify(message)}`);
-        return (
-          message.emitter === this._internService.intern?.id ||
-          message.recipient === this._internService.intern?.id
-        );
-      })
-      .sort((m1: any, m2: any) => m1.datetime - m2.datetime);
-    console.log(`Messages was updated : ${JSON.stringify(messages)}`);
-    this._messages$.next(messages);
-    return messages;
-  }
-
   connect(userId: string): void {
-    const auth: string | null = this._storageService.retrieve('auth');
+    const auth: string | null = this._storageService.retrieve('self');
     if (auth) this._emitterId = auth
     this._socket.ioSocket.io.opts.query = { userId };
     this._socket.connect((error: any) => {
@@ -78,6 +63,7 @@ export class WsChatService {
   }
 
   receiveMessage(): Observable<any> {
+    console.log("Je recois un message !")
     return this._socket.fromEvent('message').pipe(
       map((payload: any) => {
         console.log(`Message was received : ${JSON.stringify(payload)}`);
@@ -85,6 +71,21 @@ export class WsChatService {
         return this._updateMessages();
       })
     );
+  }
+
+  private _updateMessages(): Array<any> {
+    const messages = this._messages
+      .filter((message: any) => {
+        console.log(`Analyzed message : ${JSON.stringify(message)}`);
+        return (
+          message.emitter === this._internService.intern?.id ||
+          message.recipient === this._internService.intern?.id
+        );
+      })
+      .sort((m1: any, m2: any) => m1.datetime - m2.datetime);
+    console.log(`Messages was updated : ${JSON.stringify(messages)}`);
+    this._messages$.next(messages);
+    return messages;
   }
 
   startMessage() {
@@ -97,14 +98,17 @@ export class WsChatService {
     return this._socket.fromEvent('userTyping');
   }
 
+  // Ask to the messager gateway to send all the connected users
   emitGetUsers() {
     this._socket.emit('getUsers')
   }
 
+  // Receive all the connected users
   getUsers(): Observable<any> {
     return this._socket.fromEvent('getUsers')
   }
 
+  // Receive a message from the messager gateway everytime an user is connected / disconnected
   refreshUsers(): Observable<any> {
     return this._socket.fromEvent('userConnected')
   }

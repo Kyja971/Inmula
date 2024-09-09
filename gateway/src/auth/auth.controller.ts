@@ -53,6 +53,11 @@ export class AuthController {
     return this._authService.add(auth).pipe(take(1));
   }
 
+  @Post('internId')
+  async getInternId(@Body() token: TokenType): Promise<Observable<string>> {
+    return await this._authService.getInternId(token);
+  }
+
   @Get()
   findAll(): Observable<AuthDto[]> {
     return this._authService.findAll();
