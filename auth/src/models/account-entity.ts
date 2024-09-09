@@ -14,7 +14,7 @@ export class AccountEntity {
   @Contains("aelion.fr")
   email: string;
 
-  @Column({ length: 25 })
+  @Column()
   password: string;
 
   @Column()

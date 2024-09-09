@@ -3,4 +3,3 @@ export enum RoleTypeEnum {
   STAGIAIRE = 'stagiaire',
   ADMIN = 'admin',
 }
-  
