@@ -48,8 +48,29 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
     return intern;
   }
 
-  async update(id: string, updateInternDto: UpdateInternDto): Promise<InternInterface | null> {
-    const internToUpdate = await this.internModel.findByIdAndUpdate(id, updateInternDto);
+  async findOneByMail(email: string): Promise<string | null> {
+    const intern = await this.internModel.findOne({ emails: { $in: [email] } });
+    if (!intern) {
+      return new Promise(null);
+    }
+    return intern.id;
+  }
+
+  async add(createInternDto: CreateInternDto): Promise<InternInterface> {
+    const newIntern = new this.internModel(createInternDto);
+    const savedIntern = await newIntern.save();
+    return savedIntern;
+  }
+
+  async update(
+    id: string,
+    updateInternDto: UpdateInternDto,
+  ): Promise<InternInterface | null> {
+    const internToUpdate = await this.internModel.findByIdAndUpdate(
+      id,
+      updateInternDto,
+    );
+    Logger.log(internToUpdate, 'app.service');
     if (!internToUpdate) {
       return new Promise(null);
     } else {

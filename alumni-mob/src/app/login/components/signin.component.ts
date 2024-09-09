@@ -51,41 +51,36 @@ export class SigninComponent implements OnInit {
       .login(payload)
       .pipe(take(1))
       .subscribe({
-        next: async (response: TokenType) => {
+        next: (response: TokenType) => {
           if (response.token) {
             this._storage.store('auth', response.token);
-            this._selfInformation.setPersonnal(response.token);
+            this._service.getInternId(response).pipe(take(1)).subscribe({
+              next: (id: string) => {
+                this._selfInformation.setPersonnal(id);
+                this._wsService.connect(this._selfInformation.retrievePersonnal())         
+              },
+              error: (error: any) => {
+                console.log(error)
+              }
+            })
             this._router.navigate(['tabs', 'tab1']).then(() => {
-            this.form.reset();
-            /**
-             * Si l'on a configuré le service afin de pouvoir permettre l'envoi d'un payload
-             * à l'intérieur du message de connection au Socket,
-             * alors connect() prend un argument, le userId,
-             * et le code ressemblera alors à ceci:
-             * this._wsService.connect(userId)
-             * Il faudrait alors supprimer le second aller vers le socket pour simplifier
-             */
-            this._wsService.connect(this._selfInformation.retrievePersonnal())         
+              this.form.reset();
             });
-          } else {
-            const toast = await this._toastController.create({
-              message: 'Echec de connexion',
-              duration: 2000,
-              position: 'middle',
-              buttons: [
-                {
-                  text: 'Réessayer',
-                },
-              ],
-            });
-            toast.present();
-            toast.onWillDismiss().then(() => this.form.reset());
           }
         },
-        error: (error: any) => {
-          console.log(
-            `Non je peux pas afficher les posts ${JSON.stringify(error)}`
-          );
+        error: async (error: any) => {
+          const toast = await this._toastController.create({
+            message: 'Echec de connexion',
+            duration: 2000,
+            position: 'middle',
+            buttons: [
+              {
+                text: 'Réessayer',
+              },
+            ],
+          });
+          toast.present();
+          toast.onWillDismiss().then(() => this.form.reset());
         },
       });
   }

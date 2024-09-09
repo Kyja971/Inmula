@@ -1,48 +1,112 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
 import { AuthBodyType } from "./models/auth-body.type";
 import { TokenType } from "./models/token.type";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AccountEntity } from "./models/account-entity";
 import { Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
+import { UpdateAuthDto } from "./utils/dto/update-auth-dto";
+import { AuthDto } from "./utils/dto/auth-dto";
+import { comparePaswrd, encodePaswrd } from "./utils/bcrytpt";
+import { lastValueFrom } from "rxjs";
+import { ClientProxy } from "@nestjs/microservices";
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectRepository(AccountEntity)
     private _repository: Repository<AccountEntity>,
-    private jwt: JwtService
+    private jwt: JwtService,
+    @Inject('INTERN') private _client: ClientProxy
   ) {}
 
   async login(body: AuthBodyType): Promise<TokenType | null> {
-    console.log("début méthode")
-    return this._repository
-      .findOne({ where: { email: body.email } })
-      .then(async (user) => {
-        if (!user) {
-          console.log("not user found")
-          return undefined;
-        }
-        if (user.password === body.password) {
-          //build token
-          console.log(" user found", user)
-          const payload = {
-            id: user.id,
-            role: user.role,
-            email: user.email,
-          };
-          return  {
-            token:  await this.jwt.signAsync(payload),
+    return (
+      this._repository
+        .findOne({ where: { email: body.email } })
+        .then(async (user) => {
+          if (!user) {
+            return undefined;
           }
-        }
-      })
-      //uniquement si erreur sql
-      .catch((error) => {
-        console.log(error);
-        return null;
-      });
+          // Comparer les mots de passe entre bdd et celui saisi
+          const pwd = comparePaswrd(body.password, user.password);
+          
+          if (await pwd == true) {
+            // Construire le token
+            const payload = {
+              id: user.id,
+              role: user.role,
+              email: user.email,
+            };
 
+            return {
+              token: await this.jwt.signAsync(payload),
+            };
+          } else {
+            console.log("Erreur de pwd")
+          }
+        })
+        //uniquement si erreur sql
+        .catch((error) => {
+          console.log(error);
+          return null;
+        })
+    );
+  }
 
+  async findOne(id: number): Promise<AccountEntity | null> {
+    const auth = await this._repository.findOne({ where: { id } });
+    if (!auth) {
+      return null;
+    }
+    return auth;
+  }
+
+  async findAll(): Promise<AccountEntity[] | null> {
+    return this._repository.find();
+  }
+
+  async update(
+    authId: number,
+    updateAuthDto: UpdateAuthDto
+  ): Promise<AccountEntity> {
+    // check si présent dans la bdd
+    const existingAuth = await this._repository.findOne({
+      where: { id: authId },
+    });
+    if (!existingAuth) {
+      throw new NotFoundException(`Auth #${authId} not found`);
+    }
+
+    // Mise à jour des propriétés de l'utilisateur existant
+    existingAuth.email = updateAuthDto.email;
+    existingAuth.password = encodePaswrd(updateAuthDto.password);
+    existingAuth.role = updateAuthDto.role;
+
+    const updatedAccount = await this._repository.save(existingAuth);
+    return updatedAccount;
+  }
+
+  async add(auth: UpdateAuthDto): Promise<AuthDto> {
+
+    // Sauvegarde de l'entité avec le mot de passe haché
+    const newAuth = await this._repository.save(auth);
+
+    return newAuth;
+  }
+
+  async delete(id: number): Promise<DeleteResult> {
+    return this._repository.delete({ id: id });
+  
+  }
+
+  async getInternId(token: TokenType): Promise<string> {
+    let email = this.jwt.decode(token.token).email
+    let pattern = { cmd : 'findOneByMail'}
+    const author = await lastValueFrom(
+      this._client.send<string>(pattern, { email: email }),
+    );
+    return JSON.stringify(author)
   }
 }

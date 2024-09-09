@@ -36,7 +36,7 @@ export class WsChatService {
   }
 
   connect(userId: string): void {
-    const auth: string | null = this._storageService.retrieve('auth');
+    const auth: string | null = this._storageService.retrieve('self');
     if (auth) this._emitterId = auth
     this._socket.ioSocket.io.opts.query = { userId };
     this._socket.connect((error: any) => {
@@ -70,6 +70,7 @@ export class WsChatService {
   }
 
   receiveMessage(): Observable<any> {
+    console.log("Je recois un message !")
     return this._socket.fromEvent('message').pipe(
       map((payload: any) => {
         console.log(`Message was received : ${JSON.stringify(payload)}`);
@@ -115,61 +116,6 @@ export class WsChatService {
   }
 
   // Receive a message from the messager gateway everytime an user is connected / disconnected
-  refreshUsers(): Observable<any> {
-    return this._socket.fromEvent('userConnected')
-  }
-
-<<<<<<< HEAD
-
-
-  // checkUnread(personnalId: string): Observable<Array<MessageType>> {
-  //   console.log('coucou de checkUnread')
-  //   console.log(this._socket.emit('monitorUnread', personnalId))
-  //   return of(this._socket.emit('monitorUnread', personnalId))
-  // }
-
-  getUsers(): Observable<Array<string>> {
-    return this._socket.fromEvent('usersConnected')
-  }
-
-  getUnread(): Observable<Array<MessageType>> {
-    return this._socket.fromEvent('newUnread')
-  }
-
-  deleteReadMessage(emitter: string, recipient: string) {
-    const body = {
-      emitterId: emitter,
-      recipientId: recipient
-    }
-    return this._socket.emit('emitterId:deleteRead')
-=======
-  emitConnectedUsers() {
-    this._socket.emit('userConnected');
-  }
-
-  receiveConnectedUsers(): Observable<any[]> {
-    return this._socket.fromEvent('ReturnList');
->>>>>>> 310dd3b (add feature/typing)
-  }
-
-  startMessage() {
-    //récupère et envoi l'id du destinataire
-    const recipient = this._internService.intern?.id;
-    this._socket.emit('startMessage', recipient);
-  }
-
-  startTypingReturn(): Observable<any> {
-    return this._socket.fromEvent('userTyping');
-  }
-
-  emitGetUsers() {
-    this._socket.emit('getUsers')
-  }
-
-  getUsers() {
-    return this._socket.fromEvent('getUsers')
-  }
-
   refreshUsers(): Observable<any> {
     return this._socket.fromEvent('userConnected')
   }

@@ -27,48 +27,6 @@ export class ChatEventGateway
   @WebSocketServer()
   wsServer: Server;
 
-  private _clients: Map<string, SocketUserType> = new Map<string, SocketUserType>();
-  private _messageStock: Array<RequestMessageType> = []
-  private _unreadMessage: Observable<Array<RequestMessageType>>
-  private _subscription: Subscription
-
-<<<<<<< HEAD
-  constructor(
-    //private _notification: NotificationService
-  ) { }
-=======
-  @SubscribeMessage('getUsers')
-  async checkConnected(): Promise<Array<any>> {
-    let userConnected: string[] = [];
-    this._clients.forEach((value, key) => {
-      userConnected.push(value.userId);
-    });
-    //return the response to the frontEnd
-
-    this.wsServer.emit('getUsers', userConnected);
-    return userConnected;
-  }
->>>>>>> e420e6e (refresh automatically from messager gateway)
-
-  @SubscribeMessage('message')
-  async chat(@MessageBody() data: RequestMessageType): Promise<any> {
-      Logger.log(`Received ${JSON.stringify(data)}`)
-      this._registerIncomingMessage(data)
-      // Find the recipient
-      const recipientSocket: SocketUserType = this._userToSocket(data.recipient)
-
-    const payload: any = {
-      emitter: data.recipient,
-      recipient: data.emitter,
-      datetime: new Date(),
-      content: data.content,
-    };
-    Logger.log(
-      `Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`,
-    );
-    
-    recipientSocket.socket.emit('message', payload);
-  }
   private _clients: Map<string, SocketUserType> = new Map<
     string,
     SocketUserType
@@ -83,9 +41,6 @@ export class ChatEventGateway
 
 
 
-    const { sockets } = this.wsServer.sockets;
-    const users = {};
-    Logger.log(`Connection was established for ${client.id}`);
 
     sockets.forEach((socket: any) => {
       if (socket.id === client.id) {
@@ -99,7 +54,6 @@ export class ChatEventGateway
       if (socket.id === client.id) {
         let userId = client.handshake.query.userId
         this._clients.set(client.id, { userId, socket });
->>>>>>> e420e6e (refresh automatically from messager gateway)
       }
     })
 
@@ -113,7 +67,6 @@ export class ChatEventGateway
     //    this.wsServer.emit('usersConnected', usersConnected)
     //  }
     //})
-    });
 
 <<<<<<< HEAD
     const identity: ResponseConnectionType = {
@@ -130,13 +83,6 @@ export class ChatEventGateway
     // this._clients.forEach((value, key) => {
     //   value.socket.emit('usersConnected', usersConnected)
     // })
-    this._clients.forEach((c) => {
-      if(c.socket.id !== client.id){
-        c.socket.emit('userConnected', {
-          newUser: this._socketToUser(client.id)
-        })
-      }
-    })
   }
 
   handleDisconnect(client: any) {
@@ -170,35 +116,42 @@ export class ChatEventGateway
       }
     })
     this._clients.delete(client.id);
->>>>>>> e420e6e (refresh automatically from messager gateway)
   }
 
-  @SubscribeMessage('identity')
-  async identity(@MessageBody() identity: ResponseConnectionType): Promise<ResponseConnectionType> {
-    let usersConnected = []
+  @SubscribeMessage('getUsers')
+  async checkConnected(): Promise<Array<any>> {
+    let userConnected: string[] = [];
     this._clients.forEach((value, key) => {
-      usersConnected.push(value.userId)
-    })
-    Logger.log(usersConnected, 'tableau des usersConnected après userId:Identity')
-    this._clients.forEach((value, key) => {
-      value.socket.emit('usersConnected', usersConnected)
-    })
-    return identity
+      userConnected.push(value.userId);
+    });
+    //return the response to the frontEnd
+
+    this.wsServer.emit('getUsers', userConnected);
+    return userConnected;
   }
 
-  @SubscribeMessage('userId:Identity')
-  async setUserID(@MessageBody() user: any): Promise<any> {
-    this._clients.get(user.socketId).userId = user.id
+  @SubscribeMessage('message')
+  async chat(@MessageBody() data: RequestMessageType): Promise<any> {
+    Logger.log(`Received ${JSON.stringify(data)}`);
+    // Find the recipient
+    const recipientSocket: SocketUserType = this._userToSocket(data.recipient);
+
+    const payload: any = {
+      emitter: data.recipient,
+      recipient: data.emitter,
+      datetime: new Date(),
+      content: data.content,
+    };
+    Logger.log(
+      `Emit : ${JSON.stringify(payload)} to ${recipientSocket.socket.id}`,
+    );
+    
+    recipientSocket.socket.emit('message', payload);
   }
 
-<<<<<<< HEAD
-  private _userToSocket(user: string): SocketUserType {
-    let recipient: SocketUserType
-=======
   //Takes an userId and return the socket corresponding to the userId
   private _userToSocket(userId: string): SocketUserType {
     let recipient: SocketUserType;
->>>>>>> e420e6e (refresh automatically from messager gateway)
     this._clients.forEach((value: SocketUserType, sid: string) => {
       if (value.userId === userId) {
         recipient = value;

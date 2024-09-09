@@ -16,6 +16,11 @@ export class AuthService {
     return this._client.send<AuthDto>(pattern, auth);
   }
 
+  getInternId(token: TokenType): Observable<string> {
+    const pattern: any = { message: 'getIdByEmail' };
+    return this._client.send<string>(pattern, token);
+  }
+
   update(id: number, auth: UpdateAuthDto): Observable<AuthDto> {
     const pattern: any = { message: 'update' };
     const payload: any = { id: id, auth: auth };
