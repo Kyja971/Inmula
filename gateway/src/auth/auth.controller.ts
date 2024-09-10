@@ -9,6 +9,7 @@ import {
   Param,
   Delete,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthBodyType } from './models/auth-body.type';
@@ -17,6 +18,7 @@ import { TokenType } from './models/token.type';
 import { AuthDto } from './dto/create-auth.dto';
 import { Response } from 'express';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { SuperAdminGuard } from './guards/super-admin-guard';
 
 @Controller('auth')
 export class AuthController {
@@ -30,8 +32,7 @@ export class AuthController {
     try {
       const token = await this._authService.login(body).pipe(
         tap((token) => {
-          res.cookie('jwt', token.token, { httpOnly: true, domain: 'localhost:8100' });
-          console.log('token', token.token);
+          res.cookie('jwt', token.token, { httpOnly: true, domain: 'localhost', sameSite:'lax' });
         }),
       );
 
@@ -48,6 +49,7 @@ export class AuthController {
     );
   }
 
+  @UseGuards(SuperAdminGuard)
   @Post()
   add(@Body() auth: UpdateAuthDto): Observable<AuthDto> {
     return this._authService.add(auth).pipe(take(1));

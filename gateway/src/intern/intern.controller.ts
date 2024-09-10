@@ -7,17 +7,20 @@ import {
   Post,
   Put,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { InternService } from './intern.service';
 import { InternType } from './models/intern.type';
 import { take } from 'rxjs';
 import { Response } from 'express';
 import { CreateInternDto } from './dto/create-intern.dto';
+import { SuperAdminGuard } from 'src/auth/guards/super-admin-guard';
 
 @Controller('/intern')
 export class InternController {
   constructor(private _service: InternService) {} // C'est ici que sont injecté toutes les dépendances dont on a besoin
 
+  @UseGuards(SuperAdminGuard)
   @Get() //GET http://localhost:3000/intern
   findAll(@Res() res: Response): void {
     this._service

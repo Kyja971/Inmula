@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { SuperAdminGuard } from './guards/super-admin-guard';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, SuperAdminGuard],
   imports: [
     ClientsModule.register([
       {
@@ -18,5 +19,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
+  exports: [SuperAdminGuard, AuthService],
 })
 export class AuthModule {}

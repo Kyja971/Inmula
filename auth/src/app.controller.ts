@@ -45,4 +45,9 @@ export class AppController {
   async getInternId(token: TokenType): Promise<string | null> {
     return await this._appService.getInternId(token);
   }
+
+  @MessagePattern({ message: "decode" })
+  decode(token: string): Promise<any> {
+    return this._appService.decode(token);
+  }
 }

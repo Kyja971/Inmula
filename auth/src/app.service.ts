@@ -31,8 +31,8 @@ export class AppService {
           }
           // Comparer les mots de passe entre bdd et celui saisi
           const pwd = comparePaswrd(body.password, user.password);
-          
-          if (await pwd == true) {
+
+          if ((await pwd) == true) {
             // Construire le token
             const payload = {
               id: user.id,
@@ -43,8 +43,6 @@ export class AppService {
             return {
               token: await this.jwt.signAsync(payload),
             };
-          } else {
-            console.log("Erreur de pwd")
           }
         })
         //uniquement si erreur sql
@@ -89,7 +87,6 @@ export class AppService {
   }
 
   async add(auth: UpdateAuthDto): Promise<AuthDto> {
-
     // Sauvegarde de l'entité avec le mot de passe haché
     const newAuth = await this._repository.save(auth);
 
@@ -108,5 +105,11 @@ export class AppService {
       this._client.send<string>(pattern, { email: email }),
     );
     return JSON.stringify(author)
+  }
+
+  decode(token: string): Promise<any> {
+    return this.jwt.verifyAsync(token, {
+      secret: process.env.SECRET,
+    });
   }
 }

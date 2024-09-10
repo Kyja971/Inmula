@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { InternService } from './intern.service';
 import { InternController } from './intern.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   providers: [InternService],
@@ -17,6 +18,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    AuthModule,
   ],
 })
 export class InternModule {}

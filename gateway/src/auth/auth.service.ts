@@ -46,4 +46,9 @@ export class AuthService {
     const pattern: any = { message: 'delete' };
     return this._client.send<AuthDto | null, any>(pattern, id);
   }
+
+  decodeToken(token: string): Observable<any> {
+    const pattern: any = { message: 'decode' };
+    return this._client.send<TokenType>(pattern, token);
+  }
 }
