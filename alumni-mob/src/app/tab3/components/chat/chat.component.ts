@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
-
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
 import { InternService } from 'src/app/core/services/intern.service';
-import { SocketMessageType } from '../../dto/socket-message.type';
 import { Intern } from 'src/app/core/types/intern/intern-class';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { ChatMessage } from 'src/app/core/interface/chat-message';
 import { Subscription } from 'rxjs';
-import { TabsPage } from 'src/app/tabs/tabs.page';
 
 @Component({
   selector: 'app-chat',
@@ -16,18 +13,14 @@ import { TabsPage } from 'src/app/tabs/tabs.page';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  //public message: string = '';
-  public recievedMessages: Array<SocketMessageType> = [];
-  public sendedMessages: Array<SocketMessageType> = [];
+
   public returnUserTyping: string = '';
   public message: ChatMessage = { content: '', isTypingValue: false };
-
-  private _sid: string = '';
   public intern!: Intern;
   public messages: Array<any> = [];
   public isTyping = false;
   private receiveSub !: Subscription
-  //public inputValue: string = '';
+  private isTypingSub !: Subscription
 
   constructor(
     private _modalController: ModalController,
@@ -37,17 +30,27 @@ export class ChatComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-     this.intern = this._internService.intern!;
+    this.intern = this._internService.intern!;
     this.receiveSub = this._wsService
       .receiveMessage()
       .subscribe((filteredMessages: Array<any>) => {
         this.messages = filteredMessages;
         this.isTyping = false;
       });
+
+    this.isTypingSub = this._wsService.startTypingReturn().subscribe((recipient: any) => {
+        //stock l'id du destinataire dans recipient
+        this.returnUserTyping = recipient;
+        //compare l'id destinataire à l'id dans localStorage
+        if (recipient == this._selfInformation.retrievePersonnal()) {
+          this.isTyping = true;
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.receiveSub.unsubscribe()
+    this.isTypingSub.unsubscribe()
   }
 
   onSend(): void {
@@ -73,14 +76,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     //si input non vide
     if (event.target.value.trim() !== '') {
       this._wsService.startMessage();
-      this._wsService.startTypingReturn().subscribe((recipient: any) => {
-        //stock l'id du destinataire dans recipient
-        this.returnUserTyping = recipient;
-        //compare l'id destinataire à l'id dans localStorage
-        if (recipient == this._selfInformation.retrievePersonnal()) {
-          this.isTyping = true;
-        }
-      });
     } else {
       this.isTyping = false;
     }

@@ -63,7 +63,6 @@ export class WsChatService {
   }
 
   receiveMessage(): Observable<any> {
-    console.log("Je recois un message !")
     return this._socket.fromEvent('message').pipe(
       map((payload: any) => {
         console.log(`Message was received : ${JSON.stringify(payload)}`);

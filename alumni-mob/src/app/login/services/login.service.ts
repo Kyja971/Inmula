@@ -21,10 +21,6 @@ export class LoginService {
   }
 
   getInternId(token: TokenType): Observable<string> {
-    this._httpClient.post<string>(this.URI + '/internId', token).pipe(take(1)).subscribe({
-      next: (id: string) => {
-      }
-    })
     return this._httpClient
       .post<string>(this.URI + '/internId', token).pipe(take(1))
   }
