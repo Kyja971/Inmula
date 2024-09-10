@@ -33,6 +33,10 @@ const routes: Routes = [
     path: 'profil',
     loadChildren: () => import('./profil/profil.module').then( m => m.ProfilPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'tab-auth',
+    loadChildren: () => import('./tab-auth/tab-auth.module').then( m => m.TabAuthPageModule)
   }
 ];
 @NgModule({

@@ -1,0 +1,17 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+<ng-container *ngIf="auths.length">
+  <ng-container *ngFor="let auth of auths">
+    <p>{{auth.email}}</p>
+    <p>{{auth.role}}</p>
+  </ng-container>
+</ng-container>
+
+
+<ion-row>
+  <ion-col>
+    <ion-icon name="person-add-outline" size="large" (click)="onAddAuth()">Plus</ion-icon>
+  </ion-col>
+</ion-row>
+</ion-content>

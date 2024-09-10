@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { TokenType } from '../types/token/token.type';
 import { StorageService } from './storage.service';
+import { AuthType } from '../types/auth/auth.type';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,13 @@ export class AuthService {
 
   insertPassword(payload: any): Observable<any> {
     return this._httpClient.patch<any>(`${this.URI}/${this._storageService.retrieve("authId")}`, payload)
+  }
+
+  findAll() : Observable<Array<AuthType>> {
+    return this._httpClient.get<Array<AuthType>>(this.URI)
+  }
+
+  add(auth : AuthType): Observable<AuthType>{
+    return this._httpClient.post<AuthType>(this.URI, auth)
   }
 }
