@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { InternType } from '../types/intern/intern-type';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Intern } from '../types/intern/intern-class';
@@ -10,7 +9,6 @@ import { plainToInstance } from 'class-transformer';
 })
 export class InternService {
 
-  private _interns: Array<Intern> = []
   private readonly URI: string = `http://localhost:3000/intern`
   private _intern: Intern | null = null
 

@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Logger } from 'ionic-logging-service';
 import { Subscription } from 'rxjs';
 import { PostService } from 'src/app/core/services/post.service';
 import { PostType } from 'src/app/core/types/post/post-type';
@@ -42,8 +41,4 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._subscription.unsubscribe()
   }
-
-  // findOne(id: number): InternType | undefined {
-  //   return this.interns.find((intern: InternType)=> intern.id === id)
-  // }
 }

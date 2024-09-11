@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Intern } from '../types/intern/intern-class';
 
 @Injectable({
   providedIn: 'root'

@@ -17,11 +17,39 @@ import { plainToInstance } from 'class-transformer';
 export class AppController implements Addable, Getable, Updatable, Deletable {
   constructor(private readonly appService: AppService) {}
 
+  @MessagePattern({ cmd: 'create' })
+  async add(intern: CreateInternDto): Promise<Observable<InternInterface | null>> {
+    intern = plainToInstance(CreateInternDto, intern);
+    return this.appService.add(intern).then((savedIntern) => {
+        if (!savedIntern) {
+          return of(null);
+        }
+        return of(savedIntern);
+      })
+      .catch((error) => {
+        return of(error);
+      });
+  }
+
+  @MessagePattern({ cmd: 'delete' })
+  async delete(payload: any): Promise<Observable<InternInterface | null>> {
+    if (isObjectIdOrHexString(payload?.id)) {
+      return this.appService.delete(payload.id).then((deletedUser) => {
+          if (!deletedUser) {
+            return of(null);
+          }
+          return of(deletedUser);
+        })
+        .catch((error) => {
+          return of(error);
+        });
+    }
+    return of(null);
+  }
+
   @MessagePattern({ cmd: 'findAll' })
   async findAll(): Promise<Observable<InternInterface[]>> {
-    return this.appService
-      .findAll()
-      .then((internsArray) => {
+    return this.appService.findAll().then((internsArray) => {
         if (internsArray.length === 0) {
           return of(null);
         }
@@ -35,9 +63,7 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
   @MessagePattern({ cmd: `findOne` })
   async findOne(payload: any): Promise<Observable<InternInterface | null>> {
     if (isObjectIdOrHexString(payload?.id)) {
-      return this.appService
-        .findOne(payload.id)
-        .then((intern) => {
+      return this.appService.findOne(payload.id).then((intern) => {
           if (!intern) {
             return of(null);
           }
@@ -50,39 +76,6 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
     return of(null);
   }
 
-  @MessagePattern({ cmd: `findOneByMail` })
-  async findOneByMail(payload: any): Promise<Observable<string | null>> {
-    return this.appService
-      .findOneByMail(payload.email)
-      .then((id) => {
-        if (!id) {
-          return of(null);
-        }
-        return of(id);
-      })
-      .catch((error) => {
-        return of(error);
-      });
-  }
-
-  @MessagePattern({ cmd: 'create' })
-  async add(
-    intern: CreateInternDto,
-  ): Promise<Observable<InternInterface | null>> {
-    intern = plainToInstance(CreateInternDto, intern);
-    return this.appService
-      .add(intern)
-      .then((savedIntern) => {
-        if (!savedIntern) {
-          return of(null);
-        }
-        return of(savedIntern);
-      })
-      .catch((error) => {
-        return of(error);
-      });
-  }
-
   @MessagePattern({ cmd: 'update' })
   async update(payload: any): Promise<Observable<InternInterface | null>> {
     const intern = plainToInstance(UpdateInternDto, payload?.intern);
@@ -90,9 +83,7 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
       intern instanceof UpdateInternDto &&
       isObjectIdOrHexString(payload?.id)
     ) {
-      return this.appService
-        .update(payload.id, payload.intern)
-        .then((updatedIntern) => {
+      return this.appService.update(payload.id, payload.intern).then((updatedIntern) => {
           if (!updatedIntern) {
             return of(null);
           }
@@ -105,26 +96,16 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
     return of(null);
   }
 
-  @MessagePattern({ cmd: 'delete' })
-  async delete(payload: any): Promise<Observable<InternInterface | null>> {
-    if (isObjectIdOrHexString(payload?.id)) {
-      return this.appService
-        .delete(payload.id)
-        .then((deletedUser) => {
-          if (!deletedUser) {
-            return of(null);
-          }
-          return of(deletedUser);
-        })
-        .catch((error) => {
-          return of(error);
-        });
-    }
-    return of(null);
-    // const serviceResponse = this.appService.delete(payload?.id);
-    // if (!serviceResponse) {
-    //   return null;
-    // }
-    // return serviceResponse;
+  @MessagePattern({ cmd: `findOneByMail` })
+  async findOneByMail(payload: any): Promise<Observable<string | null>> {
+    return this.appService.findOneByMail(payload.email).then((id) => {
+        if (!id) {
+          return of(null);
+        }
+        return of(id);
+      })
+      .catch((error) => {
+        return of(error);
+      });
   }
 }

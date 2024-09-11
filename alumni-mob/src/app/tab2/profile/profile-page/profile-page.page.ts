@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DataserviceService } from 'src/app/core/services/dataservice.service';
 import { InternService } from 'src/app/core/services/intern.service';
 import { Intern } from 'src/app/core/types/intern/intern-class';
-import { InternType } from 'src/app/core/types/intern/intern-type';
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.page.html',
   styleUrls: ['./profile-page.page.scss'],
 })
-export class ProfilePagePage implements OnInit {
+export class ProfilePagePage implements OnInit, OnDestroy {
 
   intern: Intern | undefined
 
@@ -20,13 +18,9 @@ export class ProfilePagePage implements OnInit {
   constructor( 
     private _activate : ActivatedRoute,
     private _internService : InternService,
-    private _dataId : DataserviceService
-  ) {
-    
-   }
+  ) {}
 
   async ngOnInit() {
-
     this._activate.paramMap.subscribe(async params => {
       const id = params.get('id');
       if (id) {
@@ -46,10 +40,12 @@ export class ProfilePagePage implements OnInit {
         // Gérer le cas où aucun ID n'est fourni dans la route
         console.log('Aucun ID ');
       }
-
     })
   }
 
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe()
+  }
 
 
 }

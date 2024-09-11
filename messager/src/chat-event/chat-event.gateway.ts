@@ -9,7 +9,6 @@ import {
 import { Server } from 'socket.io';
 import { SocketUserType } from './types/socket-user.type';
 import { Logger } from '@nestjs/common';
-import { ResponseConnectionType } from './dto/response-connection.type';
 import { RequestMessageType } from './dto/request-message.type';
 
 @WebSocketGateway({
@@ -72,7 +71,6 @@ export class ChatEventGateway
       userConnected.push(value.userId);
     });
     //return the response to the frontEnd
-
     this.wsServer.emit('getUsers', userConnected);
     return userConnected;
   }

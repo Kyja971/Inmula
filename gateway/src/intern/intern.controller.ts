@@ -61,7 +61,7 @@ export class InternController {
   }
 
   @Post()
-  create(@Body() body: CreateInternDto, @Res() res: Response): void {
+  add(@Body() body: CreateInternDto, @Res() res: Response): void {
     this._service
       .add(body)
       .pipe(take(1))

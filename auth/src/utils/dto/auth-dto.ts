@@ -1,5 +1,4 @@
-import { Type } from "class-transformer";
-import { IsNumber, IsNotEmpty, IsString, IsDate, IsEnum, IsEmail } from "class-validator";
+import { IsNumber, IsNotEmpty, IsString, IsEnum, IsEmail } from "class-validator";
 import { RoleTypeEnum } from "src/models/role-type-enum";
 
 export class AuthDto {

@@ -10,6 +10,21 @@ import { CreatePostDto } from './dto/create-post-dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @MessagePattern({ cmd: 'add' })
+  async add(post: CreatePostDto): Promise<Observable<CreatePostDto>> {
+    return this.appService
+      .add(post)
+      .then((savedPost) => {
+        if (!savedPost) {
+          return of(null);
+        }
+        return of(savedPost);
+      })
+      .catch((error) => {
+        return of(error);
+      });
+  }
+
   @MessagePattern({ cmd: 'findAll' })
   async findAll(payload: any): Promise<Observable<Array<PostEntity | null>>> {
     return this.appService
@@ -25,21 +40,6 @@ export class AppController {
   @MessagePattern({ cmd: 'findOne' })
   async findOne(id: number): Promise<PostEntity> {
     return await this.appService.findOne(id);
-  }
-
-  @MessagePattern({ cmd: 'add' })
-  async add(post: CreatePostDto): Promise<Observable<CreatePostDto>> {
-    return this.appService
-      .add(post)
-      .then((savedPost) => {
-        if (!savedPost) {
-          return of(null);
-        }
-        return of(savedPost);
-      })
-      .catch((error) => {
-        return of(error);
-      });
   }
 
   @MessagePattern({ cmd: 'update' })

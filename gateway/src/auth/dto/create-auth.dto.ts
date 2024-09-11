@@ -14,7 +14,7 @@ export class AuthDto {
 
   @IsEmail()
   @IsNotEmpty()
-  readonly email: string = '';
+  readonly email: string;
 
   @IsString()
   readonly password: string;

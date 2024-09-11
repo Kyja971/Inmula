@@ -6,7 +6,6 @@ import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { InternsComponent } from './interns/interns.component';
-import { ProfilePagePage } from './profile/profile-page/profile-page.page';
 import { ProfilePagePageModule } from './profile/profile-page/profile-page.module';
 import { SharedModule } from '../shared/shared.module';
 

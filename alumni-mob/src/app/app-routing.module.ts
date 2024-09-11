@@ -17,14 +17,17 @@ const routes: Routes = [
   {
     path: 'activate',
     loadChildren: () => import('./activation/activate/activate.module').then( m => m.ActivatePageModule),
+    canActivate: [NoAuthGuard]
   },
   {
     path: 'insertcode',
     loadChildren: () => import('./activation/insertcode/insertcode.module').then( m => m.InsertcodePageModule),
+    canActivate: [NoAuthGuard]
   },
   {
     path: 'create-password',
-    loadChildren: () => import('./activation/create-password/create-password.module').then( m => m.CreatePasswordPageModule)
+    loadChildren: () => import('./activation/create-password/create-password.module').then( m => m.CreatePasswordPageModule),
+    canActivate: [NoAuthGuard]
   },
   {
     path: 'profil',

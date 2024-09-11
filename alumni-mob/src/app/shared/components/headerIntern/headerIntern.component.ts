@@ -1,11 +1,9 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, PopoverController } from '@ionic/angular';
-import { DataserviceService } from 'src/app/core/services/dataservice.service';
+import { ModalController } from '@ionic/angular';
 import { InternService } from 'src/app/core/services/intern.service';
 import { Intern } from 'src/app/core/types/intern/intern-class';
-import { InternType } from 'src/app/core/types/intern/intern-type';
 import { ChatComponent } from 'src/app/tab3/components/chat/chat.component';
 
 @Component({
@@ -30,7 +28,6 @@ export class headerInternComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _id: DataserviceService,
     private _modalController: ModalController,
     private _internService: InternService
   ) {}

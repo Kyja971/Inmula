@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { InternService } from 'src/app/core/services/intern.service';
 import { Intern } from 'src/app/core/types/intern/intern-class';
-import { InternType } from 'src/app/core/types/intern/intern-type';
 
 @Component({
   selector: 'app-interns',

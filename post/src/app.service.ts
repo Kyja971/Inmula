@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostEntity } from './entities/post-entity';
@@ -5,7 +6,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { PostType } from './types/post.type';
 import { ClientProxy } from '@nestjs/microservices';
 import { InternType } from './types/intern.type';
-import { Subscription, lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { FormatPagingService } from './services/format-paging.service';
 import { CreatePostDto } from './dto/create-post-dto';
 
@@ -17,12 +18,14 @@ export class AppService {
     private _formatPaging: FormatPagingService,
   ) {}
 
-  private _subscription: Subscription;
+
+  async add(post: CreatePostDto): Promise<CreatePostDto> {
+    return this._repository.save(post);
+  }
 
   async findAll(take: number, page: number): Promise<PostEntity[] | null> {
     this._formatPaging.formatPaging(take, page);
-    return this._repository
-      .find({
+    return this._repository.find({
         take: take,
         skip: this._formatPaging.skip,
         order: {
@@ -84,10 +87,6 @@ export class AppService {
         console.error('Erreur lors de la récupération du post:', error);
         return null;
       });
-  }
-
-  async add(post: CreatePostDto): Promise<CreatePostDto> {
-    return this._repository.save(post);
   }
 
   update(id: number, post: PostType): Promise<UpdateResult> {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 
 @Injectable({
