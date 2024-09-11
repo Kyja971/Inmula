@@ -125,7 +125,6 @@ export class ChatEventGateway
       userConnected.push(value.userId);
     });
     //return the response to the frontEnd
-
     this.wsServer.emit('getUsers', userConnected);
     return userConnected;
   }

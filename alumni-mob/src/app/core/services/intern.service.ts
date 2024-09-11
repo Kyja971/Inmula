@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class InternService {
 
-  private readonly URI: string = `${environment.gatewayUrl}/intern`
+  private readonly URI: string = `http://localhost:3000/intern`
   private _intern: Intern | null = null
 
   constructor(private _httpClient: HttpClient) { }

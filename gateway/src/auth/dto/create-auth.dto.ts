@@ -15,7 +15,6 @@ export class AuthDto {
 
   @IsEmail()
   @IsNotEmpty()
-  @Contains('@aelion.fr')
   readonly email: string;
 
   @IsString()

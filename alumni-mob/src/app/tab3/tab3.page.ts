@@ -5,9 +5,7 @@ import { Subscription, take } from 'rxjs';
 import { Subscription, take } from 'rxjs';
 import { Intern } from '../core/types/intern/intern-class';
 import { SelfInformationService } from '../core/services/self-information.service';
-import { Logger } from 'ionic-logging-service';
 import { WsChatService } from '../core/services/ws-chat.service';
-import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-tab3',

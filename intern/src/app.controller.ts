@@ -77,39 +77,6 @@ export class AppController implements Addable, Getable, Updatable, Deletable {
     return of(null);
   }
 
-  @MessagePattern({ cmd: `findOneByMail` })
-  async findOneByMail(payload: any): Promise<Observable<string | null>> {
-    return this.appService
-      .findOneByMail(payload.email)
-      .then((id) => {
-        if (!id) {
-          return of(null);
-        }
-        return of(id);
-      })
-      .catch((error) => {
-        return of(error);
-      });
-  }
-
-  @MessagePattern({ cmd: 'create' })
-  async add(
-    intern: CreateInternDto,
-  ): Promise<Observable<InternInterface | null>> {
-    intern = plainToInstance(CreateInternDto, intern);
-    return this.appService
-      .add(intern)
-      .then((savedIntern) => {
-        if (!savedIntern) {
-          return of(null);
-        }
-        return of(savedIntern);
-      })
-      .catch((error) => {
-        return of(error);
-      });
-  }
-
   @MessagePattern({ cmd: 'update' })
   async update(payload: any): Promise<Observable<InternInterface | null>> {
     const intern = plainToInstance(UpdateInternDto, payload?.intern);
