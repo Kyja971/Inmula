@@ -112,4 +112,15 @@ export class AppService {
       secret: process.env.SECRET,
     });
   }
+
+  async checkEmail(payload: any): Promise<{isMailValid: boolean, id: number}> {
+    const existingAuth = await this._repository.findOne({
+      where: { email: payload.email },
+    });
+    if (existingAuth && !existingAuth.password){
+      return {isMailValid: true, id: existingAuth.id}
+    } else {
+      return {isMailValid: false, id: null}
+    }
+  }
 }

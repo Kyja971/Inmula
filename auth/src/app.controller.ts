@@ -50,4 +50,9 @@ export class AppController {
   decode(token: string): Promise<any> {
     return this._appService.decode(token);
   }
+
+  @MessagePattern({ message: 'checkEmail' })
+  async checkEmail(payload: any): Promise<{isMailValid: boolean, id: number}> {
+    return await this._appService.checkEmail(payload);
+  }
 }

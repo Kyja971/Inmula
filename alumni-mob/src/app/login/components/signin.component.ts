@@ -1,7 +1,6 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../services/login.service';
 import { take } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -9,6 +8,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { WsChatService } from 'src/app/core/services/ws-chat.service';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { TokenType } from 'src/app/core/types/token/token.type';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-signin',
@@ -20,7 +20,7 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _service: LoginService,
+    private _authService: AuthService,
     private _toastController: ToastController,
     private _router: Router,
     private _storage: StorageService,
@@ -43,14 +43,14 @@ export class SigninComponent implements OnInit {
       email: this.form.value.login,
       password: this.form.value.password,
     };
-    this._service
+    this._authService
       .login(payload)
       .pipe(take(1))
       .subscribe({
         next: (response: TokenType) => {
           if (response.token) {
             this._storage.store('auth', response.token);
-            this._service.getInternId(response).pipe(take(1)).subscribe({
+            this._authService.getInternId(response).pipe(take(1)).subscribe({
               next: (id: string) => {
                 this._selfInformation.setPersonnal(id);
                 this._wsService.connect(this._selfInformation.retrievePersonnal())         

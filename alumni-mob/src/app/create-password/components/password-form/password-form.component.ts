@@ -1,11 +1,11 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ValidatePasswordService } from '../../services/validate-password.service';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { take } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-password-form',
@@ -18,9 +18,10 @@ export class PasswordFormComponent  implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _service: ValidatePasswordService,
+    private _authService: AuthService,
     private _toastController: ToastController,
     private _router: Router,
+    private _storageService: StorageService
   ) { }
 
   ngOnInit(): void {
@@ -37,43 +38,81 @@ export class PasswordFormComponent  implements OnInit {
   }
 
 
-  onSubmit(): void {
-    this._service
-      .doValidate(this.validatePassword.value)
-      .pipe(take(1))
-      .subscribe({
-        next: async (response: HttpResponse<any>) => {
-          if (response.status === 200) {
-            //this._storage.store('auth',response.body.token)
-            const toast = await this._toastController.create({
-              message: "Mot de passe crée, redirection vers la page de login",
-              duration: 5000,
-              position: 'middle',
-              buttons: [
-                {
-                  text: 'Valider',
-                },
-              ],
-            });
-            await toast.present();
-            toast.onWillDismiss().then(() => this._router.navigate(['login']));
-          } else {
-            const toast = await this._toastController.create({
-              message: response.body.message,
-              duration: 5000,
-              position: 'middle',
-              buttons: [
-                {
-                  text: 'Réessayer',
-                },
-              ],
-            });
-            await toast.present();
-            toast.onWillDismiss().then(() => this.validatePassword.reset());
-          }
-        },
-        error: (error: any) => {
-        },
+  async onSubmit(): Promise<void> {
+    if(this.validatePassword.value.password1 === this.validatePassword.value.password2){
+      let payload = {
+        email: this._storageService.retrieve("email"),
+        password: this.validatePassword.value.password1
+      }
+      this._authService.insertPassword(payload).pipe(take(1)).subscribe(async (auth: any) => {
+        if (auth) {
+          //this._storage.store('auth',response.body.token)
+          const toast = await this._toastController.create({
+            message: "Mot de passe crée, redirection vers la page de login",
+            duration: 5000,
+            position: 'middle',
+            buttons: [
+              {
+                text: 'Valider',
+              },
+            ],
+          });
+          await toast.present();
+          this._storageService.remove("authId")
+          this._storageService.remove("email")
+          toast.onWillDismiss().then(() => this._router.navigate(['login']));
+        }
+      })
+    } else {
+      const toast = await this._toastController.create({
+        message: "Les mots de passes doivent être identiques",
+        duration: 5000,
+        position: 'middle',
+        buttons: [
+          {
+            text: 'Réessayer',
+          },
+        ],
       });
+      await toast.present();
+      toast.onWillDismiss().then(() => this.validatePassword.reset());
+    }
+    // this._service
+    //   .doValidate(this.validatePassword.value)
+    //   .pipe(take(1))
+    //   .subscribe({
+    //     next: async (response: HttpResponse<any>) => {
+        //   if (response.status === 200) {
+        //     //this._storage.store('auth',response.body.token)
+        //     const toast = await this._toastController.create({
+        //       message: "Mot de passe crée, redirection vers la page de login",
+        //       duration: 5000,
+        //       position: 'middle',
+        //       buttons: [
+        //         {
+        //           text: 'Valider',
+        //         },
+        //       ],
+        //     });
+        //     await toast.present();
+        //     toast.onWillDismiss().then(() => this._router.navigate(['login']));
+        //   } else {
+        //     const toast = await this._toastController.create({
+        //       message: response.body.message,
+        //       duration: 5000,
+        //       position: 'middle',
+        //       buttons: [
+        //         {
+        //           text: 'Réessayer',
+        //         },
+        //       ],
+        //     });
+        //     await toast.present();
+        //     toast.onWillDismiss().then(() => this.validatePassword.reset());
+        //   }
+        // },
+    //     error: (error: any) => {
+    //     },
+    //   });
   }
 }

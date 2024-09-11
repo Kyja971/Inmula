@@ -42,6 +42,12 @@ export class AuthController {
       return { error: 'Login failed' };
     }
   }
+
+  @Post('checkEmail')
+  async checkEmail(@Body() payload: any): Promise<Observable<{isMailValid: boolean, id: number}>> {
+    return await this._authService.checkEmail(payload);
+  }
+
   @Patch(':id')
   update(@Param('id') id: number, @Body() auth: AuthDto): Observable<AuthDto> {
     return this._authService.update(id, auth).pipe(

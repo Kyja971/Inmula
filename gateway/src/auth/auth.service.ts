@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthBodyType } from './models/auth-body.type';
@@ -50,5 +51,10 @@ export class AuthService {
   decodeToken(token: string): Observable<any> {
     const pattern: any = { message: 'decode' };
     return this._client.send<TokenType>(pattern, token);
+  }
+
+  checkEmail(payload: any): Observable<{isMailValid: boolean, id: number}> {
+    const pattern: any = { message: 'checkEmail' };
+    return this._client.send<{isMailValid: boolean, id: number}>(pattern, payload);
   }
 }

@@ -28,7 +28,8 @@ const routes: Routes = [
   },
   {
     path: 'profil',
-    loadChildren: () => import('./profil/profil.module').then( m => m.ProfilPageModule)
+    loadChildren: () => import('./profil/profil.module').then( m => m.ProfilPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 @NgModule({
