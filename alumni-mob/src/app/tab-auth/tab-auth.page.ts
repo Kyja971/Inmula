@@ -21,7 +21,7 @@ export class TabAuthPage implements OnInit{
 
   ngOnInit() {
     this._authService.findAll()
-    this._authService.auths$.subscribe(auths => {
+    this._authService.auths$.subscribe((auths: AuthType[]) => {
       this.auths = auths;
     })
   }

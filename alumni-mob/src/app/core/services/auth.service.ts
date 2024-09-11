@@ -1,15 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-<<<<<<< HEAD
 import { Injectable } from '@angular/core';
-import { Observable, take } from 'rxjs';
 import { TokenType } from '../types/token/token.type';
 import { StorageService } from './storage.service';
 import { AuthType } from '../types/auth/auth.type';
-=======
 import { BehaviorSubject, Observable, take } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { plainToInstance } from 'class-transformer';
->>>>>>> 8c59a87 (bug fix front)
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +16,10 @@ export class AuthService {
   private authsSubject = new BehaviorSubject<AuthType[]>([]);
   public auths$ = this.authsSubject.asObservable();
 
-<<<<<<< HEAD
   constructor(
     private _httpClient: HttpClient,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _modalController: ModalController
   ) { }
 
   login(payload: any): Observable<TokenType> {
@@ -49,9 +45,6 @@ export class AuthService {
   insertPassword(payload: any): Observable<any> {
     return this._httpClient.patch<any>(`${this.URI}/${this._storageService.retrieve("authId")}`, payload)
   }
-=======
-  constructor(private _httpClient: HttpClient, private _modalController: ModalController) { }
->>>>>>> 8c59a87 (bug fix front)
 
   findAll() {
     this._httpClient.get<Array<AuthType>>(this.URI).pipe(take(1)).subscribe((auths: AuthType[]) => {
