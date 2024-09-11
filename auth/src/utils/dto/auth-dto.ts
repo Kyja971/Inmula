@@ -1,4 +1,4 @@
-import { IsNumber, IsNotEmpty, IsString, IsEnum, IsEmail } from "class-validator";
+import { IsNumber, IsNotEmpty, IsString, IsEnum, IsEmail, Contains } from "class-validator";
 import { RoleTypeEnum } from "src/models/role-type-enum";
 
 export class AuthDto {
@@ -8,6 +8,7 @@ export class AuthDto {
   
     @IsEmail()
     @IsNotEmpty()
+    @Contains("@aelion.fr")
     readonly email: string;
     
     @IsString()

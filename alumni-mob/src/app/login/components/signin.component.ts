@@ -25,7 +25,7 @@ export class SigninComponent implements OnInit {
     private _router: Router,
     private _storage: StorageService,
     private _wsService: WsChatService,
-    private _selfInformation: SelfInformationService
+    private _selfInformation: SelfInformationService,
   ) {}
 
   ngOnInit() {
@@ -59,9 +59,18 @@ export class SigninComponent implements OnInit {
                 console.log(error)
               }
             })
-            this._router.navigate(['tabs', 'tab1']).then(() => {
-              this.form.reset();
-            });
+            const returnUrl = this._storage.retrieve("returnUrl")
+
+            if (returnUrl) {
+              this._router.navigate([returnUrl]).then(() => {
+                this._storage.remove("returnUrl")
+                this.form.reset()
+              });
+            } else {
+              this._router.navigate(['tabs', 'tab1']).then(() => {
+                this.form.reset();
+              });
+            }
           }
         },
         error: async (error: any) => {
