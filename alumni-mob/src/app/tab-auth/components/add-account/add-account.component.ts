@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { take } from 'rxjs';
@@ -14,6 +14,9 @@ export class AddAccountComponent  implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
+  @Input()
+  auth?: AuthType;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _modalController : ModalController,
@@ -23,10 +26,10 @@ export class AddAccountComponent  implements OnInit {
   ngOnInit() {
     this.form = this._formBuilder.group({
       email: [
-        '', // Default value for the control
+        this.auth?.email, // Default value for the control
         [Validators.required],
       ],
-      role: ['', [Validators.required]],
+      role: [this.auth?.role, [Validators.required]],
     });
   }
 
@@ -35,15 +38,11 @@ export class AddAccountComponent  implements OnInit {
       email: this.form.value.email,
       role: this.form.value.role,
     };
-
-    this._authService.add(payload).pipe(take(1)).subscribe((auth: AuthType) => {
-      if(auth){
-        console.log('Compte enregistré');
-        this._modalController.dismiss()
-      }else{
-        console.log('Erreur, compte non enregistré')
-      }
-    })
+    if(this.auth){
+      this._authService.update(this.auth?.id, payload)
+    }else{
+      this._authService.add(payload)
+    }
   }
 
   goBack(){

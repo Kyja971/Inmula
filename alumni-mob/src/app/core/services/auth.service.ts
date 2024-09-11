@@ -1,17 +1,26 @@
 import { HttpClient } from '@angular/common/http';
+<<<<<<< HEAD
 import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { TokenType } from '../types/token/token.type';
 import { StorageService } from './storage.service';
 import { AuthType } from '../types/auth/auth.type';
+=======
+import { BehaviorSubject, Observable, take } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import { plainToInstance } from 'class-transformer';
+>>>>>>> 8c59a87 (bug fix front)
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly URI: string = `http://localhost:3000/auth`
+  private readonly URI: string = `http://localhost:3000/auth`;
+  private authsSubject = new BehaviorSubject<AuthType[]>([]);
+  public auths$ = this.authsSubject.asObservable();
 
+<<<<<<< HEAD
   constructor(
     private _httpClient: HttpClient,
     private _storageService: StorageService
@@ -40,12 +49,40 @@ export class AuthService {
   insertPassword(payload: any): Observable<any> {
     return this._httpClient.patch<any>(`${this.URI}/${this._storageService.retrieve("authId")}`, payload)
   }
+=======
+  constructor(private _httpClient: HttpClient, private _modalController: ModalController) { }
+>>>>>>> 8c59a87 (bug fix front)
 
-  findAll() : Observable<Array<AuthType>> {
-    return this._httpClient.get<Array<AuthType>>(this.URI)
+  findAll() {
+    this._httpClient.get<Array<AuthType>>(this.URI).pipe(take(1)).subscribe((auths: AuthType[]) => {
+      this.authsSubject.next(auths);
+    })
   }
 
-  add(auth : AuthType): Observable<AuthType>{
-    return this._httpClient.post<AuthType>(this.URI, auth)
+  add(auth : AuthType){
+    this._httpClient.post<AuthType>(this.URI, auth).pipe(take(1)).subscribe((auth: AuthType) => {
+      this.authsSubject.next([...this.authsSubject.value, auth]);
+      this._modalController.dismiss();
+    })
+  }
+
+  delete(id: number){
+    this._httpClient.delete(this.URI + '/' + id).pipe(take(1)).subscribe();
+    const updateAuth = this.authsSubject.value.filter(auth => auth.id !== id);
+    this.authsSubject.next(updateAuth);
+  }
+
+  update(id?: number, payload?: AuthType) {
+    this._httpClient.patch<AuthType>(this.URI + '/' + id, payload).pipe(take(1)).subscribe((auth: AuthType) => {
+      const newAuths = this.authsSubject.value;
+      newAuths.map(authSubject => { 
+        if(authSubject.id === id){
+          authSubject.email = auth.email;
+          authSubject.role = auth.role;
+        }
+      })
+      this.authsSubject.next([...newAuths]);
+      this._modalController.dismiss();
+    }); 
   }
 }

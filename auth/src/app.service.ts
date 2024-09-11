@@ -93,7 +93,7 @@ export class AppService {
         })
     );
   }
-
+  
   async getInternId(token: TokenType): Promise<string> {
     let email = this.jwt.decode(token.token).email
     let pattern = { cmd : 'findOneByMail'}

@@ -1,17 +1,53 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
+  <ion-row>
+    <ion-col>
+      <ion-searchbar show-clear-button="focus" placeholder="Rechercher"></ion-searchbar>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-end">
+    <ion-col size="4">
+      <ion-button size="small" (click)="onAddAuth()">
+        Nouveau
+        <ion-icon slot="end" name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="6"><h5>Email</h5></ion-col>
+    <ion-col size="4"><h5>Rôle</h5></ion-col>
+    <ion-col size="2"><h5>Action</h5></ion-col>
+  </ion-row>
+
 <ng-container *ngIf="auths.length">
-  <ng-container *ngFor="let auth of auths">
-    <p>{{auth.email}}</p>
-    <p>{{auth.role}}</p>
-  </ng-container>
+  <ion-row>
+    <ng-container *ngFor="let auth of auths">
+      <ion-col size="6">
+        {{auth.email}}
+      </ion-col>
+      
+      <ion-col size="4">
+        {{auth.role}}
+      </ion-col>
+        
+      <ion-col size="1">
+        <ion-icon name="trash-outline" (click)="onDeleteAuth(auth?.id)"></ion-icon>
+      </ion-col>
+
+      <ion-col size="1">
+        <ion-icon name="create-outline" (click)="onUpdateAuth(auth)"></ion-icon>
+      </ion-col>
+    </ng-container>
+  </ion-row>
 </ng-container>
 
 
-<ion-row>
+<!-- <ion-row>
   <ion-col>
     <ion-icon name="person-add-outline" size="large" (click)="onAddAuth()">Plus</ion-icon>
   </ion-col>
-</ion-row>
+</ion-row> -->
 </ion-content>

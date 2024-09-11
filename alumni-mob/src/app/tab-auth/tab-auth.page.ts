@@ -10,10 +10,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './tab-auth.page.html',
   styleUrls: ['./tab-auth.page.scss'],
 })
-export class TabAuthPage implements OnInit, OnDestroy {
+export class TabAuthPage implements OnInit{
 
   public auths: Array<AuthType> = []
-  private sub!: Subscription
 
   constructor(
     private _authService: AuthService,
@@ -21,13 +20,10 @@ export class TabAuthPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.sub = this._authService.findAll().subscribe((auths : Array<AuthType>) => {
-      this.auths = auths
+    this._authService.findAll()
+    this._authService.auths$.subscribe(auths => {
+      this.auths = auths;
     })
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe()
   }
 
   async onAddAuth() {
@@ -36,6 +32,20 @@ export class TabAuthPage implements OnInit, OnDestroy {
     });
     authModal.present();
   }
-    
 
+  onDeleteAuth(id?: number) {
+    if(id){
+      this._authService.delete(id);
+    }
+  }
+
+  async onUpdateAuth(auth: AuthType) {
+    const authModal = await this._modalController.create({
+      component : AddAccountComponent,
+      componentProps: {
+        auth : auth
+      }
+    });
+    authModal.present();
+  }
 }

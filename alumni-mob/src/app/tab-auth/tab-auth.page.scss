@@ -1,0 +1,17 @@
+ion-content{
+    ion-searchbar{
+        .searchbar-input{
+            --border-radius: 16px;
+            --box-shadow: none;
+            --border: 1px solid #cdcdcd;
+            --background-color: #EEEEEE;
+        }
+    }
+}
+
+.sc-ion-searchbar-md-h{
+    --border-radius: 16px;
+    --box-shadow: none;
+    border: 1px solid #cdcdcd;
+    background-color: #EEEEEE;
+}
