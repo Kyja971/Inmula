@@ -16,15 +16,15 @@ const routes: Routes = [
   },
   {
     path: 'activate',
-    loadChildren: () => import('./activate/activate.module').then( m => m.ActivatePageModule),
+    loadChildren: () => import('./activation/activate/activate.module').then( m => m.ActivatePageModule),
   },
   {
     path: 'insertcode',
-    loadChildren: () => import('./insertcode/insertcode.module').then( m => m.InsertcodePageModule),
+    loadChildren: () => import('./activation/insertcode/insertcode.module').then( m => m.InsertcodePageModule),
   },
   {
     path: 'create-password',
-    loadChildren: () => import('./create-password/create-password.module').then( m => m.CreatePasswordPageModule)
+    loadChildren: () => import('./activation/create-password/create-password.module').then( m => m.CreatePasswordPageModule)
   },
   {
     path: 'profil',
