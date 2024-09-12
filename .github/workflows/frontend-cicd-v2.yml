@@ -57,4 +57,4 @@ jobs:
           path: node_modules
           key: npmi-${{ hashFiles('package-lock.json') }} # npmi-c1458sjki...
       - name: TU 
-        run: npm run test:ci
+        run: npm run test
