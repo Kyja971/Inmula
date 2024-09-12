@@ -5,7 +5,7 @@ import { StorageService } from './storage.service';
 import { AuthType } from '../types/auth/auth.type';
 import { BehaviorSubject, Observable, take } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { plainToInstance } from 'class-transformer';
+import { SelfInformationService } from './self-information.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,8 @@ export class AuthService {
   constructor(
     private _httpClient: HttpClient,
     private _storageService: StorageService,
-    private _modalController: ModalController
+    private _modalController: ModalController,
+    private _selfInformation: SelfInformationService
   ) { }
 
   login(payload: any): Observable<TokenType> {
@@ -77,5 +78,11 @@ export class AuthService {
       this.authsSubject.next([...newAuths]);
       this._modalController.dismiss();
     }); 
+  }
+
+  setRole(token: TokenType){
+    this._httpClient.post<string>(`${this.URI}/getRole`, token).pipe(take(1)).subscribe((role: string) => {
+      this._selfInformation.role = role
+    })
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SelfInformationService } from '../core/services/self-information.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +8,11 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor(private _selfInformation : SelfInformationService) {}
+
+  get isAdminOrSuperAdmin() {
+    const user = this._selfInformation.role; // Fonction pour récupérer le rôle de l'utilisateur
+    return user === 'admin' || user === 'super_admin';
+  }
 
 }

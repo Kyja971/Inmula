@@ -14,13 +14,12 @@ import { InternType } from './models/intern.type';
 import { take } from 'rxjs';
 import { Response } from 'express';
 import { CreateInternDto } from './dto/create-intern.dto';
-import { SuperAdminGuard } from 'src/auth/guards/super-admin-guard';
+import { AdminOrSuperAdminGuard } from 'src/auth/guards/admin-super-admin.guard';
 
 @Controller('/intern')
 export class InternController {
   constructor(private _service: InternService) {} // C'est ici que sont injecté toutes les dépendances dont on a besoin
 
-  @UseGuards(SuperAdminGuard)
   @Get() //GET http://localhost:3000/intern
   findAll(@Res() res: Response): void {
     this._service
@@ -60,6 +59,7 @@ export class InternController {
       });
   }
 
+  @UseGuards(AdminOrSuperAdminGuard)
   @Post()
   add(@Body() body: CreateInternDto, @Res() res: Response): void {
     this._service
@@ -79,6 +79,7 @@ export class InternController {
       });
   }
 
+  @UseGuards(AdminOrSuperAdminGuard)
   @Put(':id')
   update(
     @Param('id') id: string,
@@ -102,6 +103,7 @@ export class InternController {
       });
   }
 
+  @UseGuards(AdminOrSuperAdminGuard)
   @Delete(':id')
   delete(@Param('id') id: string, @Res() res: Response): void {
     this._service

@@ -53,6 +53,7 @@ export class SigninComponent implements OnInit {
             this._authService.getInternId(response).pipe(take(1)).subscribe({
               next: (id: string) => {
                 this._selfInformation.setPersonnal(id);
+                this._authService.setRole(response);
                 this._wsService.connect(this._selfInformation.retrievePersonnal())         
               },
               error: (error: any) => {

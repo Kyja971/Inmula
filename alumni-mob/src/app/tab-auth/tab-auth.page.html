@@ -24,7 +24,7 @@
 
 <ng-container *ngIf="auths.length">
   <ion-row>
-    <ng-container *ngFor="let auth of auths">
+    <ng-container *ngFor="let auth of auths; trackBy: trackByEmail">
       <ion-col size="6">
         {{auth.email}}
       </ion-col>
@@ -32,15 +32,14 @@
       <ion-col size="4">
         {{auth.role}}
       </ion-col>
-        
-      <ion-col size="1">
-        <ion-icon name="trash-outline" (click)="onDeleteAuth(auth?.id)"></ion-icon>
-      </ion-col>
+        <ion-col size="1">
+          <ion-icon *ngIf="canDelete(auth)" name="trash-outline" (click)="onDeleteAuth(auth?.id)"></ion-icon>
+        </ion-col>
 
-      <ion-col size="1">
-        <ion-icon name="create-outline" (click)="onUpdateAuth(auth)"></ion-icon>
-      </ion-col>
-    </ng-container>
+        <ion-col size="1">
+          <ion-icon *ngIf="canDelete(auth)" name="create-outline" (click)="onUpdateAuth(auth)"></ion-icon>
+        </ion-col>
+      </ng-container>
   </ion-row>
 </ng-container>
 
