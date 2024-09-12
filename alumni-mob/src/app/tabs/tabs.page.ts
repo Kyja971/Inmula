@@ -1,40 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { NotificationService } from '../core/services/notification.service';
-import { map, Subscription } from 'rxjs';
-import { WsChatService } from '../core/services/ws-chat.service';
+import { Component } from '@angular/core';
+import { SelfInformationService } from '../core/services/self-information.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage implements OnInit {
+export class TabsPage {
 
-  private _unreadNotif!: Subscription
+  constructor(private _selfInformation : SelfInformationService) {}
 
-  notifCount: number = 0
-
-  constructor(
-    private _notificationService: NotificationService,
-    private _wsService: WsChatService
-  ) {}
-
-  ngOnInit(): void {
-    let usersConnected: string[] = []
-    this._wsService.getUsers().subscribe({
-      next: (usersArray) => {
-        console.log(usersArray, 'retour du wsService depuis tabs.ts')
-        usersConnected = usersArray
-      }
-    })
-    // .pipe(map((usersArray: string[]) => {
-    //   usersConnected = usersArray
-    // }))
-    this._notificationService.startConnected(usersConnected)
-    //this._notificationService.startUnread(arrayMessage)
-    //this._unreadNotif = this._notificationService.checkUnread().subscribe((arrayMessage) => {
-    //  this.notifCount = arrayMessage.length
-    //})
+  get isAdminOrSuperAdmin() {
+    const user = this._selfInformation.role; // Fonction pour récupérer le rôle de l'utilisateur
+    return user === 'admin' || user === 'super_admin';
   }
 
 }

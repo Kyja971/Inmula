@@ -57,7 +57,12 @@ export class AppController {
   }
 
   @MessagePattern({ message: "decode" })
-  decode(token: string): Promise<any> {
+  decode(token: TokenType): Promise<any> {
     return this._appService.decode(token);
+  }
+
+  @MessagePattern({ message: "getRole" })
+  getRole(token: TokenType): Promise<string> {
+    return this._appService.getRole(token);
   }
 }

@@ -116,9 +116,15 @@ export class AppService {
     }
   }
 
-  decode(token: string): Promise<any> {
-    return this.jwt.verifyAsync(token, {
+  decode(token: TokenType): Promise<any> {
+    return this.jwt.verifyAsync(token.token, {
       secret: process.env.SECRET,
     });
+  }
+
+  getRole(token: TokenType): Promise<string> {
+    return this.decode(token).then((payload: any) => {
+      return JSON.stringify(payload.role)
+    })
   }
 }

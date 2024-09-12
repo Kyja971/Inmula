@@ -21,7 +21,6 @@ import { AuthDto } from './dto/create-auth.dto';
 import { Response } from 'express';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AdminOrSuperAdminGuard } from './guards/admin-super-admin.guard';
-import { Request } from 'express'
 
 @Controller('auth')
 export class AuthController {
@@ -29,13 +28,14 @@ export class AuthController {
   constructor(private _authService: AuthService) {}
 
   //Add an account
-  @UseGuards(SuperAdminGuard)
+  @UseGuards(AdminOrSuperAdminGuard)
   @Post()
   add(@Body() auth: UpdateAuthDto): Observable<AuthDto> {
     return this._authService.add(auth).pipe(take(1));
   }
 
   //Update an account
+  @UseGuards(AdminOrSuperAdminGuard)
   @Patch(':id')
   update(@Param('id') id: number, @Body() auth: UpdateAuthDto): Observable<AuthDto> {
     return this._authService.update(id, auth).pipe(
@@ -45,17 +45,20 @@ export class AuthController {
 
   //Get all account
   @Get()
+  @UseGuards(AdminOrSuperAdminGuard)
   findAll(): Observable<AuthDto[]> {
     return this._authService.findAll();
   }
 
   //Get one account
+  @UseGuards(AdminOrSuperAdminGuard)
   @Get(':id')
   findOne(@Param('id') id: number): Observable<AuthDto> {
     return this._authService.findOne(id).pipe(take(1));
   }
 
   //Delete an account
+  @UseGuards(AdminOrSuperAdminGuard)
   @Delete(':id')
   delete(@Param('id') id: number): Observable<AuthDto> {
     return this._authService.delete(id);
@@ -92,4 +95,16 @@ export class AuthController {
   async getInternId(@Body() token: TokenType): Promise<Observable<string>> {
     return await this._authService.getInternId(token);
   }
+
+  //Decode the token and return the initial payload
+  @Post('decode')
+  async decodeToken(@Body() token: TokenType): Promise<Observable<any>> {
+    return await this._authService.decodeToken(token)
+  }
+
+  @Post('getRole')
+  async getRole(@Body() token: TokenType): Promise<Observable<string>> {
+    return await this._authService.getRole(token)
+  }
+
 }

@@ -55,8 +55,14 @@ export class AuthService {
     return this._client.send<string>(pattern, token);
   }
 
-  decodeToken(token: string): Observable<any> {
+  //Return the original payload from the token
+  decodeToken(token: TokenType): Observable<any> {
     const pattern: any = { message: 'decode' };
     return this._client.send<TokenType>(pattern, token);
+  }
+
+  getRole(token: TokenType): Observable<string> {
+    const pattern: any = { message: 'getRole' };
+    return this._client.send<string>(pattern, token);
   }
 }
