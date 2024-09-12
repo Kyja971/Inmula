@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface InternInterface extends Document {
+export interface InternInterface {
   readonly firstname: string;
   readonly lastname: string;
   readonly gender: string;
@@ -10,3 +10,4 @@ export interface InternInterface extends Document {
   readonly society: string;
   readonly poe: string;
 }
+export interface InternInterfaceDocument extends InternInterface, Document {}
