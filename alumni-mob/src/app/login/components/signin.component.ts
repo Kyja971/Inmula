@@ -43,30 +43,32 @@ export class SigninComponent implements OnInit {
       email: this.form.value.login,
       password: this.form.value.password,
     };
-    this._authService
-      .login(payload)
-      .pipe(take(1))
-      .subscribe({
+    this._authService.login(payload).pipe(take(1)).subscribe({
         next: (response: TokenType) => {
           if (response.token) {
             this._storage.store('auth', response.token);
+            //We try to find the internid associates to the token
             this._authService.getInternId(response).pipe(take(1)).subscribe({
               next: (id: string) => {
+                //If we got an id, then we can put it in the local storage
                 this._selfInformation.setPersonnal(id);
                 this._authService.setRole(response);
-                this._wsService.connect(this._selfInformation.retrievePersonnal())         
+                this._wsService.connect(id)         
               },
               error: (error: any) => {
                 console.log(error)
               }
             })
-            const returnUrl = this._storage.retrieve("returnUrl")
 
+            //Use to know if the user tried to access a specific url when disconnected
+            const returnUrl = this._storage.retrieve("returnUrl")
+            //If a specific url is in the local storage, we can redirect the user to that url
             if (returnUrl) {
               this._router.navigate([returnUrl]).then(() => {
                 this._storage.remove("returnUrl")
                 this.form.reset()
               });
+            //if no url has been found in the local storage we can redirect him to the main page
             } else {
               this._router.navigate(['tabs', 'tab1']).then(() => {
                 this.form.reset();

@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import { Request } from 'express';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -11,7 +10,7 @@ export class AdminGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    const token = request.cookies.jwt;
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -29,8 +28,8 @@ export class AdminGuard implements CanActivate {
     }
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
-  }
+  // private extractTokenFromHeader(request: Request): string | undefined {
+  //   const [type, token] = request.headers.authorization?.split(' ') ?? [];
+  //   return type === 'Bearer' ? token : undefined;
+  // }
 }

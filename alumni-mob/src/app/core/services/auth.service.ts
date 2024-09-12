@@ -61,9 +61,10 @@ export class AuthService {
   }
 
   delete(id: number){
-    this._httpClient.delete(this.URI + '/' + id).pipe(take(1)).subscribe();
-    const updateAuth = this.authsSubject.value.filter(auth => auth.id !== id);
-    this.authsSubject.next(updateAuth);
+    this._httpClient.delete(this.URI + '/' + id).pipe(take(1)).subscribe(() => {
+      const updateAuth = this.authsSubject.value.filter(auth => auth.id !== id);
+      this.authsSubject.next(updateAuth);
+    });
   }
 
   update(id?: number, payload?: AuthType) {
