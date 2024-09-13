@@ -15,10 +15,11 @@ export class TabAuthPage implements OnInit{
   public auths: Array<AuthType> = []
   public myRole?: string
 
+  //TODO: Use subject instead of public reference for selfinfo
   constructor(
     private _authService: AuthService,
     private _modalController: ModalController,
-    private _selfInformation : SelfInformationService
+    public _selfInformation : SelfInformationService
   ) { }
 
   ngOnInit() {
@@ -56,7 +57,7 @@ export class TabAuthPage implements OnInit{
     authModal.present();
   }
 
-  canDelete(auth: AuthType): boolean{
+  canModify(auth: AuthType): boolean{
     const myRole = this._selfInformation.role;
     //Si on veut modifier un stagiaire on verifie que mon role est admin ou super admin
     if(auth.role==="stagiaire") {

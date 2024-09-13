@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { PostService } from 'src/app/core/services/post.service';
 import { PostType } from 'src/app/core/types/post/post-type';
 import { AddPostComponent } from '../add-post/add-post.component';
+import { SelfInformationService } from 'src/app/core/services/self-information.service';
 
 @Component({
   selector: 'app-post-content',
@@ -17,7 +18,8 @@ export class PostContentComponent  implements OnInit {
 
   constructor(
     private _postService: PostService,
-    private _modalController: ModalController
+    private _modalController: ModalController,
+    public _selfInformation: SelfInformationService,
   ) { }
 
   ngOnInit() {}

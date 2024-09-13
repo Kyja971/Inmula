@@ -33,11 +33,13 @@
         {{auth.role}}
       </ion-col>
         <ion-col size="1">
-          <ion-icon *ngIf="canDelete(auth)" name="trash-outline" (click)="onDeleteAuth(auth?.id)"></ion-icon>
+          <ion-icon *ngIf="this._selfInformation.role === 'super_admin' || (this._selfInformation.role === 'admin' && auth.role === 'stagiaire')" 
+          name="trash-outline" (click)="onDeleteAuth(auth?.id)"></ion-icon>
         </ion-col>
 
         <ion-col size="1">
-          <ion-icon *ngIf="canDelete(auth)" name="create-outline" (click)="onUpdateAuth(auth)"></ion-icon>
+          <ion-icon *ngIf="this._selfInformation.role === 'super_admin' || (this._selfInformation.role === 'admin' && auth.role === 'stagiaire')" 
+          name="create-outline" (click)="onUpdateAuth(auth)"></ion-icon>
         </ion-col>
       </ng-container>
   </ion-row>

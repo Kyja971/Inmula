@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SelfInformationService } from '../core/services/self-information.service';
 
 @Component({
@@ -6,13 +6,15 @@ import { SelfInformationService } from '../core/services/self-information.servic
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
 
-  constructor(private _selfInformation : SelfInformationService) {}
+  isAllow: boolean = false
 
-  get isAdminOrSuperAdmin() {
-    const user = this._selfInformation.role; // Fonction pour récupérer le rôle de l'utilisateur
-    return user === 'admin' || user === 'super_admin';
+  //TODO: use subject instead of public reference
+  constructor(public _selfInformation : SelfInformationService) {}
+
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngOnInit(): void {
+
   }
-
 }

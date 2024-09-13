@@ -11,7 +11,7 @@
       <ion-label>Stagiaires</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button *ngIf="isAdminOrSuperAdmin" tab="tab-auth" href="/tabs/tab-auth">
+    <ion-tab-button *ngIf="_selfInformation.role === 'admin' || _selfInformation.role === 'super_admin'" tab="tab-auth" href="/tabs/tab-auth">
       <ion-icon name="file-tray-full-outline"></ion-icon>
       <ion-label>Comptes</ion-label>
     </ion-tab-button>
