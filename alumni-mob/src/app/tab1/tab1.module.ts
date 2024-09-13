@@ -1,7 +1,7 @@
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { Tab1PageRoutingModule } from './tab1-routing.module';
@@ -10,6 +10,7 @@ import { PostContentComponent } from './components/post-content/post-content.com
 import { RouterModule } from '@angular/router';
 import { PostFooterComponent } from './components/post-footer/post-footer.component';
 import { SharedModule } from '../shared/shared.module';
+import { AddPostComponent } from './components/add-post/add-post.component';
 
 @NgModule({
   imports: [
@@ -19,8 +20,9 @@ import { SharedModule } from '../shared/shared.module';
     ExploreContainerComponentModule,
     Tab1PageRoutingModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
-  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent],
+  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent, AddPostComponent],
 })
 export class Tab1PageModule {}

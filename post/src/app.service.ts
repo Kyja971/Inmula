@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostEntity } from './entities/post-entity';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { PostType } from './types/post.type';
 import { ClientProxy } from '@nestjs/microservices';
 import { InternType } from './types/intern.type';
@@ -18,9 +18,17 @@ export class AppService {
     private _formatPaging: FormatPagingService,
   ) {}
 
-
   async add(post: CreatePostDto): Promise<CreatePostDto> {
-    return this._repository.save(post);
+    const pattern = { cmd: 'findOne' };
+    const author = await lastValueFrom(
+      this._client.send<InternType>(pattern, { id: post.authorId }),
+    )
+    if (author){
+      post.author = author
+      return this._repository.save(post)
+    } else {
+      return null
+    }
   }
 
   async findAll(take: number, page: number): Promise<PostEntity[] | null> {
@@ -89,8 +97,26 @@ export class AppService {
       });
   }
 
-  update(id: number, post: PostType): Promise<UpdateResult> {
-    return this._repository.update({ id: id }, post);
+  async update(postId: number, post: PostType): Promise<PostEntity> {
+    //return this._repository.update({ id: id }, post);
+
+    // check si présent dans la bdd
+    const existingPost = await this._repository.findOne({
+      where: { id: postId },
+    });
+    if (!existingPost) {
+      throw new NotFoundException(`Post #${postId} not found`);
+    }
+
+    // Mise à jour des propriétés de l'utilisateur existant
+    existingPost.title = post.title || existingPost.title;
+    existingPost.content = post.content || existingPost.content;
+    existingPost.media = post.media || existingPost.media;
+    existingPost.type = post.type || existingPost.type;
+
+
+    const updatedPost = await this._repository.save(existingPost);
+    return updatedPost;
   }
 
   async delete(id: number): Promise<DeleteResult> {

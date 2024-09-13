@@ -78,10 +78,10 @@ export class AuthController {
     //We only have the id of the auth, so we need to find the auth
     //And then we can check the role. The switchMap is use to transform an observable to another
     return this.findOne(id).pipe(take(1), switchMap((auth: AuthDto) => {
-        if (req['user'].role == 'admin' && auth.role == 'stagiaire') {
-          return this._authService.delete(id);
-        } else {
+        if (req['user'].role == 'admin' && (auth.role == 'admin' || auth.role == 'super_admin')) {
           throw new UnauthorizedException("Vous n'avez pas les droits pour supprimer cet utilisateur");
+        } else {
+          return this._authService.delete(id);
         }
       })
     );

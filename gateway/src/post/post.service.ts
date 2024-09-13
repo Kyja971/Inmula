@@ -24,14 +24,14 @@ export class PostService {
     return this._client.send<CreatePostDto>(pattern, post);
   }
 
-  update(id: number, post: PostType): Observable<PostType | null> {
+  update(id: number, post: CreatePostDto): Observable<CreatePostDto | null> {
     const pattern: any = { cmd: 'update' };
     const payload: any = { id: id, post: post };
-    return this._client.send<PostType, any>(pattern, payload);
+    return this._client.send<CreatePostDto, any>(pattern, payload);
   }
 
-  delete(id: number): Observable<PostType | null> {
+  delete(id: number): Observable<CreatePostDto | null> {
     const pattern: any = { cmd: 'delete' };
-    return this._client.send<PostType | null, any>(pattern, id);
+    return this._client.send<CreatePostDto | null, any>(pattern, id);
   }
 }

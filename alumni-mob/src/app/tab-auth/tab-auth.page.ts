@@ -58,7 +58,6 @@ export class TabAuthPage implements OnInit{
 
   canDelete(auth: AuthType): boolean{
     const myRole = this._selfInformation.role;
-    console.log('Mon role : ', myRole, " auth role", auth.role)
     //Si on veut modifier un stagiaire on verifie que mon role est admin ou super admin
     if(auth.role==="stagiaire") {
       if (myRole==="admin" || myRole==="super_admin"){

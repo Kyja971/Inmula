@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-row class="ion-align-items-center">
+    <ion-col size="2">
+      <ion-tab-button (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-col>
+
+    <ion-col size="8">
+      <ion-img src="../../../../assets/images/logo-aelion-new-white.png" alt="logo aelion"></ion-img>
+    </ion-col>
+
+    <ion-col size="2">
+    </ion-col>
+  </ion-row>
+</ion-header>
+
+<ion-row>
+  <ion-col class="ion-justify-content-center content-form">
+    <form [formGroup]="formPost" (ngSubmit)="onSubmit()">
+      <ion-list>
+        <ion-item>
+          <ion-input formControlName="title" placeholder="Titre du post"></ion-input>
+        </ion-item>
+      </ion-list>
+    
+      <ion-list>
+        <ion-item>
+          <ion-input formControlName="content" placeholder="Contenu du post"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-input formControlName="media" placeholder="Insérez votre image"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-input formControlName="type" placeholder="Type du post"></ion-input>
+        </ion-item>
+      </ion-list>
+    
+      <ion-button type="submit" [disabled]="formPost.invalid" expand="block">Valider</ion-button>
+    </form>
+  </ion-col>
+</ion-row>

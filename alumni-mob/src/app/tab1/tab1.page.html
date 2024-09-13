@@ -8,6 +8,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-post></app-post>
+  <ion-button (click)="onAddPost()"> Ajouter un post </ion-button>
 
+  <app-post [posts]="posts"></app-post>
 </ion-content>
