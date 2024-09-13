@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { PostType } from '../types/post/post-type';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  private readonly URI: string = `http://localhost:3000/post`
+  private readonly URI: string = `${environment.gatewayUrl}/post`
 
   constructor(private _httpClient: HttpClient) { }
 

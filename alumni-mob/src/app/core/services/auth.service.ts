@@ -6,13 +6,14 @@ import { AuthType } from '../types/auth/auth.type';
 import { BehaviorSubject, Observable, take } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { SelfInformationService } from './self-information.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly URI: string = `http://localhost:3000/auth`;
+  private readonly URI: string = `${environment.gatewayUrl}/auth`;
   private authsSubject = new BehaviorSubject<AuthType[]>([]);
   public auths$ = this.authsSubject.asObservable();
 
