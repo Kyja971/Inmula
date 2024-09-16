@@ -72,11 +72,17 @@ export class AppService {
         const pwd = await comparePaswrd(body.password, user.password);
 
         if (pwd) {
+
+          //On recupere l'internId lié à l'adresse mail
+          let pattern = { cmd: 'findOneByMail' };
+          let internId = await lastValueFrom(this._client.send<string>(pattern, { email: body.email }));
+
           // Construire le token
           const payload = {
             id: user.id,
             role: user.role,
             email: user.email,
+            internId: internId,
           };
 
           return {

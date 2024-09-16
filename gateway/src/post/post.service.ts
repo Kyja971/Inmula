@@ -14,9 +14,9 @@ export class PostService {
     return this._client.send<PostType[], any>(pattern, payload);
   }
 
-  findOne(id: number): Observable<PostType | null> {
+  findOne(id: number): Observable<CreatePostDto | null> {
     const pattern: any = { cmd: 'findOne' };
-    return this._client.send<PostType | null, any>(pattern, id);
+    return this._client.send<CreatePostDto | null, any>(pattern, id);
   }
 
   add(post: CreatePostDto): Observable<CreatePostDto> {

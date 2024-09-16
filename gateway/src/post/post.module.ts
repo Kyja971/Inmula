@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { PostService } from './post.service';
 import { PostController } from './post.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { isConnectedGuard } from './guards/is-connected.guard';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  providers: [PostService],
+  providers: [PostService, isConnectedGuard],
   controllers: [PostController],
   imports: [
     ClientsModule.register([
@@ -17,6 +19,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    AuthModule,
   ],
+  exports: [isConnectedGuard],
 })
 export class PostModule {}
