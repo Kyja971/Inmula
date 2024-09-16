@@ -8,16 +8,17 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { SocketUserType } from './types/socket-user.type';
+import { SocketAddress } from 'net';
 import { Logger } from '@nestjs/common';
 import { RequestMessageType } from './dto/request-message.type';
 import { Observable, of, Subscription } from 'rxjs';
 import { NotificationService } from 'src/services/notification.service';
 
 @WebSocketGateway({
-  cors: {
-    origin: '*',
-  },
-  transports: ['polling', 'websocket'],
+    cors: {
+      origin: '*',
+    },
+    transports: ['polling', 'websocket'],
 })
 export class ChatEventGateway
   implements OnGatewayConnection, OnGatewayDisconnect
