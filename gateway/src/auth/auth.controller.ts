@@ -42,18 +42,18 @@ export class AuthController {
   //Update an account
   @UseGuards(AdminOrSuperAdminGuard)
   @Patch(':id')
-  update(@Req() req: Request, @Param('id') id: number, @Body() auth: UpdateAuthDto): Observable<AuthDto> {
+  update(@Req() req: Request, @Param('id') id: number, @Body() body: UpdateAuthDto): Observable<AuthDto> {
     //Check if an admin tries to modify an admin or a super admin
-    this.findOne(id).pipe(take(1)).subscribe((authSub: AuthDto) => {
-      if (req['user'].role == 'admin' && (authSub.role == 'admin' || authSub.role == 'super_admin')) {
+    this.findOne(id).pipe(take(1)).subscribe((accountToUpdate: AuthDto) => {
+      if (req['user'].role == 'admin' && (accountToUpdate.role == 'admin' || accountToUpdate.role == 'super_admin')) {
         throw new UnauthorizedException("Vous n'avez pas les droits pour modifier cet utilisateur");
       }
     })
 
     //Check if an admin tries to modify the role of an auth to admin or super admin
-    if(req['user'].role == 'admin' && (auth.role == 'admin' || auth.role == 'super_admin')){
+    if(req['user'].role == 'admin' && (body.role == 'admin' || body.role == 'super_admin')){
       throw new UnauthorizedException("Vous n'avez pas les droits pour attribuer ce role");
-    } else return this._authService.update(id, auth).pipe(take(1));
+    } else return this._authService.update(id, body).pipe(take(1));
   }
 
   //Get all account
