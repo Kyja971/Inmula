@@ -19,6 +19,7 @@ export class Tab1Page implements OnInit, OnDestroy{
   private _subscription!: Subscription
 
   private page = 1
+  private take = 10
 
 
   constructor(
@@ -27,7 +28,7 @@ export class Tab1Page implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit(): void {
-    this._postService.findAll(30, this.page)
+    this._postService.findAll(this.take, this.page)
     this._subscription = this._postService.posts$.subscribe({
       next: (posts: Array<PostType>) => {
         this.posts = posts 
@@ -53,7 +54,7 @@ export class Tab1Page implements OnInit, OnDestroy{
 
   private generatePosts() {
     this.page++
-    this._postService.findAll(30, this.page)
+    this._postService.findAll(this.take, this.page)
   }
 
   onIonInfinite(ev: any) {
