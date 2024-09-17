@@ -1,7 +1,7 @@
 <app-header></app-header>
-
-
 <ion-content [fullscreen]="true">
+  <ion-button *ngIf="newPost" class="refreshBtn" (click)="refreshPost()"> Nouveau(x) post(s) </ion-button>
+
   <ion-button (click)="onAddPost()"> Ajouter un post </ion-button>
 
   <app-post [posts]="posts"></app-post>

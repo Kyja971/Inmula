@@ -118,7 +118,7 @@ export class ChatEventGateway
   }
 
   @SubscribeMessage('startMessage')
-  async startMessage(client: any, data: string): Promise<any> {
+  async startMessage(client: any, data: string) {
     Logger.log(`Received  service start ${JSON.stringify(data)}`);
 
     //Récupére le socket associé à l'id du destinataire
@@ -131,6 +131,15 @@ export class ChatEventGateway
     this.wsServer
       .to(recipientSocket.socket.id)
       .emit('userTyping', recipientSocket.userId);
+  }
+
+  @SubscribeMessage('newPost')
+  async newPost(client: any){
+    this._clients.forEach((c) => {
+      if(c.socket.id !== client.id){
+        c.socket.emit('newPost')
+      }
+    })
   }
 
 }

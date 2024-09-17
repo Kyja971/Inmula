@@ -112,4 +112,8 @@ export class WsChatService {
     return this._socket.fromEvent('userConnected')
   }
 
+  newPost(): Observable<any> {
+    return this._socket.emit('newPost')
+  }
+
 }

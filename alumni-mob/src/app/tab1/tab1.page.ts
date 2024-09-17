@@ -16,11 +16,13 @@ export class Tab1Page implements OnInit, OnDestroy{
 
   public isFilterActive: boolean = false
 
-  private _subscription!: Subscription
+  private _postsSubscription!: Subscription
+  private _newPostSubscription!: Subscription
 
   private page = 1
   private take = 10
 
+  public newPost = false
 
   constructor(
     private _postService: PostService,  // Dependency Injection
@@ -29,7 +31,7 @@ export class Tab1Page implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this._postService.findAll(this.take, this.page)
-    this._subscription = this._postService.posts$.subscribe({
+    this._postsSubscription = this._postService.posts$.subscribe({
       next: (posts: Array<PostType>) => {
         this.posts = posts 
         this.posts.sort((a, b) => (a.postedAt > b.postedAt ? -1 : 1))
@@ -38,6 +40,9 @@ export class Tab1Page implements OnInit, OnDestroy{
        }, //Si code 400 ce code sera effectué
       complete: () => { 
       }
+    })
+    this._newPostSubscription = this._postService.getNewPost().subscribe(() => {
+      this.newPost = true
     })
   }
 
@@ -49,7 +54,8 @@ export class Tab1Page implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this._subscription.unsubscribe()
+    this._postsSubscription.unsubscribe()
+    this._newPostSubscription.unsubscribe()
   }
 
   private generatePosts() {
@@ -62,5 +68,13 @@ export class Tab1Page implements OnInit, OnDestroy{
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 1000);
+  }
+
+  refreshPost(){
+    this.page = 1
+    this._postService.emptyPosts()
+    this._postService.findAll(this.take, this.page)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.newPost = false
   }
 }
