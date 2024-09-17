@@ -54,6 +54,10 @@ export class AuthService {
     })
   }
 
+  findByRole(role: string): AuthType[]{
+    return this.authsSubject.value.filter(auth => auth.role == role);
+  }
+
   add(auth : AuthType){
     this._httpClient.post<AuthType>(this.URI, auth).pipe(take(1)).subscribe((auth: AuthType) => {
       this.authsSubject.next([...this.authsSubject.value, auth]);

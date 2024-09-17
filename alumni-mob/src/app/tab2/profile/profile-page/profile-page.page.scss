@@ -1,4 +1,11 @@
+ion-content::part(background){
+    background-color: #EEEEEE;
+}
+
 ion-content{
+    ion-list{
+        border-radius: 18px;
+    }
     .avatar{
         max-width: 150px;
         border: 2px solid gray;

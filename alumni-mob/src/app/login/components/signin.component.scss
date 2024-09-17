@@ -2,24 +2,28 @@ ion-content{
     --ion-background-color: #2D3041;
 }
 
-.content-form{
-    margin-top: 3rem;
-    ion-button {
-        --background: #C0E863;
-        //--border-radius: 0;
-        --color: #000;
-        --box-shadow: none;
-        --padding-top: 1rem;
-        --padding-bottom: 1rem;
-        margin-top: 1.5rem;
-        text-transform: none;
-        letter-spacing: normal;
-    }
+.login{
+    max-width:200px;
+    margin: 0 auto;
+}
+
+ion-button {
+    --background: #C0E863;
+    //--border-radius: 0;
+    --color: #000;
+    --box-shadow: none;
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
 }
 
 ion-row{
     ion-col{
         text-align: center;
+        padding: 0 16px 0 16px;
     }
     a{
         color: #737678;

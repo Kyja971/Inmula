@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthType } from '../core/types/auth/auth.type';
 import { AuthService } from '../core/services/auth.service';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AddAccountComponent } from './components/add-account/add-account.component';
 import { SelfInformationService } from '../core/services/self-information.service';
 
@@ -15,10 +15,18 @@ export class TabAuthPage implements OnInit{
   public auths: Array<AuthType> = []
   public myRole?: string
 
+  checkboxes: CheckboxData[] = [
+    { isChecked: true, value: 'all' },
+    { isChecked: false, value: 'super_admin' },
+    { isChecked: false, value: 'admin' },
+    { isChecked: false, value: 'stagiaire' }
+  ];
+
   //TODO: Use subject instead of public reference for selfinfo
   constructor(
     private _authService: AuthService,
     private _modalController: ModalController,
+    private _alertController: AlertController,
     public _selfInformation : SelfInformationService
   ) { }
 
@@ -57,6 +65,43 @@ export class TabAuthPage implements OnInit{
     authModal.present();
   }
 
+  toggleCheckbox(event:any) {
+    console.log('Checkbox value:', event.detail.checked);
+
+    const checkedCheckboxes = this.checkboxes.filter(checkbox => checkbox.isChecked);
+    this.auths = []
+    if(this.checkboxes[0].isChecked){
+      this._authService.findAll()
+      this._authService.auths$.subscribe((auths: AuthType[]) => {
+        this.auths = auths;
+      })
+    }else {
+      checkedCheckboxes.forEach((checked: CheckboxData) => {
+        this.auths = this.auths.concat(this._authService.findByRole(checked.value))
+      })
+    }
+  }
+
+  async presentAlert(auth: AuthType) {
+    const alert = await this._alertController.create({
+      header: 'Suppression',
+      message: `Êtes vous sur de vouloir supprimer ${auth.email} ?`,
+      buttons: [{
+        text: "Oui",
+        role: "confirm",
+        handler: () => {
+          this.onDeleteAuth(auth.id)
+        }
+      }
+        ,{
+          text: "Non",
+          role: "cancel"
+        }],
+    });
+
+    await alert.present();
+  }
+
   canModify(auth: AuthType): boolean{
     const myRole = this._selfInformation.role;
     //Si on veut modifier un stagiaire on verifie que mon role est admin ou super admin
@@ -68,4 +113,8 @@ export class TabAuthPage implements OnInit{
     //Si on veut modifier un admin / super admin, on verifie que mon role est super admin
     return myRole==="super_admin"
   }
+} 
+interface CheckboxData {
+  isChecked: boolean;
+  value: string; // Valeur à récupérer si la case est cochée
 }

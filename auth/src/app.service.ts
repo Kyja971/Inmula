@@ -11,6 +11,7 @@ import { AuthDto } from "./utils/dto/auth-dto";
 import { comparePaswrd, encodePaswrd } from "./utils/bcrytpt";
 import { lastValueFrom } from "rxjs";
 import { ClientProxy } from "@nestjs/microservices";
+import { RoleTypeEnum } from "./models/role-type-enum";
 
 @Injectable()
 export class AppService {
@@ -41,6 +42,14 @@ export class AppService {
     }
     return auth;
   }
+
+  // async findByRole(role: RoleTypeEnum): Promise<AccountEntity [] | null> {
+  //   const auth = await this._repository.find({where : {role : role}});
+  //   if (!auth) {
+  //     return null;
+  //   }
+  //   return auth;
+  // }
 
   async update(authId: number, updateAuthDto: UpdateAuthDto): Promise<AccountEntity> {
     // check si présent dans la bdd
