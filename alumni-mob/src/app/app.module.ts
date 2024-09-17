@@ -8,11 +8,12 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { authInterceptor } from './core/interceptor/auth-interceptor';
+import { errorInterceptor } from './core/interceptor/error-interceptor';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, SocketIoModule.forRoot(AppModule.wsConfig)],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(withInterceptors([authInterceptor])),  
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),  
    ],
   bootstrap: [AppComponent],
 })

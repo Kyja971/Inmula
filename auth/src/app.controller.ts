@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { AuthBodyType } from './models/auth-body.type';
 import { TokenType } from './models/token.type';
-import { RoleTypeEnum } from "./models/role-type-enum";
 
 @Controller()
 export class AppController {
@@ -31,11 +30,6 @@ export class AppController {
   async findOne(id: number): Promise<AuthDto> {
     return await this._appService.findOne(id);
   }
-
-  // @MessagePattern({ message: "findByRole" })
-  // async findByRole(role: RoleTypeEnum): Promise<AuthDto[]> {
-  //   return await this._appService.findByRole(role);
-  // }
 
   @MessagePattern({ message: "update" })
   update(payload: any): Promise<AuthDto> {

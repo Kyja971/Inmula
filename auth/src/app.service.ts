@@ -11,7 +11,6 @@ import { AuthDto } from "./utils/dto/auth-dto";
 import { comparePaswrd, encodePaswrd } from "./utils/bcrytpt";
 import { lastValueFrom } from "rxjs";
 import { ClientProxy } from "@nestjs/microservices";
-import { RoleTypeEnum } from "./models/role-type-enum";
 
 @Injectable()
 export class AppService {
@@ -22,7 +21,6 @@ export class AppService {
   ) { }
 
   async add(auth: UpdateAuthDto): Promise<AuthDto> {
-    // Sauvegarde de l'entité avec le mot de passe haché
     const newAuth = await this._repository.save(auth);
     return newAuth;
   }
@@ -42,14 +40,6 @@ export class AppService {
     }
     return auth;
   }
-
-  // async findByRole(role: RoleTypeEnum): Promise<AccountEntity [] | null> {
-  //   const auth = await this._repository.find({where : {role : role}});
-  //   if (!auth) {
-  //     return null;
-  //   }
-  //   return auth;
-  // }
 
   async update(authId: number, updateAuthDto: UpdateAuthDto): Promise<AccountEntity> {
     // check si présent dans la bdd
@@ -81,17 +71,11 @@ export class AppService {
         const pwd = await comparePaswrd(body.password, user.password);
 
         if (pwd) {
-
-          //On recupere l'internId lié à l'adresse mail
-          let pattern = { cmd: 'findOneByMail' };
-          let internId = await lastValueFrom(this._client.send<string>(pattern, { email: body.email }));
-
           // Construire le token
           const payload = {
             id: user.id,
             role: user.role,
             email: user.email,
-            internId: internId,
           };
 
           return {

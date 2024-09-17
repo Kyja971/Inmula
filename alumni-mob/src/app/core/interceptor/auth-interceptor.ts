@@ -21,11 +21,5 @@ export function authInterceptor(
     headers: req.headers.set('authorization', `Bearer ${token}`),
   });
   return next(authReq);
-  //.pipe(
-  //   catchError((error: HttpErrorResponse) => {
-  //     // Gestion des erreurs
-  //     console.error('Erreur lors de la requête:', error);
-  //     return throwError(() => new Error("Une erreur s'est produite"));
-  //   })
-  // );
+
 }

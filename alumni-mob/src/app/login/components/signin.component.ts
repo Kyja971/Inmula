@@ -79,8 +79,8 @@ export class SigninComponent implements OnInit {
         error: async (error: any) => {
           console.error(error)
           const toast = await this._toastController.create({
-            message: 'Echec de connexion' + JSON.stringify(error),
-            duration: 10000,
+            message: 'Echec de connexion' ,
+            duration: 5000,
             position: 'middle',
             buttons: [
               {
