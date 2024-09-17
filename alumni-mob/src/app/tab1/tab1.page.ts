@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PostService } from '../core/services/post.service';
 import { PostType } from '../core/types/post/post-type';
 import { Subscription } from 'rxjs';
-import { ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { AddPostComponent } from './components/add-post/add-post.component';
 
 @Component({
@@ -18,13 +18,16 @@ export class Tab1Page implements OnInit, OnDestroy{
 
   private _subscription!: Subscription
 
+  private page = 1
+
+
   constructor(
     private _postService: PostService,  // Dependency Injection
     private _modalController: ModalController
   ) { }
 
   ngOnInit(): void {
-    this._postService.findAll(50,1)
+    this._postService.findAll(30, this.page)
     this._subscription = this._postService.posts$.subscribe({
       next: (posts: Array<PostType>) => {
         this.posts = posts 
@@ -48,4 +51,15 @@ export class Tab1Page implements OnInit, OnDestroy{
     this._subscription.unsubscribe()
   }
 
+  private generatePosts() {
+    this.page++
+    this._postService.findAll(30, this.page)
+  }
+
+  onIonInfinite(ev: any) {
+    this.generatePosts()
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 1000);
+  }
 }

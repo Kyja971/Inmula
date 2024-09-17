@@ -25,7 +25,7 @@ export class PostService {
 
   findAll(takePost :number,page:number) {
     this._httpClient.get<Array<PostType>>(this.URI + "?take=" + takePost + "&page=" + page).pipe(take(1)).subscribe((posts: PostType[]) => {
-      this.postsSubject.next(posts.map((post: any) => {
+      this.postsSubject.next([...this.postsSubject.value, ...posts.map((post: any) => {
         return {
           id: post.id,
           title: post.title,
@@ -53,7 +53,7 @@ export class PostService {
             }
           }
         }
-      }))
+      })])
     })
   }
 

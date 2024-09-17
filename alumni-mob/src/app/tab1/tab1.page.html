@@ -5,4 +5,11 @@
   <ion-button (click)="onAddPost()"> Ajouter un post </ion-button>
 
   <app-post [posts]="posts"></app-post>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      position="top"
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
