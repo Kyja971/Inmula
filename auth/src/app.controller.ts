@@ -47,7 +47,7 @@ export class AppController {
   }
 
   @MessagePattern({ message: 'checkEmail' })
-  async checkEmail(payload: any): Promise<{isMailValid: boolean, id: number}> {
+  async checkEmail(payload: any): Promise<{isMailActivated: boolean, authId: number}> {
     return await this._appService.checkEmail(payload);
   }
 

@@ -36,11 +36,11 @@ export class ActivateMailComponent  implements OnInit {
     let payload = {
       email : this.activateForm.value.email
     }
-    this._authService.checkMail(payload).pipe(take(1)).subscribe(async (payloadRes: {isMailValid: boolean, id: number}) => {
-      if(payloadRes.isMailValid){
+    this._authService.checkMail(payload).pipe(take(1)).subscribe(async (payloadRes: {isMailActivated: boolean, authId: number}) => {
+      if(!payloadRes.isMailActivated){
         this._router.navigate(['insertcode'])
         this._storageService.store('email', payload.email)
-        this._storageService.store('authId', payloadRes.id)
+        this._storageService.store('authId', payloadRes.authId)
       } else {
         const toast = await this._toastController.create({
           message: "Ce mail n'existe pas ou est déja validé",

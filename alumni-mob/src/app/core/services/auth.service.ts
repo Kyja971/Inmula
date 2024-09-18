@@ -40,8 +40,8 @@ export class AuthService {
 
   //Returns an observable of a boolean, which is true if the mail is present 
   //on the auth database, and if no password are assigned to it
-  checkMail(payload: any): Observable<{isMailValid: boolean, id: number}>{
-    return this._httpClient.post<{isMailValid: boolean, id: number}>(`${this.URI}/checkEmail`, payload)
+  checkMail(payload: any): Observable<{isMailActivated: boolean, authId: number}>{
+    return this._httpClient.post<{isMailActivated: boolean, authId: number}>(`${this.URI}/checkEmail`, payload)
   }
 
   insertPassword(payload: any): Observable<any> {
