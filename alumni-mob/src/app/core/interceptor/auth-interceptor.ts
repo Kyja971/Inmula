@@ -15,6 +15,7 @@ export function authInterceptor(
   const _local = inject(StorageService);
 
   const token = _local.retrieve('auth');
+  if(req.url.includes("francetravail.io")) return next(req);
   //clone la requête originale
   const authReq = req.clone({
     withCredentials: true,
