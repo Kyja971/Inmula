@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-row class="ion-align-items-center">
+    <ion-col size="2">
+      <ion-tab-button (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-col>
+
+    <ion-col size="8">
+      <ion-img src="../../../../assets/images/logo-aelion-new-white.png" alt="logo aelion"></ion-img>
+    </ion-col>
+
+    <ion-col size="2">
+    </ion-col>
+  </ion-row>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <app-header-intern [intern]="post.author"></app-header-intern>
+    <app-post-content [post]="post"> </app-post-content>
+  </ion-card>
+
+  <ng-container *ngFor="let showComment of showComments">
+    <ion-card>
+      <p> {{ showComment.intern.firstName }} {{ showComment.intern.lastName }}</p>
+      <p> {{ showComment.content }} </p>
+      <p class="postDate" text-align="right"> Posté le {{ post.postedAt | date: 'dd/MM/yyyy' }} </p>
+    </ion-card>
+  </ng-container>
+
+  <form [formGroup]="writeCommentForm" (ngSubmit)="onSubmit()">
+    <ion-input formControlName="content" placeholder="Répondre au post"> </ion-input>
+    <ion-button type="submit" [disabled]="writeCommentForm.invalid"> Envoyer le commentaire </ion-button>
+  </form>
+</ion-content>

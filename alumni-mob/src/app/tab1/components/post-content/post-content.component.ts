@@ -36,6 +36,7 @@ export class PostContentComponent  implements OnInit {
   onDeletePost(id?: number) {
     if(id){
       this._postService.delete(id);
+      this._modalController.dismiss()
     }
   }
 

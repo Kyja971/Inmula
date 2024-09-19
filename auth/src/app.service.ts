@@ -51,7 +51,6 @@ export class AppService {
     return auth;
   }
 
-
   async update(authId: number, updateAuthDto: UpdateAuthDto): Promise<AccountEntity> {
     // Check if the auth is present in the database
     const existingAuth = await this._repository.findOne({
@@ -86,16 +85,22 @@ export class AppService {
 
         if (pwd) {
           // If both passwords are the same then we can build the payload 
-          const payload = {
-            id: user.id,
-            role: user.role,
-            email: user.email,
-          };
+          let pattern = { cmd: 'findOneByMail' };
+          const author = await lastValueFrom(this._client.send<string>(pattern, { email: body.email }));
 
-          // Then we build and return a jwt token from the payload
-          return {
-            token: await this.jwt.signAsync(payload),
-          };
+          if(author){
+            const payload = {
+              id: user.id,
+              role: user.role,
+              email: user.email,
+              internId: author
+            };
+                      // Then we build and return a jwt token from the payload
+
+            return {
+              token: await this.jwt.signAsync(payload),
+            };
+          }
         }
       })
       // Catch and return a possible sql error

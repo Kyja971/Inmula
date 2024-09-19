@@ -19,6 +19,7 @@ import { isConnectedGuard } from './guards/is-connected.guard';
 import { Request } from 'express';
 import { LikeStatusDto } from './dto/like-status-dto';
 import { DeleteResult } from 'typeorm';
+import { CreateCommentDto } from './dto/create-comment-dto';
 
 @Controller('post')
 export class PostController {
@@ -87,7 +88,6 @@ export class PostController {
   }
 
   /**
-   * 
    * @param body A payload containing the postId { postId: number }
    * @returns an observable of string[] containing all the interns id
    */
@@ -104,5 +104,20 @@ export class PostController {
   @Post('addLike')
   async addLike(@Body() body: any): Promise<Observable<LikeStatusDto>> {
     return this._service.addLike(body).pipe(take(1));
+  }
+
+  @Post('comments')
+  async getComments(
+    @Body() body: any,
+  ): Promise<Observable<CreateCommentDto[]>> {
+    return this._service.getComments(body).pipe(take(1));
+  }
+
+  /**
+   * @param body body : { internId: string, postId: number, content: string }
+   */
+  @Post('newComment')
+  async newComment(@Body() body: any): Promise<Observable<CreateCommentDto>> {
+    return this._service.addComment(body).pipe(take(1));
   }
 }

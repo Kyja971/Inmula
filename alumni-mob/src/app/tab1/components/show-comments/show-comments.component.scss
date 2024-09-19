@@ -1,0 +1,22 @@
+ion-header{
+    box-shadow: none;
+    ion-row{
+        background-color: #032834;
+        color: white;
+        height: 70px;
+
+        ion-icon{
+            font-size: 2rem;
+        }
+
+        ion-img{
+            max-width: 140px;
+            margin: 0 auto;
+        }
+    }
+}
+
+.postDate {
+    font-size: xx-small;
+    text-align: right;
+}

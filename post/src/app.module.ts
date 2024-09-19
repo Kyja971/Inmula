@@ -10,6 +10,9 @@ import { FormatPagingService } from './services/format-paging.service';
 import { LikeStatusEntity } from './entities/like-entity';
 import { LikeController } from './like/like.controller';
 import { LikeService } from './like/like.service';
+import { CommentStatusEntity } from './entities/comment-entity';
+import { CommentService } from './comment/comment.service';
+import { CommentController } from './comment/comment.controller';
 
 @Module({
   imports: [
@@ -23,11 +26,15 @@ import { LikeService } from './like/like.service';
         username: _configService.get('database.user.name'),
         password: _configService.get<string>('database.user.password'),
         synchronize: true,
-        entities: [LikeStatusEntity, PostEntity],
+        entities: [LikeStatusEntity, PostEntity, CommentStatusEntity],
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([LikeStatusEntity, PostEntity]),
+    TypeOrmModule.forFeature([
+      LikeStatusEntity,
+      PostEntity,
+      CommentStatusEntity,
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
@@ -43,7 +50,7 @@ import { LikeService } from './like/like.service';
       },
     ]),
   ],
-  controllers: [AppController, LikeController],
-  providers: [AppService, FormatPagingService, LikeService],
+  controllers: [AppController, LikeController, CommentController],
+  providers: [AppService, FormatPagingService, LikeService, CommentService],
 })
 export class AppModule {}

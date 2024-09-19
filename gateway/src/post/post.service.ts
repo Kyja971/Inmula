@@ -5,6 +5,7 @@ import { PostType } from './models/post.type';
 import { CreatePostDto } from './dto/create-post-dto';
 import { LikeStatusDto } from './dto/like-status-dto';
 import { DeleteResult } from 'typeorm';
+import { CreateCommentDto } from './dto/create-comment-dto';
 
 @Injectable()
 export class PostService {
@@ -55,5 +56,15 @@ export class PostService {
   deleteLike(likeId: number): Observable<DeleteResult> {
     const pattern: any = { cmd: 'deleteLike' };
     return this._client.send<DeleteResult, any>(pattern, likeId);
+  }
+
+  getComments(body: any): Observable<CreateCommentDto[]> {
+    const pattern: any = { cmd: 'getComments' };
+    return this._client.send<CreateCommentDto[] | null, any>(pattern, body);
+  }
+
+  addComment(body: any): Observable<CreateCommentDto> {
+    const pattern: any = { cmd: 'newComment' };
+    return this._client.send<CreateCommentDto | null, any>(pattern, body);
   }
 }

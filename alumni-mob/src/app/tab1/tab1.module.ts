@@ -12,6 +12,7 @@ import { PostFooterComponent } from './components/post-footer/post-footer.compon
 import { SharedModule } from '../shared/shared.module';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { ShowLikesComponent } from './components/show-likes/show-likes.component';
+import { ShowCommentsComponent } from './components/show-comments/show-comments.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { ShowLikesComponent } from './components/show-likes/show-likes.component
     SharedModule,
     ReactiveFormsModule
   ],
-  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent, AddPostComponent, ShowLikesComponent],
+  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent, AddPostComponent, ShowLikesComponent, ShowCommentsComponent],
 })
 export class Tab1PageModule {}
