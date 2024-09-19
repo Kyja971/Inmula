@@ -9,11 +9,10 @@ import { InternType } from './types/intern.type';
 import { lastValueFrom } from 'rxjs';
 import { FormatPagingService } from './services/format-paging.service';
 import { CreatePostDto } from './dto/create-post-dto';
-
 @Injectable()
 export class AppService {
   constructor(
-    @InjectRepository(PostEntity) private _repository: Repository<PostEntity>,
+    @InjectRepository(PostEntity) private _postRepository: Repository<PostEntity>,
     @Inject('INTERN') private _client: ClientProxy,
     private _formatPaging: FormatPagingService,
   ) {}
@@ -25,7 +24,7 @@ export class AppService {
     )
     if (author){
       post.author = author
-      return this._repository.save(post)
+      return this._postRepository.save(post)
     } else {
       return null
     }
@@ -33,7 +32,7 @@ export class AppService {
 
   async findAll(take: number, page: number): Promise<PostEntity[] | null> {
     this._formatPaging.formatPaging(take, page);
-    return this._repository.find({
+    return this._postRepository.find({
         take: take,
         skip: this._formatPaging.skip,
         order: {
@@ -77,7 +76,7 @@ export class AppService {
   }
 
   findOne(id: number): Promise<PostEntity | null> {
-    return this._repository
+    return this._postRepository
       .findOne({ where: { id } })
       .then(async (onePost) => {
         if (!onePost) {
@@ -101,7 +100,7 @@ export class AppService {
     //return this._repository.update({ id: id }, post);
 
     // check si présent dans la bdd
-    const existingPost = await this._repository.findOne({
+    const existingPost = await this._postRepository.findOne({
       where: { id: postId },
     });
     if (!existingPost) {
@@ -115,11 +114,11 @@ export class AppService {
     existingPost.type = post.type || existingPost.type;
 
 
-    const updatedPost = await this._repository.save(existingPost);
+    const updatedPost = await this._postRepository.save(existingPost);
     return updatedPost;
   }
 
   async delete(id: number): Promise<DeleteResult> {
-    return this._repository.delete({ id: id });
+    return this._postRepository.delete({ id: id });
   }
 }

@@ -3,6 +3,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { PostType } from './models/post.type';
 import { CreatePostDto } from './dto/create-post-dto';
+import { LikeStatusDto } from './dto/like-status-dto';
+import { DeleteResult } from 'typeorm';
 
 @Injectable()
 export class PostService {
@@ -33,5 +35,25 @@ export class PostService {
   delete(id: number): Observable<CreatePostDto | null> {
     const pattern: any = { cmd: 'delete' };
     return this._client.send<CreatePostDto | null, any>(pattern, id);
+  }
+
+  getLikes(body: any): Observable<string[]> {
+    const pattern: any = { cmd: 'getLikes' };
+    return this._client.send<string[] | null, any>(pattern, body);
+  }
+
+  getLike(body: any): Observable<LikeStatusDto> {
+    const pattern: any = { cmd: 'getLike' };
+    return this._client.send<LikeStatusDto | null, any>(pattern, body);
+  }
+
+  addLike(body: any): Observable<LikeStatusDto> {
+    const pattern: any = { cmd: 'addLike' };
+    return this._client.send<LikeStatusDto, any>(pattern, body);
+  }
+
+  deleteLike(likeId: number): Observable<DeleteResult> {
+    const pattern: any = { cmd: 'deleteLike' };
+    return this._client.send<DeleteResult, any>(pattern, likeId);
   }
 }

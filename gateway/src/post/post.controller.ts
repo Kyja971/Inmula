@@ -17,6 +17,8 @@ import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post-dto';
 import { isConnectedGuard } from './guards/is-connected.guard';
 import { Request } from 'express';
+import { LikeStatusDto } from './dto/like-status-dto';
+import { DeleteResult } from 'typeorm';
 
 @Controller('post')
 export class PostController {
@@ -57,6 +59,13 @@ export class PostController {
     }
   }
 
+  @Delete('unlike/:id')
+  async deleteLike(
+    @Param('id') likeId: number,
+  ): Promise<Observable<DeleteResult>> {
+    return this._service.deleteLike(likeId).pipe(take(1));
+  }
+
   @UseGuards(isConnectedGuard)
   @Delete(':id')
   // eslint-disable-next-line prettier/prettier
@@ -75,5 +84,25 @@ export class PostController {
         }),
       );
     }
+  }
+
+  /**
+   * 
+   * @param body A payload containing the postId { postId: number }
+   * @returns an observable of string[] containing all the interns id
+   */
+  @Post('likes')
+  async getLikes(@Body() body: any): Promise<Observable<string[]>> {
+    return this._service.getLikes(body).pipe(take(1));
+  }
+
+  @Post('like')
+  async getLike(@Body() body: any): Promise<Observable<LikeStatusDto>> {
+    return this._service.getLike(body).pipe(take(1));
+  }
+
+  @Post('addLike')
+  async addLike(@Body() body: any): Promise<Observable<LikeStatusDto>> {
+    return this._service.addLike(body).pipe(take(1));
   }
 }

@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { PostFooterComponent } from './components/post-footer/post-footer.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddPostComponent } from './components/add-post/add-post.component';
+import { ShowLikesComponent } from './components/show-likes/show-likes.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { AddPostComponent } from './components/add-post/add-post.component';
     SharedModule,
     ReactiveFormsModule
   ],
-  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent, AddPostComponent],
+  declarations: [Tab1Page, PostComponent, PostContentComponent, PostFooterComponent, AddPostComponent, ShowLikesComponent],
 })
 export class Tab1PageModule {}

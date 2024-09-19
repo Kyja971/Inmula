@@ -7,6 +7,9 @@ import { PostEntity } from './entities/post-entity';
 import config from './config/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { FormatPagingService } from './services/format-paging.service';
+import { LikeStatusEntity } from './entities/like-entity';
+import { LikeController } from './like/like.controller';
+import { LikeService } from './like/like.service';
 
 @Module({
   imports: [
@@ -20,11 +23,11 @@ import { FormatPagingService } from './services/format-paging.service';
         username: _configService.get('database.user.name'),
         password: _configService.get<string>('database.user.password'),
         synchronize: true,
-        entities: [PostEntity],
+        entities: [LikeStatusEntity, PostEntity],
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([PostEntity]),
+    TypeOrmModule.forFeature([LikeStatusEntity, PostEntity]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
@@ -40,7 +43,7 @@ import { FormatPagingService } from './services/format-paging.service';
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService, FormatPagingService],
+  controllers: [AppController, LikeController],
+  providers: [AppService, FormatPagingService, LikeService],
 })
 export class AppModule {}

@@ -1,10 +1,14 @@
 <ion-row class="ion-align-items-center">
   <ion-col>
-    <ion-icon name="heart-outline"></ion-icon>
+    <ion-icon *ngIf="isMyPost" name="heart-outline" color="danger"></ion-icon>
+    <ion-icon *ngIf="!isMyPost && !postLiked" name="heart-outline" color="danger" (click)="addLike(post.id)"></ion-icon>
+    <ion-icon *ngIf="!isMyPost && postLiked" name="heart-sharp" color="danger" (click)="unLikePost(post.id)"></ion-icon>
+    <span (click)="showLikes(post.id)"> {{ likes.length }} </span>
+    <!-- <ion-icon (click)="showLikes(post.id)"> {{ likes.length }}</ion-icon> -->
   </ion-col>
 
   <ion-col>
-    <ion-icon name="star-outline"></ion-icon>
+    <ion-icon name="star-outline" color="warning"></ion-icon>
   </ion-col>
 
   <ion-col>

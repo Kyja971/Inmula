@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-row class="ion-align-items-center">
+    <ion-col size="2">
+      <ion-tab-button (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-col>
+
+    <ion-col size="8">
+      <ion-img src="../../../../assets/images/logo-aelion-new-white.png" alt="logo aelion"></ion-img>
+    </ion-col>
+
+    <ion-col size="2">
+    </ion-col>
+  </ion-row>
+</ion-header>
+
+<ng-container *ngFor="let intern of interns; let i = index">
+  <app-header-intern [intern]="intern" [num]="i" [id]="intern.id"> 
+      <ion-content><ion-list></ion-list></ion-content>
+  </app-header-intern>
+</ng-container>
