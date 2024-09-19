@@ -1,5 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+/**
+ * Collection of endpoints for Authentication
+ * Creation of unactivated accounts
+ * Management of accounts (modification, deletion and activation)
+ * Some endpoints are designed to retrieve specific informations about logged user.
+ * Purpose of those specific informations are for logical uses in further code.
+ */
 import {
   Controller,
   Get,
@@ -28,55 +36,73 @@ export class AuthController {
   
   constructor(private _authService: AuthService) {}
 
-  //Add an account
+  /**
+   * Add an account
+   * Protected by Admin or SAdmin Guard
+   * Only superiors acces are allowed to create new unactivated accounts
+   * 
+   * @param req with implemented user property from decoded token
+   * @param newAccount Protection of superiors rights during new account creation
+   * @returns 
+   */
   @UseGuards(AdminOrSuperAdminGuard)
   @Post()
-  add(@Req() req: Request, @Body() auth: UpdateAuthDto): Observable<AuthDto> {
-    //Check if an admin tries to add an auth with admin or super admin role
-    //Only a super admin is allow to
-    if(req['user'].role == 'admin' && (auth.role == 'admin' || auth.role == 'super_admin')){
+  add(@Req() req: Request, @Body() newAccount: UpdateAuthDto): Observable<AuthDto> {
+    if(req['user'].role == 'admin' && (newAccount.role == 'admin' || newAccount.role == 'super_admin')){
       throw new UnauthorizedException("Vous n'avez pas les droits pour attribuer ce role");
-    } else return this._authService.add(auth).pipe(take(1));
+    } else return this._authService.add(newAccount).pipe(take(1));
   }
 
-  //Update an account
+  /**
+   * Modification of new account informations
+   * TODO allow modification of owner account
+   * 
+   * @param req 
+   * @param id Retrieve owner
+   * @param body contains informations you want to change
+   * @returns 
+   */
   @UseGuards(AdminOrSuperAdminGuard)
   @Patch(':id')
   update(@Req() req: Request, @Param('id') id: number, @Body() body: UpdateAuthDto): Observable<AuthDto> {
-    //Check if an admin tries to modify an admin or a super admin
     this.findOne(id).pipe(take(1)).subscribe((accountToUpdate: AuthDto) => {
       if (req['user'].role == 'admin' && (accountToUpdate.role == 'admin' || accountToUpdate.role == 'super_admin')) {
         throw new UnauthorizedException("Vous n'avez pas les droits pour modifier cet utilisateur");
       }
     })
-
     //Check if an admin tries to modify the role of an auth to admin or super admin
     if(req['user'].role == 'admin' && (body.role == 'admin' || body.role == 'super_admin')){
       throw new UnauthorizedException("Vous n'avez pas les droits pour attribuer ce role");
     } else return this._authService.update(id, body).pipe(take(1));
   }
 
-  //Get all account
+  /**
+   * 
+   * @returns all accounts
+   */
   @Get()
   @UseGuards(AdminOrSuperAdminGuard)
   findAll(): Observable<AuthDto[]> {
     return this._authService.findAll();
   }
 
-  //Get one account
+  /**
+   * 
+   * @param id use to find a specific id
+   * @returns an account
+   */
   @UseGuards(AdminOrSuperAdminGuard)
   @Get(':id')
   findOne(@Param('id') id: number): Observable<AuthDto> {
     return this._authService.findOne(id).pipe(take(1));
   }
 
-  //Delete an account
+  //Delete a specify account(targeted by id)
+  //protected deletion by superior rights 
   @UseGuards(AdminOrSuperAdminGuard)
   @Delete(':id')
   delete(@Req() req: Request, @Param('id') id: number): Observable<AuthDto> {
-    //Check if an admin is trying to delete an admin or a super admin
-    //We only have the id of the auth, so we need to find the auth
-    //And then we can check the role. The switchMap is use to transform an observable to another
+    //The switchMap is used to transform an observable to another
     return this.findOne(id).pipe(take(1), switchMap((auth: AuthDto) => {
         if (req['user'].role == 'admin' && (auth.role == 'admin' || auth.role == 'super_admin')) {
           throw new UnauthorizedException("Vous n'avez pas les droits pour supprimer cet utilisateur");
@@ -87,7 +113,9 @@ export class AuthController {
     );
   }
 
-  //Create a token when logged, and insert it in a cookie
+  //Create a cookie filled with a token on login
+  //option object @res decorator => makes .cookie() method available
+  //be aware that response is express's response type 
   @Post('login')
   async login(@Body() body: AuthBodyType, @Res({ passthrough: true }) res: Response): Promise<any> {
     try {
@@ -96,7 +124,6 @@ export class AuthController {
           res.cookie('jwt', token.token, { httpOnly: true, domain: 'localhost', sameSite:'lax' });
         }),
       );
-
       return token;
     } catch (error) {
       return { 
@@ -112,7 +139,7 @@ export class AuthController {
     return await this._authService.checkEmail(payload);
   }
 
-  //Returns the id of the users from the token (by checking the email)
+  //Returns the id of the user from the token (by checking the email)
   @Post('internId')
   async getInternId(@Body() token: TokenType): Promise<Observable<string>> {
     return await this._authService.getInternId(token);
@@ -124,6 +151,7 @@ export class AuthController {
     return await this._authService.decodeToken(token)
   }
 
+  //return the user's role (from the decoded token)
   @Post('getRole')
   async getRole(@Body() token: TokenType): Promise<Observable<string>> {
     return await this._authService.getRole(token)
