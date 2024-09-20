@@ -91,4 +91,8 @@ export class AuthService {
       this._selfInformation.role = role
     })
   }
+
+  getRole(token: TokenType): Observable<string> {
+    return this._httpClient.post<string>(`${this.URI}/getRole`, token).pipe(take(1))
+  }
 }

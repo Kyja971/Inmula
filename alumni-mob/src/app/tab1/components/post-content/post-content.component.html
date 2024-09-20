@@ -5,12 +5,8 @@
         <h2 class="title"> {{ post.title}} </h2>
       </ion-col>
       <ion-col size="1">
-        <ion-icon *ngIf="this._selfInformation.role === 'super_admin' ||
-        post.authorId === this._selfInformation.retrievePersonnal()"
-        name="trash-outline" (click)="onDeletePost(post.id)"></ion-icon>
-        <ion-icon *ngIf="this._selfInformation.role === 'super_admin' ||
-        post.authorId === this._selfInformation.retrievePersonnal()"
-        name="create-outline" (click)="onUpdatePost(post)"></ion-icon> 
+        <ion-icon *ngIf="isAllow" name="trash-outline" (click)="onDeletePost(post.id)"></ion-icon>
+        <ion-icon *ngIf="isAllow" name="create-outline" (click)="onUpdatePost(post)"></ion-icon> 
      </ion-col>
       <ion-col size="3">
         <div *ngIf="post.type === 'Information'">

@@ -5,6 +5,9 @@ import { PostService } from 'src/app/core/services/post.service';
 import { PostType } from 'src/app/core/types/post/post-type';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-post-content',
@@ -16,13 +19,22 @@ export class PostContentComponent  implements OnInit {
   @Input()
   post!: PostType
 
+  isAllow: boolean = false
+
   constructor(
     private _postService: PostService,
     private _modalController: ModalController,
-    public _selfInformation: SelfInformationService,
+    private _selfInformation: SelfInformationService,
+    private _authService: AuthService,
+    private _storage: StorageService
   ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    const token = this._storage.retrieve('auth')
+    this._authService.getRole({ token: token }).pipe(take(1)).subscribe((role: string) => {
+      this.isAllow = (role === 'super_admin') || (this.post.authorId === this._selfInformation.retrievePersonnal());
+    })
+  }
 
   async onUpdatePost(post: PostType) {
     const authModal = await this._modalController.create({
@@ -31,7 +43,8 @@ export class PostContentComponent  implements OnInit {
         post : post
       }
     });
-    authModal.present();  }
+    authModal.present();  
+  }
 
   onDeletePost(id?: number) {
     if(id){
