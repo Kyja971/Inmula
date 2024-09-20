@@ -20,6 +20,12 @@ export class BonneBoiteController {
     return this.bonneBoiteService.create(createBonneBoiteDto);
   }
 
+
+  @Post(':id')
+  addCompany(@Param('id') internId: string, @Body() companyId: number) {
+    return this.bonneBoiteService.addCompany(internId, companyId);
+  }
+
   @Get('unactivated')
   findAll() {
     return this.bonneBoiteService.findAll();

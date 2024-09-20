@@ -1,0 +1,14 @@
+<ion-item>
+
+  <ion-label>
+    <h2> {{ company.company_name}}</h2>
+    <h3> {{ company.naf_label}}</h3>
+    <h4> {{ company.city }} {{ company.citycode}} </h4> 
+
+  </ion-label>
+  <ion-badge> {{ company.hiring_potential.toFixed(2)}}</ion-badge>
+
+  <i class="fa-solid fa-circle-plus" (click)="presentCompany(company)"></i>
+</ion-item>
+
+

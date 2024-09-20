@@ -1,23 +1,22 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
-  <app-job></app-job>
-<ion-grid>
-  <ion-row>
-    <ion-col size="2">Title 1 </ion-col>
-    <ion-col size="2">Title 2 </ion-col>
-    <ion-col size="2">Title 3 </ion-col>
-    <ion-col size="2">Title 4 </ion-col>
-    <ion-col size="2">Title 5 </ion-col>
-    <ion-col size="2">Title 6 </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="2">info 1</ion-col>
-    <ion-col size="2">info 2</ion-col>
-    <ion-col size="2">info 3</ion-col>
-    <ion-col size="2">info 4</ion-col>
-    <ion-col size="2">info 5</ion-col>
-    <ion-col size="2">info 6</ion-col>
-  </ion-row>
-</ion-grid>
+  <form [formGroup]="formGroup" (ngSubmit)="mockResearch()">
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="job"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="location"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button type="submit" [disabled]="formGroup.invalid">Rechercher</ion-button>
+  </form>
+
+  <ng-container *ngFor="let company of companyArray, let i = index">
+    <app-company [company]="company.items[0]"></app-company>
+  </ng-container>
+
 </ion-content>

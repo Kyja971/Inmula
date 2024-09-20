@@ -7,6 +7,7 @@ import { BoiteType } from './models/boite-type';
 
 @Injectable()
 export class BonneBoiteService {
+
   constructor(@Inject('BOITE') private _client: ClientProxy) {}
 
   create(createBonneBoiteDto: BonneBoiteDto) {
@@ -33,5 +34,11 @@ export class BonneBoiteService {
   fakeResult(): Observable<Array<any>> {
     const pattern: any = { cmd: 'fakeResult' };
     return this._client.send<any[], any>(pattern, {});
+  }
+
+  addCompany(internId: string, companyId: number) {
+    const pattern: any = { cmd: 'addCompany' };
+    const payload: any = { internId: internId, companyId: companyId };
+    return this._client.send<any[], any>(pattern, payload);
   }
 }

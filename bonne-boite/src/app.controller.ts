@@ -16,4 +16,9 @@ export class AppController {
   fakeResult(): Promise<Array<any>> {
     return this.appService.fakeResult();
   }
+
+  @MessagePattern({ cmd: 'addCompany' })
+  addCompany(payload: any) {
+    return this.appService.addCompany(payload);
+  }
 }

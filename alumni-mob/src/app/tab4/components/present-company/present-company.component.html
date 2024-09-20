@@ -1,0 +1,20 @@
+<ion-card>
+  <ion-header>
+    <h2> {{company.company_name}}</h2>
+    <h3> {{company.citycode}} {{company.city}} </h3>
+  </ion-header>
+  <ion-card-content>
+    <ion-item>
+      Domaine d'activité : {{company.naf_label}}
+    </ion-item>
+    <ion-item>
+      Potentiel d'embauche : <span *ngIf="company.is_high_potential ? 'Fort' : 'Faible'"></span>
+      
+    </ion-item>
+  </ion-card-content>
+  <ion-card-content>
+    <ion-button (click)="addCompanyToArray()">Ajouter entreprise</ion-button>
+    <ion-button (click)="dismissModal()">Fermer</ion-button>
+  </ion-card-content>
+  
+</ion-card>

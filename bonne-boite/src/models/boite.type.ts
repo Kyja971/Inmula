@@ -1,5 +1,5 @@
 export type BoiteType = {
   id?: number;
-  test: string;
-  test2: string;
+  internId: string;
+  companies: Array<number>;
 };

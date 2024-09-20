@@ -11,8 +11,6 @@ import { MockResult } from './models/mock';
 
 @Injectable()
 export class AppService implements Addable, Getable, Updatable, Deletable {
- 
-
   constructor(@InjectModel('Boite') private boiteModel: Model<Boite>) {}
 
   add(any: any) {
@@ -38,5 +36,33 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
 
   fakeResult(): Promise<any[]> {
     return new Promise((resolve) => resolve(MockResult));
+  }
+
+  addCompany(payload: any) {
+    this.boiteModel
+      .findOne({ internId: payload.internId })
+      .then((personnalDatas) => {
+        if (personnalDatas) {
+          if (personnalDatas.companies.includes(payload.companyId)) {
+            throw new Error('Company already added');
+          } else {
+            personnalDatas.companies.push(payload.companyId);
+            personnalDatas.save().then((savedDatas) => {
+              return savedDatas;
+            });
+          }
+        } else {
+          const newIntern = new this.boiteModel({
+            internId: payload.internId,
+            companies: [payload.companyId],
+          });
+          newIntern.save().then((savedDatas) => {
+            return savedDatas;
+          });
+        }
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 }

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: Tab4Page
+  },
+  {
+    path: 'suivi',
+    loadChildren: () => import('./pages/my-application-status/my-application-status.module').then( m => m.MyApplicationStatusPageModule)
   }
 ];
 
