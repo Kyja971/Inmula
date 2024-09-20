@@ -1,3 +1,5 @@
+<ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)" (ionClear)="handleClear()" placeholder="Rechercher" class="search"></ion-searchbar>
+
 <ng-container *ngFor="let intern of interns; let i = index">
     <app-header-intern [intern]="intern" [num]="i" [id]="intern.id"> 
         <ion-content><ion-list></ion-list></ion-content>

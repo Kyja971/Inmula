@@ -1,0 +1,15 @@
+/* Scoped components require higher specificity to customize */
+ion-searchbar.search {
+    --background: #eee;
+    --color: gray;
+    --placeholder-color: gray;
+    --icon-color: gray;
+    --clear-button-color: gray ;
+    --border-radius: 12px;
+    --box-shadow: none;
+    padding: 16px 16px 0 16px;
+  }
+  
+  ion-searchbar.md.search {
+    --cancel-button-color: gray;
+  }
