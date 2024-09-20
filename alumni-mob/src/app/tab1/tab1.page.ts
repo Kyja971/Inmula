@@ -60,26 +60,34 @@ export class Tab1Page implements OnInit, OnDestroy{
     authModal.present();
   }
 
-  toggleCheckbox(event:any) {
-    const checkedCheckboxes = this.checkboxes.filter(checkbox => checkbox.isChecked);
-    this.posts = []
+  loadPoasts(checkedCheckboxes: CheckboxData[]){
     if(this.checkboxes[0].isChecked){
-      this._postService.emptyPosts()
       this._postService.findAll(this.take, this.page)
-      this._postsSubscription = this._postService.posts$.subscribe((posts: Array<PostType>) => {
-          this.posts = posts 
-          this.posts.sort((a, b) => (a.postedAt > b.postedAt ? -1 : 1))
-      })
     } else {
-      checkedCheckboxes.forEach((checked: CheckboxData) => {
-        this.posts = this.posts.concat(this._postService.findByType(checked.value))
-      })
+      if(checkedCheckboxes.length === 1) {
+        this._postService.findByType(checkedCheckboxes[0].value, this.take, this.page)
+      }
+      else {
+        const types: string[] = []
+        checkedCheckboxes.forEach(checked => {
+          types.push(checked.value)
+        });
+        this._postService.findByTypes(types, this.take, this.page)
+      }
     }
   }
 
-  private generatePosts() {
+  toggleCheckbox() {
+    const checkedCheckboxes = this.checkboxes.filter(checkbox => checkbox.isChecked);
+    this._postService.emptyPosts()
+    this.page = 1
+    this.loadPoasts(checkedCheckboxes)
+  }
+
+  private async generatePosts() {
+    const checkedCheckboxes = this.checkboxes.filter(checkbox => checkbox.isChecked);
     this.page++
-    this._postService.findAll(this.take, this.page)
+    this.loadPoasts(checkedCheckboxes)
   }
 
   onIonInfinite(ev: any) {

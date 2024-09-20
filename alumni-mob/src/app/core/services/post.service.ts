@@ -101,7 +101,43 @@ export class PostService {
     this.postsSubject.next([])
   }
 
-  findByType(type: string): PostType[]{
-    return this.postsSubject.value.filter(post => post.type == type);
+  findByType(type: string, takePost: number, page: number) {
+    this._httpClient.get<Array<PostType>>(`${this.URI}/type/search/?take=${takePost}&page=${page}&type=${type}`).pipe(take(1)).subscribe((posts: PostType[]) => {
+      this.postsSubject.next([...this.postsSubject.value, ...posts.map((post: any) => {
+        return {
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          type : post.type,
+          postedAt: new Date(post.postedAt),
+          media: post.media,
+          authorId: post.authorId,
+          author: {
+            id: post.author.id,
+            lastName: post.author.lastname,
+            firstName: post.author.firstname,
+            occupation: post.author.function,
+            gender: post.author.gender,
+            emails : post.author.emails,
+            phone : post.author.phone,
+            company: {
+              name: post.author.company?.name
+            },
+            poe: {
+              id: post.author.poe?.id,
+              name: post.author.poe?.name,
+              beginAt: new Date(post.author.poe?.beginAt),
+              endAt: new Date(post.author.poe?.endAt)
+            }
+          }
+        }
+      })])
+    })
+  }
+
+  findByTypes(types: string[], takePost: number, page: number){
+    types.forEach(type => {
+      this.findByType(type, takePost, page)
+    });
   }
 }

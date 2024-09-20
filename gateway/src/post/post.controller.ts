@@ -34,6 +34,15 @@ export class PostController {
     return this._service.findAll(takePost, page).pipe(take(1));
   }
 
+  @Get('/type/search')
+  findByType(
+    @Query('take') takePost: number,
+    @Query('page') page: number,
+    @Query('type') type: string,
+  ): Observable<PostType[]> {
+    return this._service.findByType(takePost, page, type).pipe(take(1));
+  }
+
   @UseGuards(isConnectedGuard)
   @Get(':id')
   findOne(@Param('id') id: number): Observable<CreatePostDto> {

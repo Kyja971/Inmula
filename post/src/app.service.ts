@@ -9,6 +9,7 @@ import { InternType } from './types/intern.type';
 import { lastValueFrom } from 'rxjs';
 import { FormatPagingService } from './services/format-paging.service';
 import { CreatePostDto } from './dto/create-post-dto';
+import { PostTypeEnum } from './types/post-type-enum';
 @Injectable()
 export class AppService {
   constructor(
@@ -41,7 +42,32 @@ export class AppService {
     }).then(async (posts: PostEntity[]) => {
       const answer = []
       if(posts.length === 0){
-        return this.findAll(take, page-1)
+        //return this.findAll(take, page-1)
+      } else {
+        //For each post we send a request to the intern microservie to get the Intern from the internId
+        for (const post of posts){
+          await this.setInternOnPost(post).then((postWithIntern: PostEntity) => {
+            answer.push(postWithIntern)
+          })
+        }
+        return answer
+      }
+    })
+  }
+
+  async findByType(take: number, page: number, type: PostTypeEnum): Promise<PostEntity[]> {
+    this._formatPaging.formatPaging(take, page)
+    return await this._postRepository.find({
+      take: take,
+      skip: this._formatPaging.skip,
+      order: {
+        postedAt: 'DESC',
+      },
+      where : { type: type }
+    }).then(async (posts: PostEntity[]) => {
+      const answer = []
+      if(posts.length === 0){
+        //return this.findByType(take, page-1, type)
       } else {
         //For each post we send a request to the intern microservie to get the Intern from the internId
         for (const post of posts){
@@ -66,7 +92,6 @@ export class AppService {
     ).then((intern) => {
       post.author = intern
     })
-    console.log(post)
     return post
   }
 

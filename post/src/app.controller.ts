@@ -19,6 +19,15 @@ export class AppController {
     return this.appService.findAll(payload?.take, payload?.page);
   }
 
+  @MessagePattern({ cmd: 'findByType' })
+  async findByType(payload: any): Promise<Array<PostEntity | null>> {
+    return this.appService.findByType(
+      payload?.take,
+      payload?.page,
+      payload?.type,
+    );
+  }
+
   @MessagePattern({ cmd: 'findOne' })
   async findOne(id: number): Promise<PostEntity> {
     return await this.appService.findOne(id);

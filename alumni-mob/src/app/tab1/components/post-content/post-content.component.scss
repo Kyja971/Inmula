@@ -6,9 +6,21 @@ ion-item{
         border-radius: 10px;
         font-size: .8rem;
     }
-    .information{ background-color: #D6CAFF;}
-    .astuce{ background-color: #FFF78C;}
-    .emploi{ background-color: #B6FBAD;}
+    
+    .information{ 
+        background-color: #D6CAFF;
+        color: #55458a;
+    }
+    
+    .astuce{ 
+        background-color: #FFF78C;
+        color: #5f5e00
+    }
+    
+    .emploi{ 
+        background-color: #B6FBAD;
+        color: #4b7f44;
+    }
     .post-thumbnail{
         border-radius: 8px;
     }
