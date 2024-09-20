@@ -30,49 +30,44 @@ export class AppService {
     }
   }
 
-  async findAll(take: number, page: number): Promise<PostEntity[] | null> {
-    this._formatPaging.formatPaging(take, page);
-    return this._postRepository.find({
-        take: take,
-        skip: this._formatPaging.skip,
-        order: {
-          postedAt: 'DESC',
-        },
-      })
-      .then(async (posts) => {
-        if (posts.length === 0) {
-          if (page > 1) {
-            this.findAll(take, page - 1);
-          }
-          return null;
-        } else {
-          const pattern = { cmd: 'findOne' };
-          const answer = [];
-          for (const post of posts) {
-            await lastValueFrom(
-              this._client.send<InternType | null>(pattern, {
-                id: post.authorId,
-              }),
-            )
-              .then((intern) => {
-                if (intern) {
-                  post.author = intern;
-                } else {
-                  post.author = undefined;
-                }
-                answer.push(post);
-              })
-              .catch((error) => {
-                post.author = error;
-                answer.push(post);
-              });
-          }
-          return answer;
+  async findAll(take: number, page: number): Promise<PostEntity[]> {
+    this._formatPaging.formatPaging(take, page)
+    return await this._postRepository.find({
+      take: take,
+      skip: this._formatPaging.skip,
+      order: {
+        postedAt: 'DESC',
+      }
+    }).then(async (posts: PostEntity[]) => {
+      const answer = []
+      if(posts.length === 0){
+        return this.findAll(take, page-1)
+      } else {
+        //For each post we send a request to the intern microservie to get the Intern from the internId
+        for (const post of posts){
+          await this.setInternOnPost(post).then((postWithIntern: PostEntity) => {
+            answer.push(postWithIntern)
+          })
         }
-      })
-      .catch((error) => {
-        return error;
-      });
+        return answer
+      }
+    })
+  }
+
+  /**
+   * Set the intern column on one post
+   * @param post 
+   * @returns the original post with the associate intern
+   */
+  async setInternOnPost(post: PostEntity): Promise<PostEntity> {
+    const pattern = { cmd: 'findOne' };
+    await lastValueFrom(
+      this._client.send<InternType>(pattern, { id: post.authorId })
+    ).then((intern) => {
+      post.author = intern
+    })
+    console.log(post)
+    return post
   }
 
   findOne(id: number): Promise<PostEntity | null> {
@@ -83,12 +78,7 @@ export class AppService {
           return null;
         }
         //récupération du user dans mongodb
-        const pattern = { cmd: 'findOne' };
-        const author = await lastValueFrom(
-          this._client.send<InternType>(pattern, { id: onePost.authorId }),
-        );
-        onePost.author = author;
-        return onePost;
+        return this.setInternOnPost(onePost)
       })
       .catch((error) => {
         console.error('Erreur lors de la récupération du post:', error);

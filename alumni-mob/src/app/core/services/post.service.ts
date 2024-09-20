@@ -100,4 +100,8 @@ export class PostService {
   emptyPosts() {
     this.postsSubject.next([])
   }
+
+  findByType(type: string): PostType[]{
+    return this.postsSubject.value.filter(post => post.type == type);
+  }
 }

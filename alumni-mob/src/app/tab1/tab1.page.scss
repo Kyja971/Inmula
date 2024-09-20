@@ -4,3 +4,118 @@
     top: 100px;
     z-index: 1;
 }
+
+.legend{
+    padding: 0 16px;
+    ion-col{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    ion-checkbox{
+        --checkmark-color: transparent;
+    }
+
+    ion-checkbox::part(container) {
+        position: absolute;
+        left: -10px;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.tous span, .astuce span, .information span, .offre_emploi span{
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    padding: .2rem .5rem;
+    border-radius: 6px;
+}
+
+.tous{
+    color: gray;//
+    span{
+        background-color: #eee;
+        border: 1px solid #eee;
+    }
+}
+
+.tous.checkbox-checked span{
+    border: 1px solid gray;
+}
+
+.astuce span{
+    background-color: #B6FBAD;
+    border: 1px solid #B6FBAD;
+    color: #3b7334;
+}
+
+.astuce.checkbox-checked span{
+    border: 1px solid #6cab64;
+}
+.information span{
+    background-color: #B5E7FF;
+    border: 1px solid #B5E7FF;
+    color: #385d6e;
+}
+.information.checkbox-checked span{
+    border: 1px solid #385d6e;
+}
+
+.offre_emploi span{
+    background-color: #D6CAFF;
+    border: 1px solid #D6CAFF;
+    color: #504379;
+}
+.offre_emploi.checkbox-checked span{
+    border: 1px solid #504379;
+}
+
+ion-list{
+    margin-top: 0 !important;
+    ion-item:nth-child(odd){
+        --ion-item-background:#eee;
+    }
+}
+
+ion-item{
+    border-radius: 12px;
+    .icon-left{
+        margin-right: .5rem;
+        padding-right: .3rem;
+        border-right: 1px solid #cdcdcd;
+    }
+
+    .icon-right{
+        margin-left: .5rem;
+        border-left: 1px solid #cdcdcd;
+        padding-left: .5rem;
+        cursor: pointer;
+    }
+    ion-label{
+        h2 span{
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            content: "";
+            border-radius: 100%;
+        }
+        .astuce{
+            background-color: #B6FBAD;
+            border: 1px solid #6cab64;
+        }
+
+        .information{
+            background-color: #B5E7FF;
+            border: 1px solid #385d6e;
+        }
+
+        .offre_emploi{
+            background-color: #D6CAFF;
+            border: 1px solid #504379;
+        }
+    }
+}

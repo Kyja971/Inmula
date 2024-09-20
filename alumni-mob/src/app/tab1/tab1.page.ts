@@ -24,6 +24,13 @@ export class Tab1Page implements OnInit, OnDestroy{
 
   public newPost = false
 
+  checkboxes: CheckboxData[] = [
+    { isChecked: true, value: 'all' },
+    { isChecked: false, value: 'Astuce' },
+    { isChecked: false, value: 'Information' },
+    { isChecked: false, value: 'Offre emploi' }
+  ];
+
   constructor(
     private _postService: PostService,  // Dependency Injection
     private _modalController: ModalController
@@ -53,9 +60,21 @@ export class Tab1Page implements OnInit, OnDestroy{
     authModal.present();
   }
 
-  ngOnDestroy(): void {
-    this._postsSubscription.unsubscribe()
-    this._newPostSubscription.unsubscribe()
+  toggleCheckbox(event:any) {
+    const checkedCheckboxes = this.checkboxes.filter(checkbox => checkbox.isChecked);
+    this.posts = []
+    if(this.checkboxes[0].isChecked){
+      this._postService.emptyPosts()
+      this._postService.findAll(this.take, this.page)
+      this._postsSubscription = this._postService.posts$.subscribe((posts: Array<PostType>) => {
+          this.posts = posts 
+          this.posts.sort((a, b) => (a.postedAt > b.postedAt ? -1 : 1))
+      })
+    } else {
+      checkedCheckboxes.forEach((checked: CheckboxData) => {
+        this.posts = this.posts.concat(this._postService.findByType(checked.value))
+      })
+    }
   }
 
   private generatePosts() {
@@ -77,4 +96,15 @@ export class Tab1Page implements OnInit, OnDestroy{
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.newPost = false
   }
+
+  ngOnDestroy(): void {
+    this._postsSubscription.unsubscribe()
+    this._newPostSubscription.unsubscribe()
+  }
 }
+
+interface CheckboxData {
+  isChecked: boolean;
+  value: string; // Valeur à récupérer si la case est cochée
+}
+

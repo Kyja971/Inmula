@@ -4,6 +4,32 @@
 
   <ion-button (click)="onAddPost()"> Ajouter un post </ion-button>
 
+  <ion-row class="legend">
+    <ion-col size="auto">
+      <ion-checkbox [(ngModel)]="checkboxes[0].isChecked" (ionChange)="toggleCheckbox($event)" class="tous">
+        <span>Tous</span>
+      </ion-checkbox>
+    </ion-col>
+
+    <ion-col size="auto">
+      <ion-checkbox [(ngModel)]="checkboxes[1].isChecked" (ionChange)="toggleCheckbox($event)" class="astuce">
+        <span>Astuce</span>
+      </ion-checkbox>
+    </ion-col>
+
+    <ion-col size="auto">
+      <ion-checkbox [(ngModel)]="checkboxes[2].isChecked" (ionChange)="toggleCheckbox($event)" class="information">
+        <span>Information</span>
+      </ion-checkbox>
+    </ion-col>
+
+    <ion-col size="auto">
+      <ion-checkbox [(ngModel)]="checkboxes[3].isChecked" (ionChange)="toggleCheckbox($event)" class="offre_emploi">
+        <span>Offre emploi</span>
+      </ion-checkbox>
+    </ion-col>
+  </ion-row>
+
   <app-post [posts]="posts"></app-post>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

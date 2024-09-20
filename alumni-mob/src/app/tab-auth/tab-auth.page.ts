@@ -66,8 +66,6 @@ export class TabAuthPage implements OnInit{
   }
 
   toggleCheckbox(event:any) {
-    console.log('Checkbox value:', event.detail.checked);
-
     const checkedCheckboxes = this.checkboxes.filter(checkbox => checkbox.isChecked);
     this.auths = []
     if(this.checkboxes[0].isChecked){
