@@ -30,6 +30,7 @@ import { Response } from 'express';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AdminOrSuperAdminGuard } from './guards/admin-super-admin.guard';
 import { Request } from 'express'
+import { FirstConnexionGuard } from './guards/first-connexion.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -74,6 +75,12 @@ export class AuthController {
     if(req['user'].role == 'admin' && (body.role == 'admin' || body.role == 'super_admin')){
       throw new UnauthorizedException("Vous n'avez pas les droits pour attribuer ce role");
     } else return this._authService.update(id, body).pipe(take(1));
+  }
+
+  @UseGuards(FirstConnexionGuard)
+  @Patch('activation/setPassword')
+  setPassword(@Body() body: UpdateAuthDto): Observable<AuthDto> {
+    return this._authService.setPassword(body)
   }
 
   /**
@@ -135,8 +142,17 @@ export class AuthController {
   //Check if the mail is valid when an user wants to activate an account
   //A mail is valid if the mail is present in the database and if it has no password
   @Post('checkEmail')
-  async checkEmail(@Body() payload: any): Promise<Observable<{isMailValid: boolean, id: number}>> {
-    return await this._authService.checkEmail(payload);
+  async checkEmail(@Body() body: any, @Res({ passthrough: true }) res: Response): Promise<any> {
+    try {
+      const payload = await this._authService.checkEmail(body).pipe(
+        tap(() => {
+          res.cookie('email', body.email, { httpOnly: true, domain: 'localhost', sameSite:'lax' })
+        }))
+        return payload
+    }
+    catch (error) {
+      error: 'mail not valid'
+    }
   }
 
   //Returns the id of the user from the token (by checking the email)

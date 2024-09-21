@@ -22,6 +22,11 @@ export class AuthService {
     return this._client.send<AuthDto, any>(pattern, payload);
   }
 
+  setPassword(body: UpdateAuthDto): Observable<AuthDto> {
+    const pattern: any = { message: 'setPassword' };
+    return this._client.send<AuthDto>(pattern, body)
+  }
+
   findAll(): Observable<Array<AuthDto>> {
     const pattern: any = { message: 'findAll' };
     return this._client.send<AuthDto[], any>(pattern, {});
@@ -42,9 +47,9 @@ export class AuthService {
     return this._client.send<TokenType | null>(pattern, body);
   }
 
-  checkEmail(payload: any): Observable<{isMailValid: boolean, id: number}> {
+  checkEmail(payload: any): Observable<{isMailActivated: boolean, id: number}> {
     const pattern: any = { message: 'checkEmail' };
-    return this._client.send<{isMailValid: boolean, id: number}>(pattern, payload);
+    return this._client.send<{isMailActivated: boolean, id: number}>(pattern, payload);
   }
 
   getInternId(token: TokenType): Observable<string> {

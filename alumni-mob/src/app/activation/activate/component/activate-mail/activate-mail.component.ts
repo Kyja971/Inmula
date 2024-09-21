@@ -40,7 +40,6 @@ export class ActivateMailComponent  implements OnInit {
       if(!payloadRes.isMailActivated){
         this._router.navigate(['insertcode'])
         this._storageService.store('email', payload.email)
-        this._storageService.store('authId', payloadRes.authId)
       } else {
         const toast = await this._toastController.create({
           message: "Ce mail n'existe pas ou est déja validé",
@@ -57,32 +56,5 @@ export class ActivateMailComponent  implements OnInit {
       }
     })
 
-    // this._service
-    //   .doActivate(this.activateForm.value)
-    //   .pipe(take(1))
-    //   .subscribe({
-    //     next: async (response: HttpResponse<any>) => {
-    //       if (response.status === 200) {
-    //         //this._storage.store('auth',response.body.token)
-    //         this._router.navigate(['insertcode'])
-    //       } else {
-            // const toast = await this._toastController.create({
-            //   message: response.body.message,
-            //   duration: 5000,
-            //   position: 'middle',
-            //   buttons: [
-            //     {
-            //       text: 'Réessayer',
-            //     },
-            //   ],
-            // });
-            // await toast.present();
-            // toast.onWillDismiss().then(() => this.activateForm.reset());
-    //       }
-    //     },
-    //     error: (error: any) => {
-    //     },
-    //   });
   }
-
 }

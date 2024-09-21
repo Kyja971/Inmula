@@ -46,6 +46,7 @@
     <ion-list inset="true" lines="none">
       <ng-container *ngFor="let auth of auths; trackBy: trackByEmail">
           <ion-item>
+            <!-- <app-show-one-auth [auth]="auth"> </app-show-one-auth> -->
             <ion-icon name="person-outline" class="icon-left" id="present-alert"></ion-icon>
             <ion-label>
               <h2>{{auth.email}} <span class="{{auth.role}}"></span></h2>

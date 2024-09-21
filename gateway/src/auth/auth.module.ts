@@ -4,10 +4,16 @@ import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AdminOrSuperAdminGuard } from './guards/admin-super-admin.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { FirstConnexionGuard } from './guards/first-connexion.guard';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, AdminOrSuperAdminGuard, AdminGuard],
+  providers: [
+    AuthService,
+    AdminOrSuperAdminGuard,
+    AdminGuard,
+    FirstConnexionGuard,
+  ],
   imports: [
     ClientsModule.register([
       {

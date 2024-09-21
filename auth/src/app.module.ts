@@ -6,6 +6,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AccountEntity } from './models/account-entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ActivationController } from './activation/activation.controller';
+import { ActivationService } from './activation/activation.service';
 
 const envfile = 'env/' + process.env.NEST_ENV;
 @Module({
@@ -46,7 +48,7 @@ const envfile = 'env/' + process.env.NEST_ENV;
       },
     ])
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ActivationController],
+  providers: [AppService, ActivationService],
 })
 export class AppModule {}

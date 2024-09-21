@@ -41,9 +41,10 @@ export class PasswordFormComponent  implements OnInit {
   async onSubmit(): Promise<void> {
     if(this.validatePassword.value.password1 === this.validatePassword.value.password2){
       let payload = {
+        email: this._storageService.retrieve('email'),
         password: this.validatePassword.value.password1
       }
-      this._authService.insertPassword(payload).pipe(take(1)).subscribe(async () => {
+      this._authService.setPassword(payload).pipe(take(1)).subscribe(async () => {
         //this._storage.store('auth',response.body.token)
         const toast = await this._toastController.create({
           message: "Mot de passe crée, redirection vers la page de login",

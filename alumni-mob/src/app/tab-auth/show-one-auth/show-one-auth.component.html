@@ -1,0 +1,8 @@
+<ion-item>
+  <ion-icon name="person-outline" class="icon-left" id="present-alert"></ion-icon>
+  <ion-label>
+    <h2>{{auth.email}} <span class="{{auth.role}}"></span></h2>
+  </ion-label>
+  <ion-icon *ngIf="isAllow" name="document-text-outline" (click)="onUpdateAuth(auth)"></ion-icon>
+  <ion-icon *ngIf="isAllow" name="close-circle-outline" (click)="presentAlert(auth)" class="icon-right"></ion-icon>
+</ion-item>

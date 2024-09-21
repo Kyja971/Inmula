@@ -44,10 +44,6 @@ export class AuthService {
     return this._httpClient.post<{isMailActivated: boolean, authId: number}>(`${this.URI}/checkEmail`, payload)
   }
 
-  insertPassword(payload: any): Observable<any> {
-    return this._httpClient.patch<any>(`${this.URI}/${this._storageService.retrieve("authId")}`, payload)
-  }
-
   findAll() {
     this._httpClient.get<Array<AuthType>>(this.URI).pipe(take(1)).subscribe((auths: AuthType[]) => {
       this.authsSubject.next(auths);
@@ -84,6 +80,10 @@ export class AuthService {
       this.authsSubject.next([...newAuths]);
       this._modalController.dismiss();
     }); 
+  }
+
+  setPassword(payload: any): Observable<AuthType> {
+    return this._httpClient.patch<AuthType>(`${this.URI}/activation/setPassword`, payload).pipe(take(1))
   }
 
   setRole(token: TokenType){
