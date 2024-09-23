@@ -44,8 +44,4 @@ export class AddAccountComponent  implements OnInit {
       this._authService.add(payload)
     }
   }
-
-  goBack(){
-    this._modalController.dismiss()
-  }
 }

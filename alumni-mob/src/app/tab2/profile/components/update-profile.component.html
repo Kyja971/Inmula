@@ -1,0 +1,117 @@
+<ion-row>
+  <ion-col>
+    <form [formGroup]="formUpdateProfile" (ngSubmit)="onSubmit()">
+      <div class="ion-text-center"> 
+        <img alt="Profile Picture" class="avatar" src="https://avatar.iran.liara.run/public"/>
+      </div>
+      
+      <ion-list lines="none">
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">Prénom</ion-label>
+            <ion-input class="custom" formControlName="firstName" placeholder="Veuillez saisir votre prénom"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-label position="stacked">Nom</ion-label>
+            <ion-input class="custom" formControlName="lastName" placeholder="Veuillez saisir votre nom"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">Emploi</ion-label>
+            <ion-input class="custom" formControlName="occupation" placeholder="Veuillez saisir votre emploi"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-label position="stacked">Entreprise</ion-label>
+            <ion-input class="custom" formControlName="company" placeholder="Veuillez saisir le nom de votre entreprise"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">Mail</ion-label>
+            <ion-input class="custom" formControlName="email" placeholder="Veuillez saisir vos emails"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">Numéro de Téléphone</ion-label>
+            <ion-input class="custom" formControlName="phone" placeholder="Veuillez saisir votre numéro de téléphone"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">Genre</ion-label>
+            <ion-input class="custom" formControlName="gender" placeholder="Veuillez saisir votre genre"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">POE</ion-label>
+            <ion-input class="custom" formControlName="poe" placeholder="Veuillez saisir le nom de votre poe"></ion-input>
+          </ion-col>
+        </ion-row>
+
+      </ion-list>
+    
+      <ion-button type="submit" [disabled]="formUpdateProfile.invalid" expand="block">Valider</ion-button>
+    </form>
+  </ion-col>
+</ion-row>
+
+<!-- 
+<ion-row class="modalCustom">
+  <ion-col class="ion-justify-content-center content-form">
+    <h2>Nouveau post</h2>
+    <form [formGroup]="formUpdateProfile" (ngSubmit)="onSubmit()">
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked">Prénom</ion-label>
+          <ion-input class="custom" formControlName="firstName" placeholder="Veuillez saisir votre prénom"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label position="stacked">Nom</ion-label>
+          <ion-input class="custom" formControlName="lastName" placeholder="Veuillez saisir votre nom"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Emploi</ion-label>
+          <ion-input class="custom" formControlName="occupation" placeholder="Veuillez saisir votre emploi"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Entreprise</ion-label>
+          <ion-input class="custom" formControlName="company" placeholder="Veuillez saisir le nom de votre entreprise"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Mails</ion-label>
+          <ion-input class="custom" formControlName="emails" placeholder="Veuillez saisir vos emails"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Numéro de Téléphone</ion-label>
+          <ion-input class="custom" formControlName="phone" placeholder="Veuillez saisir votre numéro de téléphone"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Genre</ion-label>
+          <ion-input class="custom" formControlName="gender" placeholder="Veuillez saisir votre genre"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">POE</ion-label>
+          <ion-input class="custom" formControlName="poe" placeholder="Veuillez saisir le nom de votre poe"></ion-input>
+        </ion-item>
+
+      </ion-list>
+    
+      <ion-button type="submit" [disabled]="formUpdateProfile.invalid" expand="block">Valider</ion-button>
+    </form>
+  </ion-col>
+</ion-row> -->

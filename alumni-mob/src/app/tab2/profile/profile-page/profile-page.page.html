@@ -1,6 +1,15 @@
 <app-header></app-header>
 
 <ion-content>
+
+  <ion-row class="actionBar" *ngIf="isMyself" (click)="updateProfile()">
+    <ion-col>
+      <ion-button>
+        <ion-icon slot="end" name="pencil-outline" class="update"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
   <ion-row>
     <ion-col class="ion-text-center">
       <img alt="Profile Picture" class="avatar" src="https://avatar.iran.liara.run/public"/>

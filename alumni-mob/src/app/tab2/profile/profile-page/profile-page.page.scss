@@ -2,6 +2,34 @@ ion-content::part(background){
     background-color: #EEEEEE;
 }
 
+ion-button {
+    --background: #C0E863;
+    --border-radius: 6px;
+    --color: #000;
+    --box-shadow: none;
+    --padding-top: .5rem;
+    --padding-bottom: .5rem;
+    text-transform: none;
+    letter-spacing: normal;
+    margin-right: 10px;
+}
+
+.actionBar{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+
+    ion-button{
+        --border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        .update{
+            font-size: 2rem;
+            margin-left: -5px;
+        }
+    }
+}
+
 ion-content{
     ion-list{
         border-radius: 18px;

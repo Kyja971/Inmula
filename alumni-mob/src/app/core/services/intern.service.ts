@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { lastValueFrom, map, Observable, take } from 'rxjs';
 import { Intern } from '../types/intern/intern-class';
 import { plainToInstance } from 'class-transformer';
 import { environment } from 'src/environments/environment';
+import { ModalController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class InternService {
   private readonly URI: string = `${environment.gatewayUrl}/intern`
   private _intern: Intern | null = null
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(
+    private _httpClient: HttpClient,
+    private _modalController: ModalController
+  ) { }
 
   /**
    * @returns Observable<InternType[]>
@@ -36,6 +40,14 @@ export class InternService {
         return plainToInstance(Intern, intern)
       })
     )
+  }
+
+ async update(payload: any, internId?: string) {
+    const intern = await this._httpClient.put<Intern>(`${this.URI}/${internId}`, payload).pipe(take(1)).subscribe((intern: Intern) => {
+      this.intern = intern
+      this._modalController.dismiss()
+    })
+    return lastValueFrom(this._httpClient.put<Intern>(`${this.URI}/${internId}`, payload))
   }
 
   set intern(intern: Intern) {

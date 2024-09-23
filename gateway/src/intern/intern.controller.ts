@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { take } from 'rxjs';
 import { Response } from 'express';
 import { CreateInternDto } from './dto/create-intern.dto';
 import { AdminOrSuperAdminGuard } from 'src/auth/guards/admin-super-admin.guard';
+import { isConnectedGuard } from 'src/post/guards/is-connected.guard';
 
 @Controller('/intern')
 export class InternController {
@@ -79,28 +81,27 @@ export class InternController {
       });
   }
 
-  @UseGuards(AdminOrSuperAdminGuard)
+  @UseGuards(isConnectedGuard)
   @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() body: InternType,
-    @Res() res: Response,
-  ): void {
-    this._service
-      .update(id, body)
-      .pipe(take(1))
-      .subscribe({
-        next: (response: any) => {
-          if (response) {
-            res.status(200).send(response);
-          } else {
-            res.status(400).send();
-          }
-        },
-        error: (error: any) => {
-          res.status(500).send(error);
-        },
-      });
+  // eslint-disable-next-line prettier/prettier
+  update(@Param('id') id: string, @Body() body: InternType, @Res() res: Response, @Req() req: Request): void {
+    if (req['user'].internId === id) {
+      this._service
+        .update(id, body)
+        .pipe(take(1))
+        .subscribe({
+          next: (response: any) => {
+            if (response) {
+              res.status(200).send(response);
+            } else {
+              res.status(400).send();
+            }
+          },
+          error: (error: any) => {
+            res.status(500).send(error);
+          },
+        });
+    }
   }
 
   @UseGuards(AdminOrSuperAdminGuard)
