@@ -1,35 +1,33 @@
-<ion-header [translucent]="true">
-  <ion-row class="ion-align-items-center">
-    <ion-col size="2">
-      <ion-tab-button (click)="goBack()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </ion-tab-button>
-    </ion-col>
+<ion-row class="modalCustom">
+  <ion-col>
+    <h2>Commentaires</h2>
+    <ion-list lines="none" *ngFor="let showComment of showComments">
+        <ion-item class="comments align-items-start">
+          <ion-thumbnail>
+            <img alt="Profile Picture" class="avatar" src="https://avatar.iran.liara.run/public"/>
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ showComment.intern.firstName }} {{ showComment.intern.lastName }}</h2>
+            <p class="postDate"> Posté le {{ post.postedAt | date: 'dd/MM/yyyy' }} </p>
+            <p>{{ showComment.content }}</p>
+          </ion-label>
+        </ion-item>
+    </ion-list>
 
-    <ion-col size="8">
-      <ion-img src="../../../../assets/images/logo-aelion-new-white.png" alt="logo aelion"></ion-img>
-    </ion-col>
+    
+      <form [formGroup]="writeCommentForm" (ngSubmit)="onSubmit()">
+        <ion-row class="response">
+        <ion-col size="10"><ion-input formControlName="content" placeholder="Répondre au post" class="custom-input"> </ion-input></ion-col>
+        <ion-col size="2">
+          <ion-button type="submit"><ion-icon name="arrow-forward-circle-sharp"></ion-icon></ion-button>
+        </ion-col>
+    </ion-row>
+    </form>
 
-    <ion-col size="2">
-    </ion-col>
-  </ion-row>
-</ion-header>
-<ion-content>
-  <ion-card>
-    <app-header-intern [intern]="post.author"></app-header-intern>
-    <app-post-content [post]="post"> </app-post-content>
-  </ion-card>
+    
+      
 
-  <ng-container *ngFor="let showComment of showComments">
-    <ion-card>
-      <p> {{ showComment.intern.firstName }} {{ showComment.intern.lastName }}</p>
-      <p> {{ showComment.content }} </p>
-      <p class="postDate" text-align="right"> Posté le {{ post.postedAt | date: 'dd/MM/yyyy' }} </p>
-    </ion-card>
-  </ng-container>
+      
 
-  <form [formGroup]="writeCommentForm" (ngSubmit)="onSubmit()">
-    <ion-input formControlName="content" placeholder="Répondre au post"> </ion-input>
-    <ion-button type="submit" [disabled]="writeCommentForm.invalid"> Envoyer le commentaire </ion-button>
-  </form>
-</ion-content>
+  </ion-col>
+</ion-row>

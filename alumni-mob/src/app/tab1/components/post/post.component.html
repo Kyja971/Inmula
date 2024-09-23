@@ -2,7 +2,7 @@
 <ng-container *ngFor="let post of posts, let i = index">
   <ion-card>
 
-    <app-header-intern [intern]="post.author" [num]="i" [id]="post.authorId"> </app-header-intern>
+    <app-header-intern [intern]="post.author" [num]="i" [id]="post.authorId" [post]="post"> </app-header-intern>
     <app-post-content [post]="post"> </app-post-content>
     <app-post-footer [post]="post"></app-post-footer>
   

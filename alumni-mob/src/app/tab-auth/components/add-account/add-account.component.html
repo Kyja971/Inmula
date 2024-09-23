@@ -1,6 +1,8 @@
 <ion-row class="blockModal">
   <ion-col class="ion-justify-content-center content-form">
-    <!-- <h2>Modifier</h2> -->
+    <h2 *ngIf="auth">Modifier</h2>
+    <h2 *ngIf="!auth">Ajouter</h2>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-list lines="none">
         <ion-item>

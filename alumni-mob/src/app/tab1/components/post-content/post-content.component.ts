@@ -19,39 +19,10 @@ export class PostContentComponent  implements OnInit {
   @Input()
   post!: PostType
 
-  isAllow: boolean = false
-
   constructor(
-    private _postService: PostService,
-    private _modalController: ModalController,
-    private _selfInformation: SelfInformationService,
-    private _authService: AuthService,
-    private _storage: StorageService
   ) { }
 
   async ngOnInit() {
-    const token = this._storage.retrieve('auth')
-    this._authService.getRole({ token: token }).pipe(take(1)).subscribe((role: string) => {
-      this.isAllow = (role === 'super_admin') || (this.post.authorId === this._selfInformation.retrievePersonnal());
-    })
   }
 
-  async onUpdatePost(post: PostType) {
-    const authModal = await this._modalController.create({
-      component : AddPostComponent,
-      initialBreakpoint: 1,
-      breakpoints: [0, 1],
-      componentProps: {
-        post : post
-      }
-    });
-    authModal.present();  
-  }
-
-  onDeletePost(id?: number) {
-    if(id){
-      this._postService.delete(id);
-      this._modalController.dismiss()
-    }
-  }
 }

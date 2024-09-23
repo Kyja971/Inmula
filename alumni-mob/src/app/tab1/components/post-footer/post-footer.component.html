@@ -1,27 +1,35 @@
 <ion-row class="ion-align-items-center">
   <ion-col>
-    <ion-icon *ngIf="isMyPost" name="heart-outline" color="danger"></ion-icon>
-    <ion-icon *ngIf="!isMyPost && !postLiked" name="heart-outline" color="danger" (click)="addLike(post.id)"></ion-icon>
-    <ion-icon *ngIf="!isMyPost && postLiked" name="heart-sharp" color="danger" (click)="unLikePost(post.id)"></ion-icon>
-    <span (click)="showLikes(post.id)"> {{ likes.length }} </span>
-    <!-- <ion-icon (click)="showLikes(post.id)"> {{ likes.length }}</ion-icon> -->
+    <ion-button (click)="onClickLike(post.id)">
+      <ion-icon *ngIf="!isMyPost && !postLiked" name="heart-outline"></ion-icon>
+      <ion-icon *ngIf="!isMyPost && postLiked" name="heart-sharp" color="danger"></ion-icon>
+      <span (click)="showLikes(post.id)"> {{ likes.length }} </span>
+    </ion-button>
   </ion-col>
 
   <ion-col>
-    <ion-icon name="star-outline" color="warning"></ion-icon>
+    <ion-button (click)="showComments(post)">
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      {{ comments.length }}
+    </ion-button>
   </ion-col>
 
   <ion-col>
-    <ion-icon name="chatbubble-ellipses-outline" (click)="showComments(post)"></ion-icon>
-    <span> {{ comments.length }} </span>
+    <ion-button>
+      <ion-icon name="star-outline"></ion-icon>
+    </ion-button>
   </ion-col>
 
-  <ion-col>
-    <ion-icon name="pin-outline"></ion-icon>
-  </ion-col>
+  <!-- <ion-col>
+    <ion-button>
+      <ion-icon name="pin-outline"></ion-icon>
+    </ion-button>
+  </ion-col> -->
 
   <ion-col>
-    <ion-icon name="share-social-outline"></ion-icon>
+    <ion-button>
+      <ion-icon name="share-social-outline"></ion-icon>
+    </ion-button>
   </ion-col>
 </ion-row>
 

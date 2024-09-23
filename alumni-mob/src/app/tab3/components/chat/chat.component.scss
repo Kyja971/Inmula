@@ -52,6 +52,7 @@ ion-header {
 
     &.received {
       align-self: flex-start;
+      width: 70%;
 
       .datetime {
         padding-left: .3rem;
@@ -62,7 +63,7 @@ ion-header {
         background-color: var(--sent-color);
         padding: .6rem 1rem;
         border-radius: 10px;
-        font-size: 1.2rem;
+        font-size: 1rem;
         border: 1px solid #79a4b8;
         color: #385d70;
         margin: 0;
@@ -71,6 +72,7 @@ ion-header {
 
     &.sent {
       align-self: flex-end;
+      width: 70%;
 
       .datetime {
         text-align: right;
@@ -81,7 +83,7 @@ ion-header {
         background-color: var(--received-color);
         padding: .6rem 1rem;
         border-radius: 10px;
-        font-size: 1.2rem;
+        font-size: 1rem;
         border: 1px solid #9aba52;
         color: #556f19;
         margin: 0;
@@ -121,4 +123,10 @@ ion-header {
   .btn-send {
     color: black;
   }
+}
+
+.write{
+  margin: 0;
+  line-height: normal;
+  font-size: .8rem;
 }

@@ -8,6 +8,7 @@
 
     <ion-col size="8">
       <ion-title>{{ intern.firstName }} {{ intern.lastName }}</ion-title>
+      <p class="write" *ngIf="isTyping"> {{intern.firstName}} est en train d'écrire ...</p>
     </ion-col>
 
     <ion-col size="2">
@@ -34,7 +35,7 @@
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
    
-    <div *ngIf="isTyping"> {{intern.firstName}} est en train d'écrire ...</div>
+    
     <div class="chat-response">
       <!-- <ion-row>
         <ion-col>

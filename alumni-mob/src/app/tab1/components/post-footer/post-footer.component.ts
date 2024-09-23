@@ -46,6 +46,17 @@ export class PostFooterComponent  implements OnInit {
     }
   }
 
+  onClickLike(postId?: number){
+    if(postId){
+      if (this.postLiked && !this.isMyPost) {
+        this.unLikePost(postId)
+      }
+      else if (!this.postLiked && !this.isMyPost) {
+        this.addLike(postId)
+      }
+    }
+  }
+
   addLike(postId?: number){
     if(postId) {
       this._likeStatusService.addLike(postId).pipe(take(1)).subscribe(()=> {
@@ -82,6 +93,8 @@ export class PostFooterComponent  implements OnInit {
     if(post){
       const authModal = await this._modalController.create({
         component : ShowCommentsComponent,
+        initialBreakpoint: 1,
+        breakpoints: [0, 1],
         componentProps: {
           comments: this.comments,
           post: post

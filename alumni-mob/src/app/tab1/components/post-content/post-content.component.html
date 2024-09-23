@@ -4,11 +4,7 @@
       <ion-col size="8">
         <h2 class="title"> {{ post.title}} </h2>
       </ion-col>
-      <ion-col size="1">
-        <ion-icon *ngIf="isAllow" name="trash-outline" (click)="onDeletePost(post.id)"></ion-icon>
-        <ion-icon *ngIf="isAllow" name="create-outline" (click)="onUpdatePost(post)"></ion-icon> 
-     </ion-col>
-      <ion-col size="3">
+      <ion-col size="4">
         <div *ngIf="post.type === 'Information'">
           <h3 class="information">Information</h3>
         </div>

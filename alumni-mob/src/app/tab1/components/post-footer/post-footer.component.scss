@@ -2,3 +2,13 @@ ion-col{
     text-align: center;
     font-size: 1.5rem;
 }
+
+ion-button{
+    font-size: 1.2rem;
+    --background: transparent;
+    --box-shadow: none;
+    color: gray;
+    ion-icon{
+        margin-right: .3rem;
+    }
+}
