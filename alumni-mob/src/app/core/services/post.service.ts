@@ -63,7 +63,9 @@ export class PostService {
     this._httpClient.post<PostType>(this.URI, post).pipe(take(1)).subscribe((post: PostType) => {
       post.author = plainToInstance(Intern, post.author)
       this._wsService.newPost()
-      this.postsSubject.next([...this.postsSubject.value, post]);
+      console.log(this.postsSubject.value)
+      this.postsSubject.next([post, ...this.postsSubject.value]);
+      console.log(this.postsSubject.value)
       this._modalController.dismiss();
     })
   }
