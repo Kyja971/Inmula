@@ -1,5 +1,6 @@
 import {
   Controller,
+  Request,
   Get,
   Post,
   Body,
@@ -20,15 +21,21 @@ export class BonneBoiteController {
     return this.bonneBoiteService.create(createBonneBoiteDto);
   }
 
-
   @Post(':id')
-  addCompany(@Param('id') internId: string, @Body() companyId: number) {
-    return this.bonneBoiteService.addCompany(internId, companyId);
+  addCompany(@Param('id') id: string, @Body() companyId: number) {
+    console.log(companyId, id);
+    return this.bonneBoiteService.addCompany(id, companyId);
   }
 
   @Get('unactivated')
   findAll() {
     return this.bonneBoiteService.findAll();
+  }
+
+  @Get('company')
+  getCompanyIdToCompanyInfo(@Request() req) {
+    const companyIds = req.headers['params'];
+    return this.bonneBoiteService.getCompanyIdToCompanyInfo(companyIds);
   }
 
   @Get()
@@ -37,8 +44,8 @@ export class BonneBoiteController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bonneBoiteService.findOne(+id);
+  getPersonnalArray(@Param('id') id: string) {
+    return this.bonneBoiteService.getPersonnalArray(id);
   }
 
   @Patch(':id')

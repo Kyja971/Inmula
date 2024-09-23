@@ -118,6 +118,7 @@ export class AppService {
   async getInternId(token: TokenType): Promise<string> {
     // Decode the token in order to retrieve the initial payload
     return this.decode(token).then(async (payload: any) => {
+      console.log(payload)
       // Asks the internId to the Intern microservice by the mail associate to the token
       let pattern = { cmd: 'findOneByMail' };
       const author = await lastValueFrom(this._client.send<string>(pattern, { email: payload.email }));

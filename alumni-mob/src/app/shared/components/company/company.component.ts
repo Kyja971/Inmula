@@ -9,7 +9,7 @@ import { PresentCompanyComponent } from 'src/app/tab4/components/present-company
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.scss'],
 })
-export class CompanyComponent  implements OnInit {
+export class CompanyComponent  /*implements OnInit*/ {
 
   public JSONString = JSON
 
@@ -18,9 +18,9 @@ export class CompanyComponent  implements OnInit {
 
   constructor(private _modalCtrl: ModalController) { }
 
-  ngOnInit() {
-    console.log(this.company)
-  }
+  // ngOnInit() {
+  //   console.log(this.company)
+  // }
 
 
    presentCompany(company: CompanyItemsType) {

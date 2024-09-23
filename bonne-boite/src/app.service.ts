@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Addable } from './interfaces/addable.interface';
 import { Getable } from './interfaces/getable.interface';
 import { Updatable } from './interfaces/updatable.interface';
@@ -8,6 +8,8 @@ import { Model } from 'mongoose';
 import { Boite } from './models/boite-schema';
 import { BoiteType } from './models/boite.type';
 import { MockResult } from './models/mock';
+import { CompanyItemsType } from './models/company-items.type';
+import { FTCompanyType } from './models/ft-company.type';
 
 @Injectable()
 export class AppService implements Addable, Getable, Updatable, Deletable {
@@ -39,30 +41,102 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
   }
 
   addCompany(payload: any) {
-    this.boiteModel
-      .findOne({ internId: payload.internId })
-      .then((personnalDatas) => {
-        if (personnalDatas) {
-          if (personnalDatas.companies.includes(payload.companyId)) {
-            throw new Error('Company already added');
-          } else {
-            personnalDatas.companies.push(payload.companyId);
-            personnalDatas.save().then((savedDatas) => {
-              return savedDatas;
-            });
+    return this.boiteModel
+      .findOne({ internId: payload.id })
+      .then((personnal) => {
+        if (personnal) {
+          if (!personnal.companies.includes(payload.companyId.id)) {
+            personnal.companies.push(payload.companyId.id);
+            Logger.log(personnal, 'intérieur condition');
+            this.boiteModel
+              .updateOne(
+                {
+                  internId: payload.id,
+                },
+                {
+                  internId: payload.id,
+                  companies: personnal.companies,
+                },
+              )
+              .then((updatedDatas) => {
+                return updatedDatas;
+              })
+              .catch((error) => {
+                return error;
+              });
           }
-        } else {
-          const newIntern = new this.boiteModel({
-            internId: payload.internId,
-            companies: [payload.companyId],
-          });
-          newIntern.save().then((savedDatas) => {
-            return savedDatas;
-          });
+          return new Error('Company allready followed');
         }
+        const newPersonnal = new this.boiteModel({
+          internId: payload.id,
+          companies: [payload.companyId],
+        });
+        newPersonnal
+          .save()
+          .then((savedDatas) => {
+            return savedDatas;
+          })
+          .catch((error) => {
+            return error;
+          });
+      });
+
+    // an other way to add a company
+    // return this.boiteModel
+    //   .findOneAndUpdate(
+    //     {
+    //       internId: payload.id,
+    //       'companies.companyId': { $nin: [payload.companyId] }, //nin = not in dans le document
+    //     },
+    //     { $push: { companies: { companyId: payload.companyId.id } } }, //{id: "ssdaf"}
+    //     //upsert = combinaison de update et insert, si document trouvé -> update sinon en crée un nouveau avec les infos du payload
+    //     { upsert: true },
+    //   )
+    //   .then((updatedPersonnalDatas) => {
+    //     if (updatedPersonnalDatas) {
+    //       console.log('Société ajoutée avec succès:', updatedPersonnalDatas);
+    //       return updatedPersonnalDatas.save();
+    //     } else {
+    //       throw new Error('La société est déjà présente dans la liste');
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     throw new Error(error);
+    //   });
+  }
+
+  getPersonnalArray(id: string): Promise<Array<number>> {
+    return this.boiteModel
+      .findOne({ internId: id })
+      .then((myArray) => {
+        if (myArray === null || myArray.companies === null) {
+          throw new Error('Pas de compagnies dans vos favoris');
+        }
+        console.log(myArray);
+        return myArray.companies;
       })
       .catch((error) => {
-        throw new Error(error);
+        console.error(error);
+        throw new Error(
+          "Une erreur s'est produite lors de la récupération des compagnies",
+        );
       });
+  }
+
+  async getCompanyIdToCompanyInfo(
+    companyIds: number[],
+  ): Promise<CompanyItemsType[]> {
+    const results: CompanyItemsType[] = [];
+
+    for (const mock of MockResult) {
+      for (const item of mock.items) {
+        if (companyIds.includes(item.id)) {
+          results.push(item);
+          break;
+        }
+      }
+    }
+
+    return results;
   }
 }

@@ -13,6 +13,8 @@
       </ion-item>
     </ion-list>
     <ion-button type="submit" [disabled]="formGroup.invalid">Rechercher</ion-button>
+    <ion-button [routerLink]="['suivi']">Mon tableau de suivi</ion-button>
+
   </form>
 
   <ng-container *ngFor="let company of companyArray, let i = index">

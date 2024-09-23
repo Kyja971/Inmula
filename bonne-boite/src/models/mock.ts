@@ -44,7 +44,7 @@ export const MockResult = [
         headcount_min: '3',
         hiring_potential: 1.201609999999993,
         id: 4636621,
-        is_high_potential: false,
+        is_high_potential: true,
         location: {
           lat: 49.1196,
           lon: 6.17373,
@@ -164,7 +164,7 @@ export const MockResult = [
         headcount_min: '3',
         hiring_potential: 3.201609999999993,
         id: 9165843,
-        is_high_potential: false,
+        is_high_potential: true,
         location: {
           lat: 49.1196,
           lon: 6.17373,
@@ -284,7 +284,7 @@ export const MockResult = [
         headcount_min: '3',
         hiring_potential: 3.8201609999999993,
         id: 4569876,
-        is_high_potential: false,
+        is_high_potential: true,
         location: {
           lat: 49.1196,
           lon: 6.17373,
@@ -404,7 +404,7 @@ export const MockResult = [
         headcount_min: '3',
         hiring_potential: 0.4201609999999993,
         id: 1036845,
-        is_high_potential: false,
+        is_high_potential: true,
         location: {
           lat: 49.1196,
           lon: 6.17373,
@@ -524,7 +524,7 @@ export const MockResult = [
         headcount_min: '3',
         hiring_potential: 2.720160999999993,
         id: 9400056,
-        is_high_potential: false,
+        is_high_potential: true,
         location: {
           lat: 49.1196,
           lon: 6.17373,
@@ -644,7 +644,7 @@ export const MockResult = [
         headcount_min: '3',
         hiring_potential: 1.4201609999999993,
         id: 8455999,
-        is_high_potential: false,
+        is_high_potential: true,
         location: {
           lat: 49.1196,
           lon: 6.17373,

@@ -21,4 +21,14 @@ export class AppController {
   addCompany(payload: any) {
     return this.appService.addCompany(payload);
   }
+
+  @MessagePattern({ cmd: 'myArray' })
+  getPersonnalArray(id: string) {
+    return this.appService.getPersonnalArray(id);
+  }
+
+  @MessagePattern({ cmd: 'InfosCies' })
+  getCompanyIdToCompanyInfo(ciesFollowid: number[]) {
+    return this.appService.getCompanyIdToCompanyInfo(ciesFollowid);
+  }
 }

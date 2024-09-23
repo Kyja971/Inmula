@@ -19,10 +19,6 @@ export class BonneBoiteService {
     return this._client.send<BoiteType[], any>(pattern, {});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bonneBoite`;
-  }
-
   update(id: number, updateBonneBoiteDto: UpdateBonneBoiteDto) {
     return `This action updates a #${id} bonneBoite`;
   }
@@ -36,9 +32,19 @@ export class BonneBoiteService {
     return this._client.send<any[], any>(pattern, {});
   }
 
-  addCompany(internId: string, companyId: number) {
+  addCompany(id: string, companyId: number) {
     const pattern: any = { cmd: 'addCompany' };
-    const payload: any = { internId: internId, companyId: companyId };
+    const payload: any = { id: id, companyId: companyId };
     return this._client.send<any[], any>(pattern, payload);
+  }
+
+  getPersonnalArray(id: string): Observable<Array<number>> {
+    const pattern: any = { cmd: 'myArray' };
+    return this._client.send<number[], any>(pattern, id);
+  }
+
+  getCompanyIdToCompanyInfo(params: number[]) {
+    const pattern: any = { cmd: 'InfosCies' };
+    return this._client.send<number[], any>(pattern, params);
   }
 }

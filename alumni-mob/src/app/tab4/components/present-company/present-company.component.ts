@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { EmploymentService } from 'src/app/core/services/employment.service';
 import { CompanyItemsType } from 'src/app/core/types/ft-company/company-items.type';
 
 @Component({
@@ -12,12 +13,17 @@ export class PresentCompanyComponent  implements OnInit {
   @Input()
   company!: CompanyItemsType
 
-  constructor(private modalCtrl: ModalController) { }
 
-  ngOnInit() {}
+  constructor(private modalCtrl: ModalController,
+    private employmentService: EmploymentService
+  ) { }
+
+  ngOnInit() {
+ 
+  }
 
   addCompanyToArray(){
-    
+    this.employmentService.storeCompanyId(this.company.id)
   }
 
   dismissModal() {

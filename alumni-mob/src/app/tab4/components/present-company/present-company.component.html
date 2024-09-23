@@ -1,3 +1,5 @@
+
+<app-header></app-header>
 <ion-card>
   <ion-header>
     <h2> {{company.company_name}}</h2>
@@ -8,7 +10,13 @@
       Domaine d'activité : {{company.naf_label}}
     </ion-item>
     <ion-item>
-      Potentiel d'embauche : <span *ngIf="company.is_high_potential ? 'Fort' : 'Faible'"></span>
+      Potentiel d'embauche : 
+      <div *ngIf="company.is_high_potential">
+        Fort
+      </div>
+      <div *ngIf="!company.is_high_potential">
+        Faible
+      </div>
       
     </ion-item>
   </ion-card-content>

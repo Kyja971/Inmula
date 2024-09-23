@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MyApplicationStatusPageRoutingModule } from './my-application-status-routing.module';
 
 import { MyApplicationStatusPage } from './my-application-status.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MyApplicationStatusPageRoutingModule
+    MyApplicationStatusPageRoutingModule,
+    SharedModule
   ],
   declarations: [MyApplicationStatusPage]
 })

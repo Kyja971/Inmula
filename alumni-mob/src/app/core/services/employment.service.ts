@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -6,6 +6,8 @@ import { AddCompanyIdType } from '../types/ft-company/add-company-id.type';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SelfInformationService } from './self-information.service';
+import { CompanyItemsType } from '../types/ft-company/company-items.type';
+import { FTCompanyType } from '../types/ft-company/ft-company.type';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,7 @@ export class EmploymentService {
   }
 
   storeCompanyId(companyId: number) {
-
+    console.log(this.internId , companyId)
     this._http.post<AddCompanyIdType>(`${this._baseUrl}/${this.internId}`, { id: companyId }).pipe(take(1)).subscribe({
       next: (response) => {
         if (response) {
@@ -55,6 +57,11 @@ export class EmploymentService {
   }
 
   getPersonnalArray(): Observable<number[]> {
-    return this._http.get<number[]>(`${this._baseUrl}/boite/${this.internId}`).pipe(take(1))
+    return this._http.get<number[]>(`${this._baseUrl}/${this.internId}`).pipe(take(1))
   }
+
+  CompanyIdToCompanyInfo(companyIds: number[]): Observable<Array<any>> {
+    const headers = new HttpHeaders({ 'params': JSON.stringify(companyIds) });
+    return this._http.get<Array<FTCompanyType>>(`${this._baseUrl}/company`, { headers }).pipe(take(1));
+}
 }

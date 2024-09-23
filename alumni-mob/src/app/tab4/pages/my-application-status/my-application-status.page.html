@@ -1,1 +1,8 @@
-<ng-container *ngFor="let company of followedCies"></ng-container>
+<app-header></app-header>
+<ion-content *ngFor="let company of followedCies; let i = index">
+  <ion-card>
+    <h2>{{company.company_name}}</h2>
+    <h3>{{company.citycode}} {{company.city}}</h3>
+    <h4>Domaine d'activité : {{company.naf_label}}</h4>
+  </ion-card>
+</ion-content>

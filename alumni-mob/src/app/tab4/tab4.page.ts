@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmploymentService } from '../core/services/employment.service';
+import {  Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab4',
@@ -13,7 +14,8 @@ export class Tab4Page implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _employmentService: EmploymentService
+    private _employmentService: EmploymentService,
+    private router : Router
   ) { }
 
   formGroup: FormGroup = new FormGroup({})
@@ -34,4 +36,6 @@ export class Tab4Page implements OnInit {
   mockResearch() {
     this.companyArray = this._employmentService.getDatas()
   }
+
+  
 }
