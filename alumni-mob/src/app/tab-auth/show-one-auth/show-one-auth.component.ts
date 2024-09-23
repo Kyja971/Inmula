@@ -35,6 +35,8 @@ export class ShowOneAuthComponent  implements OnInit {
   async onUpdateAuth(auth: AuthType) {
     const authModal = await this._modalController.create({
       component : AddAccountComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 1],
       componentProps: {
         auth : auth
       }

@@ -1,50 +1,3 @@
-ion-content{
-    ion-searchbar{
-        .searchbar-input{
-            --border-radius: 16px;
-            --box-shadow: none;
-            --border: 1px solid #cdcdcd;
-            --background-color: #EEEEEE;
-        }
-    }
-    #open-custom-dialog{
-        margin-left: 12px;
-    }
-    ion-button {
-        --background: #C0E863;
-        --border-radius: 6px;
-        --color: #000;
-        --box-shadow: none;
-        --padding-top: .5rem;
-        --padding-bottom: .5rem;
-        text-transform: none;
-        letter-spacing: normal;
-        margin-right: 10px;
-    }
-}
-
-.legend{
-    padding: 0 16px;
-    ion-col{
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    ion-checkbox{
-        --checkmark-color: transparent;
-    }
-
-    ion-checkbox::part(container) {
-        position: absolute;
-        left: -10px;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        border: none;
-    }
-}
-
 .tous span, .super_admin span, .admin span, .stagiaire span{
     width: 100%;
     height: 100%;
@@ -53,50 +6,21 @@ ion-content{
     border-radius: 6px;
 }
 
-.tous{
-    color: gray;//
-    span{
-        background-color: #eee;
-        border: 1px solid #eee;
-    }
-}
-
-.tous.checkbox-checked span{
-    border: 1px solid gray;
-}
-
 .super_admin span{
     background-color: #B6FBAD;
     border: 1px solid #B6FBAD;
     color: #3b7334;
-}
-
-.super_admin.checkbox-checked span{
-    border: 1px solid #6cab64;
 }
 .admin span{
     background-color: #B5E7FF;
     border: 1px solid #B5E7FF;
     color: #385d6e;
 }
-.admin.checkbox-checked span{
-    border: 1px solid #385d6e;
-}
 
 .stagiaire span{
     background-color: #D6CAFF;
     border: 1px solid #D6CAFF;
     color: #504379;
-}
-.stagiaire.checkbox-checked span{
-    border: 1px solid #504379;
-}
-
-ion-list{
-    margin-top: 0 !important;
-    ion-item:nth-child(odd){
-        --ion-item-background:#eee;
-    }
 }
 
 ion-item{
@@ -136,11 +60,4 @@ ion-item{
             border: 1px solid #504379;
         }
     }
-}
-
-.sc-ion-searchbar-md-h{
-    --border-radius: 16px;
-    --box-shadow: none;
-    border: 1px solid #cdcdcd;
-    background-color: #EEEEEE;
 }

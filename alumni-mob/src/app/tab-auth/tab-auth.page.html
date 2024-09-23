@@ -30,15 +30,7 @@
   <ng-container *ngIf="auths.length">
     <ion-list inset="true" lines="none">
       <ng-container *ngFor="let auth of auths; trackBy: trackByEmail">
-          <ion-item>
-            <!-- <app-show-one-auth [auth]="auth"> </app-show-one-auth> -->
-            <ion-icon name="person-outline" class="icon-left" id="present-alert"></ion-icon>
-            <ion-label>
-              <h2>{{auth.email}} <span class="{{auth.role}}"></span></h2>
-            </ion-label>
-            <ion-icon *ngIf="this._selfInformation.role === 'super_admin' || (this._selfInformation.role === 'admin' && auth.role === 'stagiaire')" name="document-text-outline" (click)="onUpdateAuth(auth)"></ion-icon>
-            <ion-icon *ngIf="this._selfInformation.role === 'super_admin' || (this._selfInformation.role === 'admin' && auth.role === 'stagiaire')" name="close-circle-outline" (click)="presentAlert(auth)" class="icon-right"></ion-icon>
-          </ion-item>
+        <app-show-one-auth [auth]="auth"> </app-show-one-auth>
       </ng-container>
     </ion-list>
   </ng-container>
