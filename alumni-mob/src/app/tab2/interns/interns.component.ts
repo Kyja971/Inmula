@@ -65,7 +65,6 @@ export class InternsComponent  implements OnInit, OnDestroy {
       error: (error: any) => {},
       complete: () => {}
     });
-    console.log('toto');
   }
 
 }

@@ -62,7 +62,10 @@ export class PostController {
     @Param('id') id: number,
     @Body() body: CreatePostDto,
   ) {
-    if (req['user'].internId === body.authorId) {
+    if (
+      req['user'].internId === body.authorId ||
+      req['user'].role === 'super_admin'
+    ) {
       return this._service.update(id, body).pipe(take(1));
     } else {
       throw new UnauthorizedException("Vous n'avez pas les droits");

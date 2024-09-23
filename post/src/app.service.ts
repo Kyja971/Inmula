@@ -127,6 +127,7 @@ export class AppService {
     existingPost.content = post.content || existingPost.content;
     existingPost.media = post.media || existingPost.media;
     existingPost.type = post.type || existingPost.type;
+    existingPost.postedAt = post.postedAt || existingPost.postedAt;
 
 
     const updatedPost = await this._postRepository.save(existingPost);

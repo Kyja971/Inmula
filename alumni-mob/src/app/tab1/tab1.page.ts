@@ -20,7 +20,7 @@ export class Tab1Page implements OnInit, OnDestroy{
   private _newPostSubscription!: Subscription
 
   private page = 1
-  private take = 10
+  private take = 5
 
   public newPost = false
 
