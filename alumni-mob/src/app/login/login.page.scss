@@ -2,6 +2,9 @@
 ion-header{
     --ion-background-color: #00171f;
     box-shadow: none;
+        .logo{
+            height: 40px;
+        }
         ion-img{
         max-width: 140px;
         margin: 0.5em auto;

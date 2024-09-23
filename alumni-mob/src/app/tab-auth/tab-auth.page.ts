@@ -44,7 +44,9 @@ export class TabAuthPage implements OnInit{
 
   async onAddAuth() {
     const authModal = await this._modalController.create({
-      component : AddAccountComponent
+      component : AddAccountComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 1]
     });
     authModal.present();
   }
@@ -58,6 +60,8 @@ export class TabAuthPage implements OnInit{
   async onUpdateAuth(auth: AuthType) {
     const authModal = await this._modalController.create({
       component : AddAccountComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 1],
       componentProps: {
         auth : auth
       }

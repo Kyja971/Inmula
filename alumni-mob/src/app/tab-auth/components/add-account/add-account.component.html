@@ -1,33 +1,15 @@
-<ion-header [translucent]="true">
-  <ion-row class="ion-align-items-center">
-    <ion-col size="2">
-      <ion-tab-button (click)="goBack()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </ion-tab-button>
-    </ion-col>
-
-    <ion-col size="8">
-      <ion-img src="../../../../assets/images/logo-aelion-new-white.png" alt="logo aelion"></ion-img>
-    </ion-col>
-
-    <ion-col size="2">
-    </ion-col>
-  </ion-row>
-</ion-header>
-
-<ion-row>
+<ion-row class="blockModal">
   <ion-col class="ion-justify-content-center content-form">
+    <!-- <h2>Modifier</h2> -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-list lines="none">
         <ion-item>
-          <ion-input class="custom" formControlName="email" placeholder="Email" helperText="ex: email@aelion.fr"></ion-input>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input class="custom" formControlName="email" placeholder="Veuillez saisir un email"></ion-input>
         </ion-item>
 
-        <!-- <ion-item>
-          <ion-input class="custom" formControlName="role" placeholder="Rôle" helperText="Super admin | Admin | Stagiaire"></ion-input>
-        </ion-item> -->
-
         <ion-item>
+          <ion-label position="stacked">Rôle</ion-label>
           <ion-select aria-label="role" interface="action-sheet" formControlName="role" placeholder="Choix du rôle">
             <ion-select-option value="super_admin">Super admin</ion-select-option>
             <ion-select-option value="admin">Admin</ion-select-option>

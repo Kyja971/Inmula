@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-row class="ion-align-items-center">
     <ion-col size="2">
       <ion-tab-button (click)="goBack()">
@@ -13,32 +13,35 @@
     <ion-col size="2">
     </ion-col>
   </ion-row>
-</ion-header>
+</ion-header> -->
 
-<ion-row>
+<ion-row class="modalCustom">
   <ion-col class="ion-justify-content-center content-form">
+    <h2>Nouveau post</h2>
     <form [formGroup]="formPost" (ngSubmit)="onSubmit()">
-      <ion-list>
+      <ion-list lines="none">
         <ion-item>
-          <ion-input formControlName="title" placeholder="Titre du post"></ion-input>
+          <ion-label position="stacked">Titre</ion-label>
+          <ion-input class="custom" formControlName="title" placeholder="Veuillez saisir un titre"></ion-input>
         </ion-item>
-      </ion-list>
     
-      <ion-list>
         <ion-item>
-          <ion-input formControlName="content" placeholder="Contenu du post"></ion-input>
-        </ion-item>
-      </ion-list>
+          <ion-label position="stacked">Contenu</ion-label>
+          <ion-textarea class="custom" formControlName="content" placeholder="Veuillez saisir un contenu" [autoGrow]="true"></ion-textarea>
 
-      <ion-list>
-        <ion-item>
-          <ion-input formControlName="media" placeholder="Insérez votre image"></ion-input>
         </ion-item>
-      </ion-list>
 
-      <ion-list>
         <ion-item>
-          <ion-input formControlName="type" placeholder="Type du post"></ion-input>
+          <ion-label position="stacked">Image</ion-label>
+          <ion-input class="custom" formControlName="media" placeholder="Veuillez saisir un URL"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-select interface="action-sheet" formControlName="type" placeholder="Choix du type de post">
+            <ion-select-option value="Astuce">Astuce</ion-select-option>
+            <ion-select-option value="Information">Information</ion-select-option>
+            <ion-select-option value="Offre emploi">Offre d'emploi</ion-select-option>
+          </ion-select>
         </ion-item>
       </ion-list>
     

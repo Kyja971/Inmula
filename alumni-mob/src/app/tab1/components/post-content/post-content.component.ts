@@ -39,6 +39,8 @@ export class PostContentComponent  implements OnInit {
   async onUpdatePost(post: PostType) {
     const authModal = await this._modalController.create({
       component : AddPostComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 1],
       componentProps: {
         post : post
       }
@@ -52,5 +54,4 @@ export class PostContentComponent  implements OnInit {
       this._modalController.dismiss()
     }
   }
-
 }

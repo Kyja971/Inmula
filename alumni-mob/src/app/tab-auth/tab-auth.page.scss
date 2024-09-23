@@ -1,15 +1,4 @@
 ion-content{
-    ion-searchbar{
-        .searchbar-input{
-            --border-radius: 16px;
-            --box-shadow: none;
-            --border: 1px solid #cdcdcd;
-            --background-color: #EEEEEE;
-        }
-    }
-    #open-custom-dialog{
-        margin-left: 12px;
-    }
     ion-button {
         --background: #C0E863;
         --border-radius: 6px;
@@ -21,126 +10,135 @@ ion-content{
         letter-spacing: normal;
         margin-right: 10px;
     }
-}
 
-.legend{
-    padding: 0 16px;
-    ion-col{
-        padding-left: 0;
-        padding-right: 0;
+    .legend{
+        padding: 16px 16px 0 16px;
+        ion-col{
+            padding-left: 0;
+            padding-right: 0;
+        }
+    
+        ion-checkbox{
+            --checkmark-color: transparent;
+        }
+    
+        ion-checkbox::part(container) {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border: none;
+        }
     }
-
-    ion-checkbox{
-        --checkmark-color: transparent;
-    }
-
-    ion-checkbox::part(container) {
-        position: absolute;
-        left: -10px;
-        top: 0;
+    
+    .tous span, .super_admin span, .admin span, .stagiaire span{
         width: 100%;
         height: 100%;
-        background-color: transparent;
-        border: none;
+        display: inline-block;
+        padding: .2rem .5rem;
+        border-radius: 6px;
     }
-}
-
-.tous span, .super_admin span, .admin span, .stagiaire span{
-    width: 100%;
-    height: 100%;
-    display: inline-block;
-    padding: .2rem .5rem;
-    border-radius: 6px;
-}
-
-.tous{
-    color: gray;//
-    span{
-        background-color: #eee;
-        border: 1px solid #eee;
-    }
-}
-
-.tous.checkbox-checked span{
-    border: 1px solid gray;
-}
-
-.super_admin span{
-    background-color: #B6FBAD;
-    border: 1px solid #B6FBAD;
-    color: #3b7334;
-}
-
-.super_admin.checkbox-checked span{
-    border: 1px solid #6cab64;
-}
-.admin span{
-    background-color: #B5E7FF;
-    border: 1px solid #B5E7FF;
-    color: #385d6e;
-}
-.admin.checkbox-checked span{
-    border: 1px solid #385d6e;
-}
-
-.stagiaire span{
-    background-color: #D6CAFF;
-    border: 1px solid #D6CAFF;
-    color: #504379;
-}
-.stagiaire.checkbox-checked span{
-    border: 1px solid #504379;
-}
-
-ion-list{
-    margin-top: 0 !important;
-    ion-item:nth-child(odd){
-        --ion-item-background:#eee;
-    }
-}
-
-ion-item{
-    border-radius: 12px;
-    .icon-left{
-        margin-right: .5rem;
-        padding-right: .3rem;
-        border-right: 1px solid #cdcdcd;
-    }
-
-    .icon-right{
-        margin-left: .5rem;
-        border-left: 1px solid #cdcdcd;
-        padding-left: .5rem;
-        cursor: pointer;
-    }
-    ion-label{
-        h2 span{
-            width: 10px;
-            height: 10px;
-            display: inline-block;
-            content: "";
-            border-radius: 100%;
-        }
-        .super_admin{
-            background-color: #B6FBAD;
-            border: 1px solid #6cab64;
-        }
-
-        .admin{
-            background-color: #B5E7FF;
-            border: 1px solid #385d6e;
-        }
-
-        .stagiaire{
-            background-color: #D6CAFF;
-            border: 1px solid #504379;
+    
+    .tous{
+        color: gray;//
+        span{
+            background-color: #eee;
+            border: 1px solid #eee;
         }
     }
-}
+    
+    .tous.checkbox-checked span{
+        border: 1px solid gray;
+    }
+    
+    .super_admin span{
+        background-color: #B6FBAD;
+        border: 1px solid #B6FBAD;
+        color: #3b7334;
+    }
+    
+    .super_admin.checkbox-checked span{
+        border: 1px solid #6cab64;
+    }
+    .admin span{
+        background-color: #B5E7FF;
+        border: 1px solid #B5E7FF;
+        color: #385d6e;
+    }
+    .admin.checkbox-checked span{
+        border: 1px solid #385d6e;
+    }
+    
+    .stagiaire span{
+        background-color: #D6CAFF;
+        border: 1px solid #D6CAFF;
+        color: #504379;
+    }
+    .stagiaire.checkbox-checked span{
+        border: 1px solid #504379;
+    }
+    
+    ion-list{
+        margin-top: 0 !important;
+        ion-item:nth-child(odd){
+            --ion-item-background:#eee;
+        }
+    }
+    
+    ion-item{
+        border-radius: 12px;
+        .icon-left{
+            margin-right: .5rem;
+            padding-right: .3rem;
+            border-right: 1px solid #cdcdcd;
+        }
+    
+        .icon-right{
+            margin-left: .5rem;
+            border-left: 1px solid #cdcdcd;
+            padding-left: .5rem;
+            cursor: pointer;
+        }
+        ion-label{
+            h2 span{
+                width: 10px;
+                height: 10px;
+                display: inline-block;
+                content: "";
+                border-radius: 100%;
+            }
+            .super_admin{
+                background-color: #B6FBAD;
+                border: 1px solid #6cab64;
+            }
+    
+            .admin{
+                background-color: #B5E7FF;
+                border: 1px solid #385d6e;
+            }
+    
+            .stagiaire{
+                background-color: #D6CAFF;
+                border: 1px solid #504379;
+            }
+        }
+    }
 
-.sc-ion-searchbar-md-h{
-    --border-radius: 16px;
-    --box-shadow: none;
-    border: 1px solid #cdcdcd;
-    background-color: #EEEEEE;
+    .actionBar{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+
+        ion-button{
+            --border-radius: 100%;
+            width: 50px;
+            height: 50px;
+            .add{
+                font-size: 2rem;
+                margin-left: -5px;
+            }
+        }
+    }
 }

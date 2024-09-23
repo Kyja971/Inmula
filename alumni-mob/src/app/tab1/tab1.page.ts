@@ -55,7 +55,9 @@ export class Tab1Page implements OnInit, OnDestroy{
 
   async onAddPost(){
     const authModal = await this._modalController.create({
-      component : AddPostComponent
+      component : AddPostComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 1],
     });
     authModal.present();
   }

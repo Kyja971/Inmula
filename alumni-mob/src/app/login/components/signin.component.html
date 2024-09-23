@@ -2,18 +2,15 @@
   <ion-col>
     <ion-img src="/assets/images/Secure login-bro.png" alt="login" class="login"></ion-img>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <ion-list>
+      <ion-list lines="none">
         <ion-item>
-          <ion-input
-            formControlName="login"
-            placeholder="Identifiant"
-          ></ion-input>
+          <ion-label position="stacked">Identifiant</ion-label>
+          <ion-input class="custom" formControlName="login" placeholder="Veuillez saisir votre identifiant"></ion-input>
         </ion-item>
-      </ion-list>
-    
-      <ion-list>
+
         <ion-item>
-          <ion-input  type="password" formControlName="password" placeholder="Mot de passe">
+          <ion-label position="stacked">Mot de passe</ion-label>
+          <ion-input  class="custom-password" type="password" formControlName="password" placeholder="Veuillez saisir votre mot de passe">
             <ion-input-password-toggle slot="end"></ion-input-password-toggle>
           </ion-input>
         </ion-item>

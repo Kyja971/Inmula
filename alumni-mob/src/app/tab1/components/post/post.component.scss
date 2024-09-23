@@ -1,5 +1,7 @@
-// ion-grid {
-//     ion-row:first-child {
-//         background-color: blue;
-//     }
-// }
+ion-card{
+    --ion-background-color: white;
+    box-shadow: none;
+    border-radius: 16px;
+    border: 1px solid #cdcdcd;
+    margin-bottom: 16px;
+}

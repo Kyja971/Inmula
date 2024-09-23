@@ -1,21 +1,6 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
-  <!-- <ion-row>
-    <ion-col>
-      <ion-searchbar show-clear-button="focus" placeholder="Rechercher"></ion-searchbar>
-    </ion-col>
-  </ion-row> -->
-
-  <ion-row>
-    <ion-col size="auto">
-      <ion-button size="small" (click)="onAddAuth()">
-        Nouveau
-        <ion-icon slot="end" name="person-add-outline"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-
   <ion-row class="legend">
     <ion-col size="auto">
       <ion-checkbox [(ngModel)]="checkboxes[0].isChecked" (ionChange)="toggleCheckbox($event)" class="tous">
@@ -57,4 +42,12 @@
       </ng-container>
     </ion-list>
   </ng-container>
+
+  <ion-row class="actionBar">
+    <ion-col size="auto">
+      <ion-button (click)="onAddAuth()">
+        <ion-icon slot="end" name="add-outline" class="add"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>
