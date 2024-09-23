@@ -17,16 +17,14 @@ ion-button {
 .actionBar{
     position: fixed;
     right: 0;
-    bottom: 0;
+    top: 70px;
+    z-index: 1;
 
     ion-button{
-        --border-radius: 100%;
-        width: 50px;
-        height: 50px;
-        .update{
-            font-size: 2rem;
-            margin-left: -5px;
-        }
+        --border-radius: 30px;
+        border-radius: 30px;
+        --background: white;
+        border: 1px solid #cdcdcd;
     }
 }
 
@@ -35,7 +33,7 @@ ion-content{
         border-radius: 18px;
     }
     .avatar{
-        max-width: 150px;
+        max-width: 120px;
         border: 2px solid gray;
         border-radius: 100%;
         margin-top: 1rem;

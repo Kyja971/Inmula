@@ -2,10 +2,10 @@
 
 <ion-content>
 
-  <ion-row class="actionBar" *ngIf="isMyself" (click)="updateProfile()">
+  <ion-row class="actionBar" *ngIf="isMyself">
     <ion-col>
-      <ion-button>
-        <ion-icon slot="end" name="pencil-outline" class="update"></ion-icon>
+      <ion-button (click)="updateProfile()">
+        Modifier
       </ion-button>
     </ion-col>
   </ion-row>
@@ -15,6 +15,7 @@
       <img alt="Profile Picture" class="avatar" src="https://avatar.iran.liara.run/public"/>
     </ion-col>
   </ion-row>
+
   <ion-row>
     <ion-col class="ion-text-center identity">
       <h2>{{ intern?.firstName }} {{ intern?.lastName }}</h2>
