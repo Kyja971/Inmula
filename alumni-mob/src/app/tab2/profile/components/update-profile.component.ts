@@ -38,10 +38,10 @@ export class UpdateProfileComponent  implements OnInit {
     const payload = {
       firstname: this.formUpdateProfile.value.firstName,
       lastname: this.formUpdateProfile.value.lastName,
-      occupation: this.formUpdateProfile.value.occupation,
+      function: this.formUpdateProfile.value.occupation,
       company: { name : this.formUpdateProfile.value.company },
       email: [this.formUpdateProfile.value.email],
-      phone: this.formUpdateProfile.value.phone,
+      phonenumber: this.formUpdateProfile.value.phone,
       gender: this.formUpdateProfile.value.gender,
       poe: { name : this.formUpdateProfile.value.poe },
     };
