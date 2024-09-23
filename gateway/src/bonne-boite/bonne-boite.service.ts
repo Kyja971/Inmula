@@ -4,10 +4,10 @@ import { UpdateBonneBoiteDto } from './dto/update-bonne-boite.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { BoiteType } from './models/boite-type';
+import { ContactType } from './models/contact.type';
 
 @Injectable()
 export class BonneBoiteService {
-
   constructor(@Inject('BOITE') private _client: ClientProxy) {}
 
   create(createBonneBoiteDto: BonneBoiteDto) {
@@ -46,5 +46,24 @@ export class BonneBoiteService {
   getCompanyIdToCompanyInfo(params: number[]) {
     const pattern: any = { cmd: 'InfosCies' };
     return this._client.send<number[], any>(pattern, params);
+  }
+
+  addContact(internId: string, companyId: number, contact: ContactType) {
+    const pattern: any = { cmd: 'addContact' };
+    const payload: any = {
+      internId: internId,
+      companyId: companyId,
+      contact: contact,
+    };
+    return this._client.send<ContactType, any>(pattern, payload);
+  }
+
+  getContact(internId: string, companyId: number) {
+    const pattern: any = { cmd: 'getContact' };
+    const payload: any = {
+      internId: internId,
+      companyId: companyId,
+    };
+    return this._client.send<ContactType | undefined, any>(pattern, payload);
   }
 }

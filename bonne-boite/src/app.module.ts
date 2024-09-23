@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BoiteSchema } from './models/boite-schema';
+import { ContactSchema } from './models/contact-schema';
 
 @Module({
   imports: [
@@ -14,7 +15,10 @@ import { BoiteSchema } from './models/boite-schema';
         dbName: 'boite_db',
       },
     ),
-    MongooseModule.forFeature([{ name: 'Boite', schema: BoiteSchema }]),
+    MongooseModule.forFeature([
+      { name: 'Boite', schema: BoiteSchema },
+      { name: 'Contact', schema: ContactSchema },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

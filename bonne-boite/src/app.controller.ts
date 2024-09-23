@@ -31,4 +31,18 @@ export class AppController {
   getCompanyIdToCompanyInfo(ciesFollowid: number[]) {
     return this.appService.getCompanyIdToCompanyInfo(ciesFollowid);
   }
+
+  @MessagePattern({ cmd: 'addContact' })
+  addContact(payload: any) {
+    return this.appService.addContact(
+      payload.contact,
+      payload.internId,
+      payload.companyId,
+    );
+  }
+
+  @MessagePattern({ cmd: 'getContact' })
+  getContact(payload: any) {
+    return this.appService.getContact(payload.internId, payload.companyId);
+  }
 }

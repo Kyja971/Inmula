@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { Tab4PageRoutingModule } from './tab4-routing.module';
 
 import { Tab4Page } from './tab4.page';
-import { JobComponent } from './components/job.component';
 import { SharedModule } from '../shared/shared.module';
 import { PresentCompanyComponent } from './components/present-company/present-company.component';
 
@@ -18,8 +17,8 @@ import { PresentCompanyComponent } from './components/present-company/present-co
     IonicModule,
     Tab4PageRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [Tab4Page, PresentCompanyComponent]
+  declarations: [Tab4Page, PresentCompanyComponent],
 })
 export class Tab4PageModule {}

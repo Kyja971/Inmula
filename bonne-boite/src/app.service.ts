@@ -9,11 +9,15 @@ import { Boite } from './models/boite-schema';
 import { BoiteType } from './models/boite.type';
 import { MockResult } from './models/mock';
 import { CompanyItemsType } from './models/company-items.type';
-import { FTCompanyType } from './models/ft-company.type';
+import { ContactCompany } from './models/contact-schema';
+import { ContactType } from './models/contact.type';
 
 @Injectable()
 export class AppService implements Addable, Getable, Updatable, Deletable {
-  constructor(@InjectModel('Boite') private boiteModel: Model<Boite>) {}
+  constructor(
+    @InjectModel('Boite') private boiteModel: Model<Boite>,
+    @InjectModel('Contact') private contactModel: Model<ContactCompany>,
+  ) {}
 
   add(any: any) {
     throw new Error('Method not implemented.');
@@ -21,7 +25,6 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
   async findAll(): Promise<Array<BoiteType>> {
     const allBoite = await this.boiteModel.find();
     if (allBoite.length === 0) {
-      console.log('je suis arrivé au bout');
       return null;
     }
     return allBoite;
@@ -112,7 +115,6 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
         if (myArray === null || myArray.companies === null) {
           throw new Error('Pas de compagnies dans vos favoris');
         }
-        console.log(myArray);
         return myArray.companies;
       })
       .catch((error) => {
@@ -138,5 +140,38 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
     }
 
     return results;
+  }
+
+  addContact(contact: ContactType, internId: string, companyId: number) {
+    const newContact = new this.contactModel({
+      internId: internId,
+      companyId: companyId,
+      contact: contact,
+    });
+    newContact
+      .save()
+      .then((savedDatas) => {
+        return savedDatas;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
+  getContact(internId: string, companyId: number) {
+    console.log(internId, companyId)
+    this.contactModel
+      .findOne({
+        internId: internId,
+        companyId: companyId,
+      })
+      .then((response) => {
+        console.log(response, 'la response')
+        if (response) {
+          return response;
+        } else {
+          return undefined;
+        }
+      });
   }
 }

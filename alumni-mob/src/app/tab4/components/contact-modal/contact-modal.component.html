@@ -1,0 +1,74 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="formGroup" (ngSubmit)="saveDatas()">
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="lastname" placeholder="Nom"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="firstname" placeholder="Prénom"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="tel" placeholder="Téléphone" type="phonenumber"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="mail" placeholder="Email" type="email"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="function" placeholder="Poste"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="contacts" placeholder="Moyen de contact"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="history" placeholder="Historique d'échanges"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="firstContact" placeholder="Premier échange"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="lastContact" placeholder="Dernier contact"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-input formControlName="nextContact" placeholder="Prochain contact"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button type="submit"  expand="block">Enregistrer</ion-button>
+
+  </form>
+
+  <ion-button  expand="block" (click)="dismiss()">Retour</ion-button>
+</ion-content>
+  <!-- <ion-segment>
+    <ion-segment-button value="contact" (click)="setCompanyContact()">
+      <ion-icon name="id-card-outline"></ion-icon>
+      <ion-label>Contact</ion-label>
+    </ion-segment-button> 
+    <ion-segment-button value="approach" (click)="setCompanyApproach()">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <ion-label>Démarches</ion-label>
+    </ion-segment-button>
+
+    <app-company-contact *ngIf="segmentValue === 'contact'"></app-company-contact>
+    <app-company-approach *ngIf="segmentValue === 'approach'"></app-company-approach>
+  </ion-segment>
+  <app-company-contact [value]="segmentValue" *ngIf="segmentValue === 'contact'"></app-company-contact>
+  <app-company-approach [value]="segmentValue"></app-company-approach> -->

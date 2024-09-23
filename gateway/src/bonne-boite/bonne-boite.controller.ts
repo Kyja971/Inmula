@@ -7,10 +7,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BonneBoiteService } from './bonne-boite.service';
 import { BonneBoiteDto } from './dto/create-bonne-boite.dto';
 import { UpdateBonneBoiteDto } from './dto/update-bonne-boite.dto';
+import { ContactType } from './models/contact.type';
 
 @Controller('boite')
 export class BonneBoiteController {
@@ -59,5 +61,22 @@ export class BonneBoiteController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.bonneBoiteService.remove(+id);
+  }
+
+  @Post('contact')
+  addContact(
+    @Query('internId') intern: string,
+    @Query('companyId') companyId: string,
+    @Body() body: ContactType,
+  ) {
+    return this.bonneBoiteService.addContact(intern, parseInt(companyId), body);
+  }
+
+  @Get('contact/contact')
+  getContact(
+    @Query('internId') intern: string,
+    @Query('companyId') companyId: string,
+  ) {
+    return this.bonneBoiteService.getContact(intern, parseInt(companyId));
   }
 }
