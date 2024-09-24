@@ -1,53 +1,77 @@
+<ion-header>
+  <ion-row class="ion-align-items-center">
+    <ion-col size="2">
+      <ion-tab-button (click)="dismiss()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-col>
+    <ion-col size="8">
+      <!-- <ion-img src="../../../../assets/images/logo-blanc.png" alt="logo aelion" class="logo"></ion-img> -->
+      <ion-img src="../../../../assets/images/logo-noir.png" alt="logo aelion" class="logo"></ion-img>
+    </ion-col>
+    <ion-col size="2">
+    </ion-col>
+  </ion-row>
+</ion-header>
+
 <ion-content [fullscreen]="true">
+  <ion-row class="illustration-content">
+    <ion-col>
+      <ion-img src="/assets/images/task-gray.png" alt="society" class="illustration"></ion-img>
+    </ion-col>
+  </ion-row>
+
+  <h1>Fiche entreprise</h1>
   <form [formGroup]="formGroup" (ngSubmit)="saveDatas()">
-    <ion-list>
+    <ion-list lines="none">
       <ion-item>
-        <ion-input formControlName="lastname" placeholder="Nom"></ion-input>
+        <ion-label position="stacked">Nom</ion-label>
+        <ion-input class="custom" formControlName="lastname" placeholder=""></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="firstname" placeholder="Prénom"></ion-input>
+        <ion-label position="stacked">Prénom</ion-label>
+        <ion-input class="custom" formControlName="firstname" placeholder=""></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="tel" placeholder="Téléphone" type="phonenumber"></ion-input>
+        <ion-label position="stacked">Téléphone</ion-label>
+        <ion-input class="custom" formControlName="tel" placeholder="" type="phonenumber"></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="mail" placeholder="Email" type="email"></ion-input>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input class="custom" formControlName="mail" placeholder="" type="email"></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="function" placeholder="Poste"></ion-input>
+        <ion-label position="stacked">Poste</ion-label>
+        <ion-input class="custom" formControlName="function" placeholder=""></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="contacts" placeholder="Moyen de contact"></ion-input>
+        <ion-label position="stacked">Moyen de contact</ion-label>
+        <ion-input class="custom" formControlName="contacts" placeholder=""></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="history" placeholder="Historique d'échanges"></ion-input>
+        <ion-label position="stacked">Historique d'échanges</ion-label>
+        <ion-textarea class="custom" formControlName="history" placeholder=""></ion-textarea>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="firstContact" placeholder="Premier échange"></ion-input>
+        <ion-label position="stacked">Premier échange</ion-label>
+        <ion-input class="custom" formControlName="firstContact" placeholder=""></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="lastContact" placeholder="Dernier contact"></ion-input>
+        <ion-label position="stacked">Dernier contact</ion-label>
+        <ion-input class="custom" formControlName="lastContact" placeholder=""></ion-input>
       </ion-item>
-    </ion-list>
-    <ion-list>
+
       <ion-item>
-        <ion-input formControlName="nextContact" placeholder="Prochain contact"></ion-input>
+        <ion-label position="stacked">Prochain contact</ion-label>
+        <ion-input class="custom" formControlName="nextContact" placeholder=""></ion-input>
       </ion-item>
     </ion-list>
 
@@ -55,20 +79,5 @@
 
   </form>
 
-  <ion-button  expand="block" (click)="dismiss()">Retour</ion-button>
+  <!-- <ion-button  expand="block" (click)="dismiss()">Retour</ion-button> -->
 </ion-content>
-  <!-- <ion-segment>
-    <ion-segment-button value="contact" (click)="setCompanyContact()">
-      <ion-icon name="id-card-outline"></ion-icon>
-      <ion-label>Contact</ion-label>
-    </ion-segment-button> 
-    <ion-segment-button value="approach" (click)="setCompanyApproach()">
-      <ion-icon name="document-text-outline"></ion-icon>
-      <ion-label>Démarches</ion-label>
-    </ion-segment-button>
-
-    <app-company-contact *ngIf="segmentValue === 'contact'"></app-company-contact>
-    <app-company-approach *ngIf="segmentValue === 'approach'"></app-company-approach>
-  </ion-segment>
-  <app-company-contact [value]="segmentValue" *ngIf="segmentValue === 'contact'"></app-company-contact>
-  <app-company-approach [value]="segmentValue"></app-company-approach> -->
