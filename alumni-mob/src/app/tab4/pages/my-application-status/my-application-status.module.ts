@@ -19,6 +19,6 @@ import { ContactModalComponent } from '../../components/contact-modal/contact-mo
     SharedModule,
     ReactiveFormsModule,
   ],
-  declarations: [MyApplicationStatusPage, ContactModalComponent]
+  declarations: [ContactModalComponent]
 })
 export class MyApplicationStatusPageModule {}
