@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { lastValueFrom, take } from 'rxjs';
+import { take } from 'rxjs';
 import { EmploymentService } from 'src/app/core/services/employment.service';
 import { SelfInformationService } from 'src/app/core/services/self-information.service';
 import { CompanyItemsType } from 'src/app/core/types/ft-company/company-items.type';
-import { FTCompanyType } from 'src/app/core/types/ft-company/ft-company.type';
 import { ContactModalComponent } from '../../components/contact-modal/contact-modal.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-application-status',
@@ -25,22 +23,21 @@ export class MyApplicationStatusPage implements OnInit {
     private _employmentService: EmploymentService,
     private _selfInformation: SelfInformationService,
     private _modalCtrl: ModalController,
-    private _router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getMyFollowedCies();
   }
 
-   getMyFollowedCies() {
+  getMyFollowedCies() {
     const internId = this._selfInformation.retrievePersonnal();
-     this._employmentService.getPersonnalArray().subscribe({
-      next:  (personnalArray) => {
+    return this._employmentService.getPersonnalArray().subscribe({
+      next: (personnalArray) => {
         this.idFollowedCies = [];
         if (personnalArray) {
           this.idFollowedCies = personnalArray;
-           this._employmentService
-            .CompanyIdToCompanyInfo(personnalArray)
+          this._employmentService
+            .companyIdToCompanyInfo(personnalArray)
             .pipe(take(1))
             .subscribe({
               next: (infoCompany) => {
@@ -52,25 +49,25 @@ export class MyApplicationStatusPage implements OnInit {
             });
         }
       },
-      error: (error) => {},
+      error: (error) => { },
     });
   }
 
   presentContact(company: CompanyItemsType) {
     this._employmentService.getContact(company.id).subscribe({
-      next: (response) => {
+      next: (contact) => {
         this._modalCtrl.create({
-          component : ContactModalComponent,
+          component: ContactModalComponent,
           componentProps: {
-            contact: response[0],
+            contact: contact,
             companyId: company.id
           }
         })
-        .then((modal)=> {
-          modal.present()
-        });
+          .then((modal) => {
+            modal.present()
+          });
       },
-      error: (error) => {
+      error: () => {
         this._modalCtrl.create({
           component: ContactModalComponent,
           componentProps: {
@@ -78,32 +75,11 @@ export class MyApplicationStatusPage implements OnInit {
             companyId: company.id
           }
         })
-        .then((modal) => {
-          modal.present()
-        })
-      }})
-      // (response) => {
-      // if (response[0]) {
-      //   this._modalCtrl.create({
-      //     component : ContactModalComponent,
-      //     componentProps: {
-      //       contact: response[0],
-      //       companyId: company.id
-      //     }
-      //   })
-      //   .then((modal)=> {
-      //     modal.present()
-      //   });
-      // } else {
-      //   this._modalCtrl.create({
-      //     component: ContactModalComponent,
-      //     componentProps: {
-      //       contact: undefined,
-      //       companyId: company.id
-      //     }
-      //   })
-      // }
-
-    }   
+          .then((modal) => {
+            modal.present()
+          })
+      }
+    })
+  }
 }
 

@@ -27,21 +27,10 @@ export class EmploymentService {
   ) {}
 
   getDatas() {
-    try {
-      this._http
-        .get<any>(this._baseUrl)
-        .pipe(take(1))
-        .subscribe((response) => {
-          this._datas = response;
-        });
-    } catch (error) {
-      console.error('Erreur lors de la requête:', error);
-    }
-    return this._datas;
+      return this._http.get<any>(this._baseUrl).pipe(take(1))
   }
 
   storeCompanyId(companyId: number) {
-    console.log(this.internId, companyId);
     this._http
       .post<AddCompanyIdType>(`${this._baseUrl}/${this.internId}`, {
         id: companyId,
@@ -50,14 +39,24 @@ export class EmploymentService {
       .subscribe({
         next: (response) => {
           if (response) {
-            this._modalCtrl.dismiss();
-            this._router.navigate(['tabs', 'tab4', 'suivi']);
+            this._toastCtrl
+            .create({
+              message: `Entreprise suivie avec succès`,
+              duration: 1500,
+              position: 'middle',
+              buttons: [
+                {
+                  text: 'Fermer',
+                },
+              ],
+            }).then((toast) => toast.present().then(() => this._modalCtrl.dismiss())
+          )
           }
         },
-        error: () => {
+        error: (error) => {
           this._toastCtrl
             .create({
-              message: 'Ajout impossible',
+              message: `Entreprise déjà suivie`,
               duration: 3000,
               position: 'middle',
               buttons: [
@@ -66,7 +65,7 @@ export class EmploymentService {
                 },
               ],
             })
-            .then((toastCreated) => toastCreated.dismiss());
+            .then((toastCreated) => toastCreated.present()).then(()=> this._modalCtrl.dismiss());
         },
       });
   }
@@ -77,7 +76,7 @@ export class EmploymentService {
       .pipe(take(1));
   }
 
-  CompanyIdToCompanyInfo(companyIds: number[]): Observable<Array<any>> {
+  companyIdToCompanyInfo(companyIds: number[]): Observable<Array<any>> {
     const headers = new HttpHeaders({ params: JSON.stringify(companyIds) });
     return this._http
       .get<Array<FTCompanyType>>(`${this._baseUrl}/company`, { headers })
@@ -85,7 +84,7 @@ export class EmploymentService {
   }
 
   saveContact(contact: CompanyRelatedDatas, companyId: number) {
-    return this._http.post<CompanyRelatedDatas>(`${this._baseUrl}/contact?internId=${this.internId}&companyId=${companyId}`, contact).pipe(take(1)).subscribe((response) => console.log(response))
+    return this._http.patch<CompanyRelatedDatas>(`${this._baseUrl}/contact/contact?internId=${this.internId}&companyId=${companyId}`, contact).pipe(take(1))
   }
 
   getContact(companyId:number): Observable<CompanyRelatedDatas[]>{

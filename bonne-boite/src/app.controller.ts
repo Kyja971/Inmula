@@ -23,8 +23,8 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'myArray' })
-  getPersonnalArray(id: string) {
-    return this.appService.getPersonnalArray(id);
+  async getPersonnalArray(id: string) {
+    return await this.appService.getPersonnalArray(id);
   }
 
   @MessagePattern({ cmd: 'InfosCies' })
@@ -32,9 +32,9 @@ export class AppController {
     return this.appService.getCompanyIdToCompanyInfo(ciesFollowid);
   }
 
-  @MessagePattern({ cmd: 'addContact' })
-  addContact(payload: any) {
-    return this.appService.addContact(
+  @MessagePattern({ cmd: 'updateContact' })
+  updateContact(payload: any) {
+    return this.appService.updateContact(
       payload.contact,
       payload.internId,
       payload.companyId,

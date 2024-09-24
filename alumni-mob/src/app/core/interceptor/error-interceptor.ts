@@ -6,6 +6,8 @@ import { catchError, Observable, throwError } from 'rxjs';
 
 export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     const _toastController = inject(ToastController)
+    if (req.url.includes('localhost:3000/boite/contact/contact') && req.method == 'GET') return next(req)
+
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
           const toast = _toastController.create({

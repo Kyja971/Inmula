@@ -6,7 +6,7 @@ export class Boite {
   internId: string;
 
   @Prop()
-  companies: Array<number>;
+  companies: Array<number> = [];
 }
 
 export const BoiteSchema = SchemaFactory.createForClass(Boite);

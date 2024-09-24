@@ -32,7 +32,7 @@ export class BonneBoiteService {
     return this._client.send<any[], any>(pattern, {});
   }
 
-  addCompany(id: string, companyId: number) {
+  addCompany(id: string, companyId: { id: number }) {
     const pattern: any = { cmd: 'addCompany' };
     const payload: any = { id: id, companyId: companyId };
     return this._client.send<any[], any>(pattern, payload);
@@ -48,14 +48,14 @@ export class BonneBoiteService {
     return this._client.send<number[], any>(pattern, params);
   }
 
-  addContact(internId: string, companyId: number, contact: ContactType) {
-    const pattern: any = { cmd: 'addContact' };
+  updateContact(internId: string, companyId: number, contact: ContactType) {
+    const pattern: any = { cmd: 'updateContact' };
     const payload: any = {
       internId: internId,
       companyId: companyId,
       contact: contact,
     };
-    return this._client.send<ContactType, any>(pattern, payload);
+    return this._client.send<any, any>(pattern, payload);
   }
 
   getContact(internId: string, companyId: number) {

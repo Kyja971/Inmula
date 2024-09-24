@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IonSegmentButton, ModalController, SegmentChangeEventDetail } from '@ionic/angular';
-import { CompanyContactComponent } from '../company-contact/company-contact.component';
-import { CompanyApproachComponent } from '../company-approach/company-approach.component';
+import { ModalController, ToastController } from '@ionic/angular';
 import { CompanyRelatedDatas } from 'src/app/core/types/company-related-datas/company-related-datas.type';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SelfInformationService } from 'src/app/core/services/self-information.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { EmploymentService } from 'src/app/core/services/employment.service';
 
 @Component({
@@ -16,8 +13,6 @@ export class ContactModalComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({});
   segmentValue = '';
-  companyContact: CompanyContactComponent = new CompanyContactComponent();
-  companyApproach: CompanyApproachComponent = new CompanyApproachComponent();
 
   @Input()
   contact?: CompanyRelatedDatas
@@ -28,7 +23,8 @@ export class ContactModalComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _modalCtrl : ModalController,
-    private _employmentService : EmploymentService
+    private _employmentService : EmploymentService,
+    private _toast: ToastController
 
   ) {}
 
@@ -62,10 +58,20 @@ export class ContactModalComponent implements OnInit {
       lastContact: this.formGroup.value.lastContact,
       nextContact: this.formGroup.value.nextContact,
     }
-    console.log("je vais send ces infos: ", this.companyId)
-    this._employmentService.saveContact(newContact, this.companyId)
 
-    this._modalCtrl.dismiss()
+    this._employmentService.saveContact(newContact, this.companyId).subscribe(() => {
+      this._toast
+      .create({
+        message: `Contact mis-à-jour avec succès`,
+        duration: 1500,
+        position: 'middle',
+        buttons: [
+          {
+            text: 'Fermer',
+          },
+        ],
+      }).then((toast) => toast.present().then(() => this._modalCtrl.dismiss())
+    )})
   }
 
   dismiss() {
@@ -74,19 +80,4 @@ export class ContactModalComponent implements OnInit {
 
   completeContactInformation() {}
 
-  // setCompanyContact() {
-  //   //console.log(this._segment.value, 'initial Value')
-  //   if (this.segmentValue !== 'contact') {
-  //     this.segmentValue === 'contact'
-  //     console.log('change segmentValue to contact')
-  //   }
-  // }
-
-  // setCompanyApproach() {
-  //   //console.log(this._segment.value, 'initial Value')
-  //   if (this.segmentValue !== 'approach') {
-  //     this.segmentValue === 'approach'
-  //     console.log('changed segmentValue to approach')
-  //   }
-  // }
 }

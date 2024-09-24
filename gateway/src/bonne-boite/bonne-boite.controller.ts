@@ -24,8 +24,7 @@ export class BonneBoiteController {
   }
 
   @Post(':id')
-  addCompany(@Param('id') id: string, @Body() companyId: number) {
-    console.log(companyId, id);
+  addCompany(@Param('id') id: string, @Body() companyId: { id: number }) {
     return this.bonneBoiteService.addCompany(id, companyId);
   }
 
@@ -63,13 +62,17 @@ export class BonneBoiteController {
     return this.bonneBoiteService.remove(+id);
   }
 
-  @Post('contact')
-  addContact(
+  @Patch('contact/contact')
+  updateContact(
     @Query('internId') intern: string,
     @Query('companyId') companyId: string,
     @Body() body: ContactType,
   ) {
-    return this.bonneBoiteService.addContact(intern, parseInt(companyId), body);
+    return this.bonneBoiteService.updateContact(
+      intern,
+      parseInt(companyId),
+      body,
+    );
   }
 
   @Get('contact/contact')

@@ -50,7 +50,6 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
         if (personnal) {
           if (!personnal.companies.includes(payload.companyId.id)) {
             personnal.companies.push(payload.companyId.id);
-            Logger.log(personnal, 'intérieur condition');
             this.boiteModel
               .updateOne(
                 {
@@ -62,17 +61,29 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
                 },
               )
               .then((updatedDatas) => {
-                return updatedDatas;
+                const emptyContact = new this.contactModel({
+                  internId: payload.id,
+                  companyId: payload.companyId.id,
+                  contact: new ContactCompany(),
+                });
+                emptyContact
+                  .save()
+                  .then(() => {
+                    return updatedDatas;
+                  })
+                  .catch((error) => {
+                    return error;
+                  });
               })
               .catch((error) => {
                 return error;
               });
           }
-          return new Error('Company allready followed');
+          throw new Error('Company already followed');
         }
         const newPersonnal = new this.boiteModel({
           internId: payload.id,
-          companies: [payload.companyId],
+          companies: [payload.companyId.id],
         });
         newPersonnal
           .save()
@@ -83,29 +94,6 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
             return error;
           });
       });
-
-    // an other way to add a company
-    // return this.boiteModel
-    //   .findOneAndUpdate(
-    //     {
-    //       internId: payload.id,
-    //       'companies.companyId': { $nin: [payload.companyId] }, //nin = not in dans le document
-    //     },
-    //     { $push: { companies: { companyId: payload.companyId.id } } }, //{id: "ssdaf"}
-    //     //upsert = combinaison de update et insert, si document trouvé -> update sinon en crée un nouveau avec les infos du payload
-    //     { upsert: true },
-    //   )
-    //   .then((updatedPersonnalDatas) => {
-    //     if (updatedPersonnalDatas) {
-    //       console.log('Société ajoutée avec succès:', updatedPersonnalDatas);
-    //       return updatedPersonnalDatas.save();
-    //     } else {
-    //       throw new Error('La société est déjà présente dans la liste');
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     throw new Error(error);
-    //   });
   }
 
   getPersonnalArray(id: string): Promise<Array<number>> {
@@ -142,16 +130,18 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
     return results;
   }
 
-  addContact(contact: ContactType, internId: string, companyId: number) {
-    const newContact = new this.contactModel({
-      internId: internId,
-      companyId: companyId,
-      contact: contact,
-    });
-    newContact
-      .save()
-      .then((savedDatas) => {
-        return savedDatas;
+  updateContact(
+    contact: Partial<ContactType>,
+    internId: string,
+    companyId: number,
+  ) {
+    return this.contactModel
+      .findOneAndUpdate(
+        { internId: internId, companyId: companyId },
+        { internId: internId, companyId: companyId, contact: contact }
+      )
+      .then((updatedDatas) => {
+        return updatedDatas.contact;
       })
       .catch((error) => {
         return error;
@@ -159,16 +149,14 @@ export class AppService implements Addable, Getable, Updatable, Deletable {
   }
 
   getContact(internId: string, companyId: number) {
-    console.log(internId, companyId)
-    this.contactModel
+    return this.contactModel
       .findOne({
         internId: internId,
         companyId: companyId,
       })
       .then((response) => {
-        console.log(response, 'la response')
         if (response) {
-          return response;
+          return response.contact;
         } else {
           return undefined;
         }

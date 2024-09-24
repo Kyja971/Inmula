@@ -4,12 +4,12 @@
   <form [formGroup]="formGroup" (ngSubmit)="mockResearch()">
     <ion-list>
       <ion-item>
-        <ion-input formControlName="job"></ion-input>
+        <ion-input formControlName="job" placeholder="Métier recherché"></ion-input>
       </ion-item>
     </ion-list>
     <ion-list>
       <ion-item>
-        <ion-input formControlName="location"></ion-input>
+        <ion-input formControlName="location" placeholder="Localisation"></ion-input>
       </ion-item>
     </ion-list>
     <ion-button type="submit" [disabled]="formGroup.invalid">Rechercher</ion-button>
