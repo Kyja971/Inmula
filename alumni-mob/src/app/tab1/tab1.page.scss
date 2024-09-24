@@ -1,3 +1,10 @@
+::ng-deep .custom-header-post{
+    background-color: #032834;
+    color: white;
+    .logo{
+        filter: invert(1);
+    }
+}
 .custom{
     --ion-background-color: #F7F7F7;
     //--ion-background-color: #eee;

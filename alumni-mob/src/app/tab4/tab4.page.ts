@@ -12,6 +12,7 @@ import { lastValueFrom } from 'rxjs';
 export class Tab4Page implements OnInit {
 
   companyArray: Array<any> = []
+  selectedSegment: string = 'segment-one';
 
   constructor(
     private _formBuilder: FormBuilder,

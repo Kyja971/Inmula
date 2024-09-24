@@ -1,0 +1,19 @@
+ion-list.tableauSuivi{
+    & ion-item:nth-child(odd){
+        --ion-item-background:#eee;
+    }
+}
+
+ion-item{
+    border-radius: 16px;
+    h2{
+      font-weight: bold;
+    }
+    h3{
+      font-size: small;
+    }
+    h4{
+      font-size: .8rem;
+      color: gray;
+    }
+}

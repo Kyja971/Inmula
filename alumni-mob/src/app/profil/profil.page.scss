@@ -1,0 +1,20 @@
+::ng-deep .custom-header{
+    background-color: #D6DFE6;
+}
+.illustration-content{
+    background-color: #D6DFE6;
+    .illustration{
+        max-width: 150px;
+        margin: 0 auto;
+    }
+}
+
+.customList{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+}

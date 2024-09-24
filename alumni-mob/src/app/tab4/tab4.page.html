@@ -1,24 +1,48 @@
-<app-header></app-header>
+<app-header className="custom-header"></app-header>
+
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="formGroup" (ngSubmit)="mockResearch()">
-    <ion-list>
-      <ion-item>
-        <ion-input formControlName="job" placeholder="Métier recherché"></ion-input>
-      </ion-item>
-    </ion-list>
-    <ion-list>
-      <ion-item>
-        <ion-input formControlName="location" placeholder="Localisation"></ion-input>
-      </ion-item>
-    </ion-list>
-    <ion-button type="submit" [disabled]="formGroup.invalid">Rechercher</ion-button>
-    <ion-button [routerLink]="['suivi']">Mon tableau de suivi</ion-button>
+  <ion-row class="illustration-content">
+    <ion-col>
+      <!-- <h1>Trouver votre prochain job !</h1> -->
+      <ion-img src="/assets/images/job.png" alt="login" class="illustration"></ion-img>
+    </ion-col>
+  </ion-row>
 
+  <ion-row>
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button value="segment-one" class="custom-SegmentBtn">
+        <ion-label>Recherche</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="segment-two" class="custom-SegmentBtn">
+        <ion-label>Tableau de bord</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-row>
+
+  <form [formGroup]="formGroup" (ngSubmit)="mockResearch()" *ngIf="selectedSegment === 'segment-one'">
+    <ion-row class="ion-align-items-center ion-margin areaSearch">
+    <ion-col size="10">
+      <ion-label position="stacked">Métier</ion-label>
+      <ion-input formControlName="job" placeholder="Rechercher un métier" class="custom"></ion-input>
+
+      <ion-label position="stacked">Lieu</ion-label>
+      <ion-input formControlName="location" placeholder="Rechercher par lieu" class="custom"></ion-input>
+    </ion-col>
+    <ion-col size="2">
+      <ion-button type="submit" [disabled]="formGroup.invalid">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
   </form>
 
+  <app-my-application-status *ngIf="selectedSegment === 'segment-two'"></app-my-application-status>
+
+<ion-list inset="true" lines="none" *ngIf="selectedSegment === 'segment-one'">
+  <!-- <h2>Résultat</h2> -->
   <ng-container *ngFor="let company of companyArray, let i = index">
     <app-company [company]="company.items[0]"></app-company>
   </ng-container>
-
+</ion-list>
 </ion-content>

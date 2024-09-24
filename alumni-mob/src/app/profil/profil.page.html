@@ -1,9 +1,15 @@
-<app-header></app-header>
+<app-header className="custom-header"></app-header>
 
 <ion-content [fullscreen]="true">
+  <ion-row class="illustration-content">
+    <ion-col>
+      <ion-img src="/assets/images/Settings.png" alt="login" class="illustration"></ion-img>
+    </ion-col>
+  </ion-row>
+
   <ion-row>
     <ion-col>
-      <ion-list [inset]="true">
+      <ion-list [inset]="true" class="customList">
         <ion-item (click)="checkProfile()">
           <ion-icon name="person-outline" slot="start"></ion-icon>
           <ion-label>Mon compte</ion-label>

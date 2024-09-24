@@ -1,19 +1,15 @@
 <ion-item>
-
   <ion-label>
-    <h2> {{ company.company_name}}</h2>
+    <h2> {{ company.company_name}} <ion-badge [class.badge-red]="company.hiring_potential <= 2"
+      [class.badge-orange]="company.hiring_potential > 2 && company.hiring_potential <= 4"
+      [class.badge-green]="company.hiring_potential > 4">
+{{ company.hiring_potential.toFixed(2) }}
+</ion-badge></h2>
     <h3> {{ company.naf_label}}</h3>
     <h4> {{ company.city }} {{ company.citycode}} </h4> 
-
   </ion-label>
-  
-  <ion-badge [class.badge-red]="company.hiring_potential <= 2"
-           [class.badge-orange]="company.hiring_potential > 2 && company.hiring_potential <= 4"
-           [class.badge-green]="company.hiring_potential > 4">
-  {{ company.hiring_potential.toFixed(2) }}
-</ion-badge>
 
-  <i class="fa-solid fa-circle-plus" (click)="presentCompany(company)"></i>
+  <ion-icon name="add-outline" (click)="presentCompany(company)" slot="end" class="btn_Add"> Ajouter</ion-icon>
 </ion-item>
 
 

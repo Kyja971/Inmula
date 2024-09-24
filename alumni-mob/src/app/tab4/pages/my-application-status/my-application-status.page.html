@@ -1,6 +1,11 @@
-<app-header></app-header>
-  <ion-card *ngFor="let company of followedCies; let i = index" (click)="presentContact(company)">
-    <h2>{{company.company_name}}</h2>
-    <h3>{{company.citycode}} {{company.city}}</h3>
-    <h4>Domaine d'activité : {{company.naf_label}}</h4>
-  </ion-card>
+<ion-list inset="true" lines="none" class="tableauSuivi">
+  <ng-container *ngFor="let company of followedCies; let i = index">
+    <ion-item (click)="presentContact(company)">
+      <ion-label>
+        <h2>{{company.company_name}}</h2>
+        <h3>{{company.citycode}} {{company.city}}</h3>
+        <h4>Domaine d'activité : {{company.naf_label}}</h4>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+</ion-list>

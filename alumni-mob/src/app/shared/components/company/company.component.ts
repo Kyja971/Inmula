@@ -26,6 +26,8 @@ export class CompanyComponent  /*implements OnInit*/ {
    presentCompany(company: CompanyItemsType) {
      this._modalCtrl.create({
       component : PresentCompanyComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 1],
       componentProps: {
         company : company
       }
